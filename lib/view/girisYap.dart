@@ -2,24 +2,53 @@ import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/servis/servis.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
+import 'package:b2b/view/alertDiyalog.dart';
 import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
 
 class girisYap extends StatefulWidget {
-  const girisYap({super.key});
+  const girisYap(
+      {super.key,
+      required this.kulAdi,
+      required this.sifre,
+      required this.beniHatirla});
+  final String kulAdi;
+  final String sifre;
+  final bool beniHatirla;
 
   @override
   State<girisYap> createState() => _girisYapState();
 }
 
 class _girisYapState extends State<girisYap> {
-  TextEditingController kullaniciAdi = TextEditingController();
-  TextEditingController sifre = TextEditingController();
+  bool _isChecked = false;
+
+  TextEditingController kullaniciAdi = TextEditingController(text: "");
+  TextEditingController sifre = TextEditingController(text: "");
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.kulAdi != "" &&
+        widget.sifre != "" &&
+        widget.beniHatirla == true) {
+      _isChecked = widget.beniHatirla;
+      kullaniciAdi.text = widget.kulAdi;
+      sifre.text = widget.sifre;
+
+      setState(() {});
+    } else {
+      _isChecked = false;
+      kullaniciAdi.text = "";
+      sifre.text = "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          // dkfsflşksdkfkşsdl
           height: MediaQuery.sizeOf(context).height,
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -32,7 +61,7 @@ class _girisYapState extends State<girisYap> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        print(Ctanim.tabController!.index.toString());
+                       
                         Ctanim.tabController!.animateTo(1,
                             duration: Duration(milliseconds: 500));
                       },
@@ -140,6 +169,29 @@ class _girisYapState extends State<girisYap> {
                 ),
               ),
               Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * .5,
+                  child: CheckboxListTile(
+                    title: Text(
+                      'Beni Hatırla',
+                      style: TextStyle(
+                          color: Colors.white, fontFamily: "OpenSans"),
+                    ),
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    side: BorderSide(color: Colors.white, width: 2),
+                    checkColor: Colors.teal,
+                    activeColor: Colors.white,
+                    value: _isChecked,
+                    onChanged: (bool? newValue) {
+                      setState(() {
+                        _isChecked = newValue ?? false;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: SizedBox(
                   width: 150,
@@ -147,11 +199,26 @@ class _girisYapState extends State<girisYap> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (sifre.text == "" || kullaniciAdi.text == "") {
-                        // boş girme gardaş
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CustomAlertDialog(
+                              title: "Hata ",
+                              message: "Kullanıcı adı veya şifre boş.",
+                              onPres: () {
+                                Navigator.pop(context);
+                              },
+                              buttonText: "Geri",
+                              textColor: Colors.red,
+                            );
+                          },
+                        );
                       } else {
                         Servis servis = Servis();
+                     
                         bool donusDegeri = await servis.login(
                             kullaniciAdi: kullaniciAdi.text, sifre: sifre.text);
+                     
                         if (donusDegeri == true) {
                           if (Ctanim.cari!.guid != "") {
                             var url = Uri.https(
@@ -162,7 +229,20 @@ class _girisYapState extends State<girisYap> {
                                 'PlasiyerGuid': '',
                               },
                             );
+                            
                             await SharedPrefsHelper.saveUser(Ctanim.cari!);
+                            if (_isChecked == true) {
+                             
+                              SharedPrefsHelper.saveStringToSharedPreferences(
+                                  "kulAdi", kullaniciAdi.text);
+                              SharedPrefsHelper.saveStringToSharedPreferences(
+                                  "sifre", sifre.text);
+                              SharedPrefsHelper.saveBoolToSharedPreferences(
+                                  "beniHatirla", _isChecked);
+                            } else {
+                              SharedPrefsHelper.saveBoolToSharedPreferences(
+                                  "beniHatirla", _isChecked);
+                            }
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -170,10 +250,36 @@ class _girisYapState extends State<girisYap> {
                               ),
                             );
                           } else {
-                            // cari guid boş
+                            await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return CustomAlertDialog(
+                                  title: "Hata ",
+                                  message: "Kullanıcı bilgileri çekilemedi.",
+                                  onPres: () {
+                                    Navigator.pop(context);
+                                  },
+                                  buttonText: "Geri",
+                                  textColor: Colors.red,
+                                );
+                              },
+                            );
                           }
                         } else {
-                          // donuş false
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CustomAlertDialog(
+                                title: "Hata ",
+                                message: "Kullanıcı adı veya şifre yanlış.",
+                                onPres: () {
+                                  Navigator.pop(context);
+                                },
+                                buttonText: "Geri",
+                                textColor: Colors.red,
+                              );
+                            },
+                          );
                         }
                       }
                     },
@@ -183,7 +289,7 @@ class _girisYapState extends State<girisYap> {
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(8.0), // Köşe yuvarlama
+                              BorderRadius.circular(8.0), 
                         ),
                         primary: Colors.white),
                   ),

@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)"
+options: "5fb4e99afb0b3eab94b144eccc23b5c7fbd7880c43cafa17ace748e773d30290"
+build_start_time: [1695885557, 272910000]
+build_end_time: [1695885560, 190443000]
+inputs:
+  "/Users/opakmurat/b2b/b2b/ios/Runner/AppDelegate.swift": [1695450986, 0]
+  "/Users/opakmurat/b2b/b2b/ios/build/Runner.build/Release-iphoneos/Runner.build/DerivedSources/GeneratedAssetSymbols.swift": [1695798912, 287128477]

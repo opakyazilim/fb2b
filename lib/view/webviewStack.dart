@@ -1,15 +1,12 @@
-import 'package:b2b/const/Ctanim.dart';
+
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
-import 'package:b2b/view/anasayfa.dart';
-import 'package:b2b/view/girisYap.dart';
 import 'package:b2b/view/pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart'; //IOS İÇİN
-
+//import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart'; //IOS İÇİN
 
 import '../main.dart';
 
@@ -50,6 +47,7 @@ class _WebViewStackState extends State<WebViewStack> {
           },
           onNavigationRequest: (navigation) async {
             String url = Uri.parse(navigation.url).toString();
+       
 
             if (url.toLowerCase().contains('mobilbarkod')) {
               var res = await Navigator.push(
@@ -61,11 +59,13 @@ class _WebViewStackState extends State<WebViewStack> {
                   "https://" + SiteSabit.Link! + "/arama/arama?q=" + res);
               widget.controller.loadRequest(yeniUrl);
               return NavigationDecision.prevent;
-            } else if (url.toLowerCase().contains('login')) {
+            } else if (url.toLowerCase().contains('login') &&
+                !url.toLowerCase().contains('mobilgiris')) {
+              
               await SharedPrefsHelper.clearUser();
               widget.controller.clearLocalStorage();
 
-              var res = await Navigator.pushAndRemoveUntil(
+              await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (context) => MyHomePage(title: '', viewDanMi: true),
@@ -78,7 +78,7 @@ class _WebViewStackState extends State<WebViewStack> {
               launchUrl(wp);
 
               return NavigationDecision.prevent;
-            } else if (url.toLowerCase().contains('exportpdf') ) {
+            } else if (url.toLowerCase().contains('exportpdf')) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -94,9 +94,9 @@ class _WebViewStackState extends State<WebViewStack> {
       )
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
   }
-
+ 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return SafeArea(
       child: Stack(
         children: [

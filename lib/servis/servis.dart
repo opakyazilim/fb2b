@@ -1,4 +1,4 @@
-import 'dart:convert' as convert;
+
 import 'dart:convert';
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
@@ -21,18 +21,26 @@ class Servis {
 
     var response = await http.post(url);
     if (response.statusCode == 200) {
-      var rawXmlResponse = response.body;
+    
+    
       var json = jsonDecode(response.body);
-      var cari = json["Cari"];
+      try{
+  var cari = json["Cari"];
       Ctanim.PlasiyerGuid = json["PlasiyerGuid"];
       Ctanim.cari = Cari.fromJson(cari);
+      }catch(e){
+        return false;
+
+      }
+    
+     
       if (Ctanim.cari != null) {
         return true;
       } else {
         return false;
       }
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+     
       return false;
     }
   }
@@ -50,11 +58,10 @@ class Servis {
         'Versiyon': SiteSabit.Versiyon,
       },
     );
-    print(url);
-
+ 
     var response = await http.post(url);
     if (response.statusCode == 200) {
-      var rawXmlResponse = response.body;
+    
       var json = jsonDecode(response.body);
       Ctanim.SifremiUnuttum = json["SifremiUnuttum"];
       Ctanim.Misafir = json["Misafir"];
@@ -71,29 +78,34 @@ class Servis {
         return false;
       }
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+     
       return false;
     }
   }
 
-  Future<List<dynamic>> sifremiUnuttum({required String mail}) async {
+  Future<List<dynamic>> sifremiUnuttum({required String mail,required String telefon,required String kullaniciAdi}) async {
     var url = Uri.https(
       SiteSabit.Link!,
-      '/Login/SifremiUnuttumJs',
+      '/Login/SifremiUnuttumJs/',
       {
         'MailAdresi': mail,
+        "KullaniciAdi" : kullaniciAdi,
+        "Telefon" : telefon
       },
     );
-
     var response = await http.post(url);
     if (response.statusCode == 200) {
-      var rawXmlResponse = response.body;
+     
       var json = jsonDecode(response.body);
       bool hataMi = json["Hatami"];
+      if(json["Hatami"]==true){
+        return ["İstek Gönderilemedi"];
+      }
+
       String hataMesaj = json["HataMesaj"];
       return [hataMi, hataMesaj];
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+    
       return ["İstek Gönderilemedi"];
     }
   }

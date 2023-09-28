@@ -26,7 +26,7 @@ class _PDFState extends State<PDF> {
   bool loaded = false;
 
   Future<File> getFileFromUrl(String url, {String? name}) async {
-    var fileName = 'testonline';
+    var fileName = 'B2B';
     if (name != null) {
       fileName = name;
     }
@@ -35,7 +35,6 @@ class _PDFState extends State<PDF> {
       var bytes = data.bodyBytes;
       var dir = await getApplicationDocumentsDirectory();
       File file = File("${dir.path}/" + fileName + ".pdf");
-      print(dir.path);
       await file.writeAsBytes(bytes, flush: true);
       return file;
     } catch (e) {
@@ -77,7 +76,7 @@ class _PDFState extends State<PDF> {
 
   @override
   Widget build(BuildContext context) {
-    print(urlPDFPath);
+  
     if (loaded) {
       return Scaffold(
         appBar: AppBar(
@@ -91,7 +90,7 @@ class _PDFState extends State<PDF> {
           //    pageSnap: true, // ios da destek yok!
           swipeHorizontal: true,
           onError: (e) {
-            // Show some error message or UI
+          
           },
           onRender: (_pages) {
             setState(() {
@@ -164,14 +163,14 @@ class _PDFState extends State<PDF> {
       );
     } else {
       if (exists) {
-        // Replace with your loading UI
+       
         return Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
           ),
         );
       } else {
-        // Replace Error UI
+  
         return Scaffold(
           appBar: AppBar(
             title: Text("Rapor"),

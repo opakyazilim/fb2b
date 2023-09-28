@@ -6,19 +6,15 @@ import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-
-import 'model/cariModel.dart';
 import 'model/menuModel.dart';
 import 'view/girisYap.dart';
 
 void main() {
-  //Remove this method to stop OneSignal Debugging
   WidgetsFlutterBinding.ensureInitialized();
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
-  OneSignal.initialize("74ab2e46-7997-42ca-b4ce-157a99698459");
+  OneSignal.initialize(SiteSabit.oneSignalKey);
 
-// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
   OneSignal.Notifications.requestPermission(true);
   runApp(const MyApp());
 }
@@ -26,14 +22,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
       routes: {
         '/anasayfa': (context) => anasayfa(),
-        '/girisYap': (context) => girisYap(),
+        '/girisYap': (context) => girisYap(
+              kulAdi: "",
+              sifre: "",
+              beniHatirla: false,
+            ),
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -59,6 +58,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   Servis s = Servis();
+  String kulAdi = "";
+  String sifre = "";
+  bool beniHatirla = false;
+  Future<void> getKulAndSifreFromShared() async {
+   
+    kulAdi =
+        (await SharedPrefsHelper.getStringFromSharedPreferences("kulAdi"))!;
+    sifre = (await SharedPrefsHelper.getStringFromSharedPreferences("sifre"))!;
+    beniHatirla =
+        (await SharedPrefsHelper.getSBoolFromSharedPreferences("beniHatirla"))!;
+  }
 
   @override
   void initState() {
@@ -75,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage>
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
         future: Future.wait([
+          getKulAndSifreFromShared(),
           SharedPrefsHelper.getUser(),
           s.getMenu(cariGuid: "", plasiyerGuid: ""),
         ]),
@@ -91,7 +102,6 @@ class _MyHomePageState extends State<MyHomePage>
           } else if (snapshot.hasError) {
             return Text('Hata: ${snapshot.error}');
           } else {
-            print(Ctanim.menuList.length);
             if (Ctanim.cari != null && widget.viewDanMi == false) {
               if (Ctanim.cari!.guid != "") {
                 var url = Uri.https(
@@ -119,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage>
                     MenuModel(
                         id: -1, adi: "Şifremi Unuttum", url: "sifremiUnuttum"));
               }
+             
               return DefaultTabController(
                 length: 2,
                 child: Scaffold(
@@ -127,7 +138,14 @@ class _MyHomePageState extends State<MyHomePage>
                       Expanded(
                         child: TabBarView(
                           controller: Ctanim.tabController,
-                          children: [girisYap(), anasayfa()],
+                          children: [
+                            girisYap(
+                              kulAdi: kulAdi,
+                              sifre: sifre,
+                              beniHatirla: beniHatirla,
+                            ),
+                            anasayfa()
+                          ],
                         ),
                       )
                     ],
@@ -140,43 +158,5 @@ class _MyHomePageState extends State<MyHomePage>
         },
       ),
     );
-
-/*
-    if (Ctanim.cari != null && widget.viewDanMi == false) {
-      if (Ctanim.cari!.guid != "") {
-        var url = Uri.https(
-          SiteSabit.Link!,
-          '/Login/MobilGiris',
-          {
-            'Guid': Ctanim.cari!.guid,
-            'PlasiyerGuid': '',
-          },
-        );
-        return WebViewApp(url: url);
-      }
-    } else {
-      return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          body: Column(
-            children: [
-              Expanded(
-                child: TabBarView(
-                  controller: Ctanim.tabController,
-                  children: [
-                    girisYap(),
-                    anasayfa(
-                      
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      );
-    }
-    return Container();
-    */
   }
 }

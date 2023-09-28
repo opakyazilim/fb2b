@@ -1,5 +1,3 @@
-import 'package:b2b/model/cariModel.dart';
-import 'package:flutter/material.dart';
 
 class SiteSabit {
   static String? FirmaAdi = "BILGIKARE";
@@ -13,12 +11,5 @@ class SiteSabit {
   static String? mail = "info@bilgikare.com";
   static String? adress = "Fevzi Çakmak MH. 2035.SK No:23";
   static String? whatsappTel = "05533774788";
-
-  Map<String, String> site = {
-    "FirmaAdi": FirmaAdi!,
-    "Link": Link!,
-    "OneSignalKey": OneSignalKey!,
-    "Com": Com!,
-    "Versiyon": Versiyon!
-  };
+  static String oneSignalKey = "74ab2e46-7997-42ca-b4ce-157a99698459";
 }
