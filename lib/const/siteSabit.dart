@@ -12,3 +12,7 @@ class SiteSabit {
   static String? whatsappTel = "0532 322 80 63";
   static String oneSignalKey = "65b63e5e-4e65-4fa2-895c-5a96a004cd7f";
 }
+
+
+
+
