@@ -20,4 +20,4 @@ dependencies: \
   /Users/opakmurat/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64/Flutter.framework/Headers/FlutterHeadlessDartRunner.h \
   /Users/opakmurat/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64/Flutter.framework/Headers/FlutterPluginAppLifeCycleDelegate.h \
   /Users/opakmurat/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64/Flutter.framework/Headers/FlutterViewController.h \
-  /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/flutter_barcode_scanner/flutter_barcode_scanner.framework/Headers/flutter_barcode_scanner-Swift.h
+  /Users/opakmurat/b2b/b2b/ios/build/Debug-iphoneos/flutter_barcode_scanner/flutter_barcode_scanner.framework/Headers/flutter_barcode_scanner-Swift.h
