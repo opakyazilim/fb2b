@@ -1,8 +1,10 @@
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/model/menuModel.dart';
+import 'package:get/get.dart'; 
 import 'package:http/http.dart' as http;
 
 import '../model/cariModel.dart';
@@ -57,12 +59,20 @@ class Servis {
         'Platform': SiteSabit.Platform,
         'Versiyon': SiteSabit.Versiyon,
       },
-    );
- 
-    var response = await http.post(url);
-    if (response.statusCode == 200) {
+    ); 
+    var response;
+    try{
+ response = await http.post(url);
+    }catch(e){
+      Ctanim.internet = false;
+      return false;
+
+    }
     
+    if (response.statusCode == 200) {
+      
       var json = jsonDecode(response.body);
+      print("Menu jSOn: "+json.toString());
       Ctanim.SifremiUnuttum = json["SifremiUnuttum"];
       Ctanim.Misafir = json["Misafir"];
       Ctanim.menuList.clear();
@@ -78,9 +88,11 @@ class Servis {
         return false;
       }
     } else {
-     
+      Ctanim.internet = false;
       return false;
-    }
+    } 
+ 
+
   }
 
   Future<List<dynamic>> sifremiUnuttum({required String mail,required String telefon,required String kullaniciAdi}) async {
@@ -108,5 +120,60 @@ class Servis {
     
       return ["İstek Gönderilemedi"];
     }
+  }
+
+    Future<bool> getCariRehber(
+      {required String plasiyerGuid}) async {
+    var url = Uri.https(
+      SiteSabit.Link!,
+      '/Plasiyer/CariRehberJs',
+
+    );
+
+    var response = await http.post(url,headers: {'PlasiyerGuid': plasiyerGuid});
+    if (response.statusCode == 200) {
+      print("istek başarılı");
+     
+    
+    
+      var json = jsonDecode(response.body);
+      print(json.length);
+ 
+      
+   
+ 
+try {
+  final List<dynamic> jsonList = json;
+  for (final jsonItem in jsonList) {
+    final cari = Cari.fromJson(jsonItem);
+    Ctanim.cariRehberList.add(cari);
+  }
+  print(Ctanim.cariRehberList.length);
+} catch (e) {
+  print("Hata: $e");
+}
+     
+      if (Ctanim.cari != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      print("BAŞAŞAŞAŞ");
+     
+      return false;
+    }
+  }
+   static Future<bool> internetDene(
+      ) async {
+try{
+  final result  = await InternetAddress.lookup(SiteSabit.Link!);
+  return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+
+} on SocketException catch(_){
+  return false;
+
+}
+
   }
 }

@@ -1,0 +1,18 @@
+{
+  "" : {
+    "diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-master.dia",
+    "emit-module-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-master-emit-module.dia",
+    "swift-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/ReachabilitySwift-master.swiftdeps"
+  },
+  "/Users/opakmurat/b2b/b2b/ios/Pods/ReachabilitySwift/Sources/Reachability.swift" : {
+    "const-values" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability.swiftconstvalues",
+    "dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability.d",
+    "diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability.o",
+    "llvm-bc" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability.bc",
+    "object" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability.o",
+    "swift-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability.swiftdeps",
+    "swiftmodule" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/ReachabilitySwift.build/Objects-normal/arm64/Reachability~partial.swiftmodule"
+  }
+}

@@ -13,11 +13,11 @@ class WebViewApp extends StatefulWidget {
   @override
   State<WebViewApp> createState() => _WebViewAppState();
 }
-late final WebViewController controller;
+ WebViewController? controller;
 Future<bool> _exitApp(BuildContext context) async {
-  if (await controller.canGoBack()) {
+  if (await controller!.canGoBack()) {
     print("onwill goback");
-    controller.goBack();
+    controller!.goBack();
   } else {
     
     
@@ -35,6 +35,7 @@ class _WebViewAppState extends State<WebViewApp> {
   void initState() {
     
     super.initState();
+   
     controller = WebViewController()
       ..loadRequest(
         Uri.parse(widget.url.toString()),
@@ -52,7 +53,7 @@ class _WebViewAppState extends State<WebViewApp> {
       child: Scaffold(
         
         
-        body: WebViewStack(controller: controller),
+        body: WebViewStack(controller: controller!),
       ),
     );
   }

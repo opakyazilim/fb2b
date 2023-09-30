@@ -1,4 +1,6 @@
 /Users/opakmurat/b2b/b2b/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh
+/Users/opakmurat/b2b/b2b/ios/build/Debug-iphonesimulator/ReachabilitySwift/Reachability.framework
+/Users/opakmurat/b2b/b2b/ios/build/Debug-iphonesimulator/connectivity_plus/connectivity_plus.framework
 /Users/opakmurat/b2b/b2b/ios/build/Debug-iphonesimulator/flutter_barcode_scanner/flutter_barcode_scanner.framework
 /Users/opakmurat/b2b/b2b/ios/build/Debug-iphonesimulator/flutter_pdfview/flutter_pdfview.framework
 /Users/opakmurat/b2b/b2b/ios/build/Debug-iphonesimulator/path_provider_foundation/path_provider_foundation.framework

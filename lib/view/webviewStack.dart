@@ -1,6 +1,9 @@
 
+import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
+import 'package:b2b/servis/servis.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
+import 'package:b2b/view/cariRehberList.dart';
 import 'package:b2b/view/pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +23,7 @@ class WebViewStack extends StatefulWidget {
 }
 
 class _WebViewStackState extends State<WebViewStack> {
+  Servis servis = Servis();
   final Uri wp = Uri.parse("https://wa.me/${SiteSabit.whatsappTel}");
 
   var loadingPercentage = 0;
@@ -61,9 +65,11 @@ class _WebViewStackState extends State<WebViewStack> {
               return NavigationDecision.prevent;
             } else if (url.toLowerCase().contains('login') &&
                 !url.toLowerCase().contains('mobilgiris')) {
-              
+                 
               await SharedPrefsHelper.clearUser();
               widget.controller.clearLocalStorage();
+              
+              
 
               await Navigator.pushAndRemoveUntil(
                 context,
@@ -74,7 +80,26 @@ class _WebViewStackState extends State<WebViewStack> {
               );
 
               return NavigationDecision.prevent;
-            } else if (url.toLowerCase().contains('whatsapp')) {
+            } else if (url.toLowerCase().contains('carirehber')) {
+print( "cari reh");
+                 
+      await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!);
+              
+              
+
+              await Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CariRehberList(),
+                ),
+                (route) => false,
+              );
+
+              return NavigationDecision.prevent;
+            } 
+            
+            
+            else if (url.toLowerCase().contains('whatsapp')) {
               launchUrl(wp);
 
               return NavigationDecision.prevent;

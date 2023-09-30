@@ -13,5 +13,10 @@ class Ctanim {
   static WebViewController? controller;
   static List<String> sifreGondermeSecenekleri = ["Mail İle Gönder","Kullanıcı Adi İle Gönder","Telefon Numarası İle Gönder"];
   static var seciliSifreGonderme = "".obs;
+  static List<Cari> cariRehberList = [];
+  static bool internet = true;
+  static String bildirimUrlVarMi = "";
+  static bool bildirimvar = false;
+ 
 
 }

@@ -1,7 +1,7 @@
 version: "Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)"
 options: "4ec117a8d2cef9d5ac7cab02061c6e66da5666d70dc06e1d985835c04acea178"
-build_start_time: [1695885434, 886546000]
-build_end_time: [1695885439, 502181000]
+build_start_time: [1696083095, 122228000]
+build_end_time: [1696083098, 758445000]
 inputs:
-  "/Users/opakmurat/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4/darwin/Classes/SharedPreferencesPlugin.swift": [1695629079, 409533411]
-  "/Users/opakmurat/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4/darwin/Classes/messages.g.swift": [1695629079, 409340995]
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4/darwin/Classes/SharedPreferencesPlugin.swift": [1696062806, 916340753]
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4/darwin/Classes/messages.g.swift": [1696062806, 916007252]

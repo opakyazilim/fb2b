@@ -1,4 +1,3 @@
-
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/model/cariModel.dart';
@@ -29,8 +28,11 @@ class _anasayfaState extends State<anasayfa> {
   Future<void> loadCari() async {
     await Future.delayed(Duration(milliseconds: 500));
     Cari? cari = await SharedPrefsHelper.getUser();
+    String? plasiyerGuid =
+        await SharedPrefsHelper.getStringFromSharedPreferences("plasiyerGuid");
     setState(() {
       Ctanim.cari = cari;
+      Ctanim.PlasiyerGuid = plasiyerGuid;
     });
   }
 
@@ -38,6 +40,7 @@ class _anasayfaState extends State<anasayfa> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     if (widget.cikisMiYapti == true) {
       loadCari();
     }
@@ -80,11 +83,8 @@ class _anasayfaState extends State<anasayfa> {
                 child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          //image: AssetImage("assets/wer.jpg"), fit: BoxFit.fitHeight),
-                          image: NetworkImage("https://" +
-                              SiteSabit.Link! +
-                              "/mobilgiris.jpg?v=3"),
-                          fit: BoxFit.cover),
+                          image: AssetImage("assets/wer.jpg"),
+                          fit: BoxFit.fitHeight),
                     ),
                     child: Row(
                       children: [
@@ -95,7 +95,15 @@ class _anasayfaState extends State<anasayfa> {
                               children: [
                                 Padding(
                                     padding: EdgeInsets.only(
-                                        top: bottomAcikMi == false ? 200 : 100,
+                                        top: bottomAcikMi == false
+                                            ? MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .23
+                                            : MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .1,
                                         left: 0),
                                     child: Container(
                                       height: 80,
@@ -204,399 +212,71 @@ class _anasayfaState extends State<anasayfa> {
                                       },
                                       itemBuilder: (context, index) {
                                         return TextButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             var yeniUrl = Uri.parse("https://" +
                                                 SiteSabit.Link! +
+                                                "/" +
                                                 Ctanim.menuList[index].url!);
-                                       
+
                                             if (yeniUrl
                                                 .toString()
+                                                .toLowerCase()
                                                 .contains("sifremiunuttum")) {
+                                              print("abc");
                                               Servis servis = Servis();
 
-                                              showModalBottomSheet(
-                                                backgroundColor: Color.fromARGB(
-                                                        255, 171, 242, 255)
-                                                    .withOpacity(0.9),
-                                                context: context,
-                                                isScrollControlled: true,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.vertical(
-                                                    top: Radius.circular(16.0),
+                                              await sifremiUnuttumWidget(
+                                                  context, servis);
+                                            } else if (yeniUrl
+                                                .toString()
+                                                .toLowerCase()
+                                                .contains("misafirgirisi")) {
+                                              Servis servis = Servis();
+                                              bool donusDegeri =
+                                                  await servis.login(
+                                                      kullaniciAdi:
+                                                          "MobilMisafirGirisi",
+                                                      sifre: "311574007");
+                                              if (donusDegeri == true) {
+                                                var url = Uri.https(
+                                                  SiteSabit.Link!,
+                                                  '/Login/MobilGiris',
+                                                  {
+                                                    'Guid': Ctanim.cari!.guid,
+                                                    'PlasiyerGuid':
+                                                        Ctanim.PlasiyerGuid,
+                                                  },
+                                                );
+                                                Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return WebViewApp(
+                                                        url: url,
+                                                      );
+                                                    },
                                                   ),
-                                                ),
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return Container(
-                                                    padding:
-                                                        EdgeInsets.all(16.0),
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.7,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(10),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      10)),
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/back1.png"),
-                                                          fit: BoxFit.cover),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Divider(
-                                                          thickness: 3,
-                                                          indent: 150,
-                                                          endIndent: 150,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        dropDown(
-                                                            sec: Ctanim
-                                                                .seciliSifreGonderme
-                                                                .value),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 20,
-                                                                  left: 20,
-                                                                  right: 20),
-                                                          child: Obx(
-                                                            () => TextFormField(
-                                                              keyboardType: Ctanim
-                                                                          .seciliSifreGonderme
-                                                                          .value ==
-                                                                      "Mail İle Gönder"
-                                                                  ? TextInputType
-                                                                      .emailAddress
-                                                                  : Ctanim.seciliSifreGonderme
-                                                                              .value ==
-                                                                          "Telefon Numarası İle Gönder"
-                                                                      ? TextInputType
-                                                                          .phone
-                                                                      : Ctanim.seciliSifreGonderme.value ==
-                                                                              "Kullanıcı Adi İle Gönder"
-                                                                          ? TextInputType
-                                                                              .name
-                                                                          : TextInputType
-                                                                              .text,
-                                                              controller:
-                                                                  sifremiUnuttum,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black87),
-                                                              cursorColor: Color(
-                                                                  0xFF00b8a6),
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                border:
-                                                                    InputBorder
-                                                                        .none,
-                                                                filled: true,
-                                                                fillColor: Colors
-                                                                    .grey
-                                                                    .withOpacity(
-                                                                        0.7),
-                                                                prefixIcon: Ctanim
-                                                                            .seciliSifreGonderme
-                                                                            .value ==
-                                                                        "Mail İle Gönder"
-                                                                    ? Icon(Icons
-                                                                        .mail)
-                                                                    : Ctanim.seciliSifreGonderme.value ==
-                                                                            "Telefon Numarası İle Gönder"
-                                                                        ? Icon(Icons
-                                                                            .phone)
-                                                                        : Ctanim.seciliSifreGonderme.value ==
-                                                                                "Kullanıcı Adi İle Gönder"
-                                                                            ? Icon(Icons.person)
-                                                                            : Icon(Icons.abc),
-                                                                hintText: Ctanim
-                                                                            .seciliSifreGonderme
-                                                                            .value ==
-                                                                        "Mail İle Gönder"
-                                                                    ? 'Mail Adresinizi Giriniz'
-                                                                    : Ctanim.seciliSifreGonderme.value ==
-                                                                            "Telefon Numarası İle Gönder"
-                                                                        ? "Telefonunuzu Giriniz"
-                                                                        : Ctanim.seciliSifreGonderme.value ==
-                                                                                "Kullanıcı Adi İle Gönder"
-                                                                            ? "Kullanıcı adınızı Giriniz"
-                                                                            : "",
-                                                                hintStyle: TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            80,
-                                                                            79,
-                                                                            79)),
-                                                                focusedBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20),
-                                                                  borderSide:
-                                                                      BorderSide
-                                                                          .none,
-                                                                ),
-                                                                disabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20),
-                                                                  borderSide:
-                                                                      BorderSide
-                                                                          .none,
-                                                                ),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20),
-                                                                  borderSide:
-                                                                      BorderSide
-                                                                          .none,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 20,
-                                                                  left: 20,
-                                                                  right: 20),
-                                                          child: Text(
-                                                            "Not: Gireceğiniz mail adresine tarafımızca şifreniz gönderilecekir.",
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    "OpenSans"),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: EdgeInsets.only(
-                                                              top: 20,
-                                                              left: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  .25,
-                                                              right: 20),
-                                                          child: ElevatedButton(
-                                                            onPressed:
-                                                                () async {
-                                                              if (sifremiUnuttum
-                                                                      .text ==
-                                                                  "") {
-                                                                await showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (context) {
-                                                                    return CustomAlertDialog(
-                                                                      title:
-                                                                          "Hata ",
-                                                                      message:
-                                                                          "Şifre Gönderilecek Alan Adı Boş.",
-                                                                      onPres:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      buttonText:
-                                                                          "Geri",
-                                                                      textColor:
-                                                                          Colors
-                                                                              .red,
-                                                                    );
-                                                                  },
-                                                                );
-                                                              } else {
-                                                                List<dynamic>
-                                                                    donen = [];
-                                                                Image.asset(
-                                                                    "assets/ee1.gif");
-                                                                if (Ctanim
-                                                                        .seciliSifreGonderme
-                                                                        .value ==
-                                                                    "Mail İle Gönder") {
-                                                              
-                                                                  donen = await servis.sifremiUnuttum(
-                                                                      mail: sifremiUnuttum
-                                                                          .text,
-                                                                      kullaniciAdi:
-                                                                          "",
-                                                                      telefon:
-                                                                          "");
-                                                                } else if (Ctanim
-                                                                        .seciliSifreGonderme
-                                                                        .value ==
-                                                                    "Kullanıcı Adi İle Gönder") {
-                                                                 
-                                                                  await servis.sifremiUnuttum(
-                                                                      mail: "",
-                                                                      kullaniciAdi:
-                                                                          sifremiUnuttum
-                                                                              .text,
-                                                                      telefon:
-                                                                          "");
-                                                                } else {
-                                                              
-                                                                  await servis.sifremiUnuttum(
-                                                                      mail: "",
-                                                                      kullaniciAdi:
-                                                                          "",
-                                                                      telefon:
-                                                                          sifremiUnuttum
-                                                                              .text);
-                                                                }
-
-                                                                if (donen
-                                                                        .length <
-                                                                    1) {
-                                                                  await showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (context) {
-                                                                      return CustomAlertDialog(
-                                                                        title:
-                                                                            "Hata ",
-                                                                        message:
-                                                                            "Böyle Bir Kullanıcı Yok",
-                                                                        onPres:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        buttonText:
-                                                                            "Geri",
-                                                                        textColor:
-                                                                            Colors.red,
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                } else {
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (context) {
-                                                                        return AlertDialog(
-                                                                          shape:
-                                                                              RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                                                                          insetPadding:
-                                                                              EdgeInsets.zero,
-                                                                          title:
-                                                                              Text(
-                                                                            donen[0] == true
-                                                                                ? "Hata"
-                                                                                : "Başarılı",
-                                                                            style:
-                                                                                TextStyle(fontSize: 17),
-                                                                          ),
-                                                                          content:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                MediaQuery.of(context).size.width * 0.8,
-                                                                            child:
-                                                                                Column(
-                                                                              mainAxisSize: MainAxisSize.min,
-                                                                              children: [
-                                                                                Text(donen[1]),
-                                                                                SizedBox(
-                                                                                  height: 30,
-                                                                                ),
-                                                                                Row(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                                                  children: [
-                                                                                    SizedBox(
-                                                                                      width: MediaQuery.of(context).size.width / 3.5,
-                                                                                      height: 50,
-                                                                                      child: Padding(
-                                                                                        padding: EdgeInsets.only(right: 4),
-                                                                                        child: ElevatedButton(
-                                                                                            child: Text(
-                                                                                              "Tamam",
-                                                                                              style: TextStyle(fontSize: 15),
-                                                                                            ),
-                                                                                            style: ElevatedButton.styleFrom(
-                                                                                                foregroundColor: genelColor,
-                                                                                                backgroundColor: Color.fromARGB(255, 30, 38, 45),
-                                                                                                shadowColor: Colors.black,
-                                                                                                elevation: 0,
-                                                                                                shape: RoundedRectangleBorder(
-                                                                                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                                                                                )),
-                                                                                            onPressed: () {
-                                                                                              if (donen[0] == false) {
-                                                                                                Navigator.pushAndRemoveUntil(
-                                                                                                  context,
-                                                                                                  MaterialPageRoute(
-                                                                                                    builder: (context) => anasayfa(),
-                                                                                                  ),
-                                                                                                  (route) => false,
-                                                                                                );
-                                                                                              } else {
-                                                                                                Navigator.pop(context);
-                                                                                              }
-                                                                                            }),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      });
-                                                                }
-                                                              }
-                                                            },
-                                                            child: Text(
-                                                              "Şifremi Gönder",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize: 17),
-                                                            ),
-                                                            style: ElevatedButton
-                                                                .styleFrom(
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                    ),
-                                                                    primary: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            248,
-                                                                            247,
-                                                                            247)),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              );
+                                                  (Route<dynamic> route) =>
+                                                      false,
+                                                );
+                                              } else {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return CustomAlertDialog(
+                                                      title: "Hata ",
+                                                      message:
+                                                          "Misafir Girişi Engellendi",
+                                                      onPres: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      buttonText: "Geri",
+                                                      textColor: Colors.red,
+                                                    );
+                                                  },
+                                                );
+                                              }
                                             } else {
                                               Navigator.push(
                                                   context,
@@ -838,37 +518,24 @@ class _anasayfaState extends State<anasayfa> {
                                                 mailAcikMi == true
                                                     ? Column(
                                                         children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 30),
-                                                            child: Text(
-                                                                SiteSabit.mail!,
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        "OpenSans",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
-                                                          ),
+                                                          Text(SiteSabit.mail!,
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      "OpenSans",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
                                                           SizedBox(
                                                             width: 40,
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 20),
-                                                            child: TextButton(
-                                                                onPressed: () {
-                                                                  _copyToClipboard(
-                                                                      SiteSabit
-                                                                          .mail!);
-                                                                },
-                                                                child: const Text(
-                                                                    "Kopyala!")),
-                                                          )
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                _copyToClipboard(
+                                                                    SiteSabit
+                                                                        .mail!);
+                                                              },
+                                                              child: const Text(
+                                                                  "Kopyala!"))
                                                         ],
                                                       )
                                                     : Container(),
@@ -878,14 +545,26 @@ class _anasayfaState extends State<anasayfa> {
                                                             CrossAxisAlignment
                                                                 .end,
                                                         children: [
-                                                          Text(
-                                                              SiteSabit.adress!,
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      "OpenSans",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                .8,
+                                                            child: Text(
+                                                                maxLines: 3,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                SiteSabit
+                                                                    .adress!,
+                                                                style: TextStyle(
+                                                                    fontFamily:
+                                                                        "OpenSans",
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                          ),
                                                           SizedBox(
                                                             width: 40,
                                                           ),
@@ -917,6 +596,290 @@ class _anasayfaState extends State<anasayfa> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> sifremiUnuttumWidget(BuildContext context, Servis servis) {
+    return showModalBottomSheet(
+      backgroundColor: Color.fromARGB(255, 171, 242, 255).withOpacity(0.9),
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16.0),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          height: MediaQuery.of(context).size.height * 0.7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+            image: DecorationImage(
+                image: AssetImage("assets/back1.png"), fit: BoxFit.cover),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Divider(
+                thickness: 3,
+                indent: 150,
+                endIndent: 150,
+                color: Colors.grey,
+              ),
+              dropDown(sec: Ctanim.seciliSifreGonderme.value),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                child: Obx(
+                  () => TextFormField(
+                    keyboardType:
+                        Ctanim.seciliSifreGonderme.value == "Mail İle Gönder"
+                            ? TextInputType.emailAddress
+                            : Ctanim.seciliSifreGonderme.value ==
+                                    "Telefon Numarası İle Gönder"
+                                ? TextInputType.phone
+                                : Ctanim.seciliSifreGonderme.value ==
+                                        "Kullanıcı Adi İle Gönder"
+                                    ? TextInputType.name
+                                    : TextInputType.text,
+                    controller: sifremiUnuttum,
+                    style: TextStyle(color: Colors.black87),
+                    cursorColor: Color(0xFF00b8a6),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.grey.withOpacity(0.7),
+                      prefixIcon:
+                          Ctanim.seciliSifreGonderme.value == "Mail İle Gönder"
+                              ? Icon(Icons.mail)
+                              : Ctanim.seciliSifreGonderme.value ==
+                                      "Telefon Numarası İle Gönder"
+                                  ? Icon(Icons.phone)
+                                  : Ctanim.seciliSifreGonderme.value ==
+                                          "Kullanıcı Adi İle Gönder"
+                                      ? Icon(Icons.person)
+                                      : Icon(Icons.abc),
+                      hintText:
+                          Ctanim.seciliSifreGonderme.value == "Mail İle Gönder"
+                              ? 'Mail Adresinizi Giriniz'
+                              : Ctanim.seciliSifreGonderme.value ==
+                                      "Telefon Numarası İle Gönder"
+                                  ? "Telefonunuzu Giriniz"
+                                  : Ctanim.seciliSifreGonderme.value ==
+                                          "Kullanıcı Adi İle Gönder"
+                                      ? "Kullanıcı adınızı Giriniz"
+                                      : "",
+                      hintStyle:
+                          TextStyle(color: Color.fromARGB(255, 80, 79, 79)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                child: Text(
+                  "Not: Gireceğiniz mail adresine tarafımızca şifreniz gönderilecekir.",
+                  style: TextStyle(fontFamily: "OpenSans"),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: 20,
+                    left: MediaQuery.of(context).size.width * .25,
+                    right: 20),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Ctanim.internet = await Servis.internetDene();
+                    if(Ctanim.internet){
+                              if (sifremiUnuttum.text == "") {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomAlertDialog(
+                            title: "Hata ",
+                            message: "Şifre Gönderilecek Alan Adı Boş.",
+                            onPres: () {
+                              Navigator.pop(context);
+                            },
+                            buttonText: "Geri",
+                            textColor: Colors.red,
+                          );
+                        },
+                      );
+                    } else {
+                      List<dynamic> donen = [];
+                      Image.asset("assets/ee1.gif");
+                      if (Ctanim.seciliSifreGonderme.value ==
+                          "Mail İle Gönder") {
+                        donen = await servis.sifremiUnuttum(
+                            mail: sifremiUnuttum.text,
+                            kullaniciAdi: "",
+                            telefon: "");
+                      } else if (Ctanim.seciliSifreGonderme.value ==
+                          "Kullanıcı Adi İle Gönder") {
+                        await servis.sifremiUnuttum(
+                            mail: "",
+                            kullaniciAdi: sifremiUnuttum.text,
+                            telefon: "");
+                      } else {
+                        await servis.sifremiUnuttum(
+                            mail: "",
+                            kullaniciAdi: "",
+                            telefon: sifremiUnuttum.text);
+                      }
+
+                      if (donen.length < 1) {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CustomAlertDialog(
+                              title: "Hata ",
+                              message: "Böyle Bir Kullanıcı Yok",
+                              onPres: () {
+                                Navigator.pop(context);
+                              },
+                              buttonText: "Geri",
+                              textColor: Colors.red,
+                            );
+                          },
+                        );
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(32.0))),
+                                insetPadding: EdgeInsets.zero,
+                                title: Text(
+                                  donen[0] == true ? "Hata" : "Başarılı",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                content: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(donen[1]),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.5,
+                                            height: 50,
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 4),
+                                              child: ElevatedButton(
+                                                  child: Text(
+                                                    "Tamam",
+                                                    style:
+                                                        TextStyle(fontSize: 15),
+                                                  ),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          foregroundColor:
+                                                              genelColor,
+                                                          backgroundColor:
+                                                              Color.fromARGB(
+                                                                  255,
+                                                                  30,
+                                                                  38,
+                                                                  45),
+                                                          shadowColor:
+                                                              Colors.black,
+                                                          elevation: 0,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        10.0)),
+                                                          )),
+                                                  onPressed: () {
+                                                    if (donen[0] == false) {
+                                                      Navigator
+                                                          .pushAndRemoveUntil(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              anasayfa(),
+                                                        ),
+                                                        (route) => false,
+                                                      );
+                                                    } else {
+                                                      Navigator.pop(context);
+                                                    }
+                                                  }),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                      }
+                    }
+
+                    }else{
+                        await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CustomAlertDialog(
+                                title: "Hata ",
+                                message: "Aktif İnternet Bağlantısı Bulunamadı. Tekrar Deneyin.",
+                                onPres: () {
+                                  Navigator.pop(context);
+                                },
+                                buttonText: "Geri",
+                                textColor: Colors.red,
+                              );
+                            },
+                          );
+                    }
+            
+                  },
+                  child: Text(
+                    "Şifremi Gönder",
+                    style: TextStyle(color: Colors.blue, fontSize: 17),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      primary: Color.fromARGB(255, 248, 247, 247)),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -960,8 +923,6 @@ class _dropDownState extends State<dropDown> {
                       asd = value1!;
                       Ctanim.seciliSifreGonderme.value = asd;
                     });
-
-                  
                   })),
         ),
       ),

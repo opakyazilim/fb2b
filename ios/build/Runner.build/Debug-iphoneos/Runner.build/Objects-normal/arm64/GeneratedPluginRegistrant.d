@@ -18,6 +18,10 @@ dependencies: \
   /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/Flutter.framework/Headers/FlutterHeadlessDartRunner.h \
   /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/Flutter.framework/Headers/FlutterPluginAppLifeCycleDelegate.h \
   /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/Flutter.framework/Headers/FlutterViewController.h \
+  /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/connectivity_plus/connectivity_plus.framework/Headers/ConnectivityPlusPlugin.h \
+  /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/connectivity_plus/connectivity_plus.framework/Modules/module.modulemap \
+  /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/connectivity_plus/connectivity_plus.framework/Headers/connectivity_plus-umbrella.h \
+  /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/connectivity_plus/connectivity_plus.framework/Headers/connectivity_plus-Swift.h \
   /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/flutter_barcode_scanner/flutter_barcode_scanner.framework/Modules/module.modulemap \
   /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/flutter_barcode_scanner/flutter_barcode_scanner.framework/Headers/flutter_barcode_scanner-umbrella.h \
   /Users/opakmurat/b2b/b2b/build/ios/Debug-iphoneos/flutter_barcode_scanner/flutter_barcode_scanner.framework/Headers/FlutterBarcodeScannerPlugin.h \

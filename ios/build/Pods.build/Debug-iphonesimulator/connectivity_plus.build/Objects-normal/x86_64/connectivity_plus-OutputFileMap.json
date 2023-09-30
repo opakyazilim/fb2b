@@ -1,0 +1,48 @@
+{
+  "" : {
+    "diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/connectivity_plus-master.dia",
+    "emit-module-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/connectivity_plus-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/connectivity_plus-master-emit-module.dia",
+    "swift-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/connectivity_plus-master.swiftdeps"
+  },
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/connectivity_plus-4.0.2/ios/Classes/ConnectivityProvider.swift" : {
+    "const-values" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider.swiftconstvalues",
+    "dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider.d",
+    "diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider.o",
+    "llvm-bc" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider.bc",
+    "object" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider.o",
+    "swift-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider.swiftdeps",
+    "swiftmodule" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ConnectivityProvider~partial.swiftmodule"
+  },
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/connectivity_plus-4.0.2/ios/Classes/PathMonitorConnectivityProvider.swift" : {
+    "const-values" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider.swiftconstvalues",
+    "dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider.d",
+    "diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider.o",
+    "llvm-bc" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider.bc",
+    "object" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider.o",
+    "swift-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider.swiftdeps",
+    "swiftmodule" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/PathMonitorConnectivityProvider~partial.swiftmodule"
+  },
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/connectivity_plus-4.0.2/ios/Classes/ReachabilityConnectivityProvider.swift" : {
+    "const-values" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider.swiftconstvalues",
+    "dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider.d",
+    "diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider.o",
+    "llvm-bc" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider.bc",
+    "object" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider.o",
+    "swift-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider.swiftdeps",
+    "swiftmodule" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/ReachabilityConnectivityProvider~partial.swiftmodule"
+  },
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/connectivity_plus-4.0.2/ios/Classes/SwiftConnectivityPlusPlugin.swift" : {
+    "const-values" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin.swiftconstvalues",
+    "dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin.d",
+    "diagnostics" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin.o",
+    "llvm-bc" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin.bc",
+    "object" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin.o",
+    "swift-dependencies" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin.swiftdeps",
+    "swiftmodule" : "/Users/opakmurat/b2b/b2b/ios/build/Pods.build/Debug-iphonesimulator/connectivity_plus.build/Objects-normal/x86_64/SwiftConnectivityPlusPlugin~partial.swiftmodule"
+  }
+}

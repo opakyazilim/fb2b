@@ -3,7 +3,7 @@ import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/servis/servis.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
 import 'package:b2b/view/alertDiyalog.dart';
-import 'package:b2b/view/webview.dart';
+import 'package:b2b/view/webview.dart'; 
 import 'package:flutter/material.dart';
 
 class girisYap extends StatefulWidget {
@@ -88,7 +88,7 @@ class _girisYapState extends State<girisYap> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Opak B2B'ye Hoş Geldiniz",
+                        SiteSabit.FirmaAdi!+"'e Hoş Geldiniz",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,
@@ -197,8 +197,11 @@ class _girisYapState extends State<girisYap> {
                   width: 150,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      if (sifre.text == "" || kullaniciAdi.text == "") {
+                    onPressed: () async { 
+                      Ctanim.internet = await  Servis.internetDene();
+                      if(Ctanim.internet){
+                                               if (sifre.text == "" || kullaniciAdi.text == "") {
+                        
                         await showDialog(
                           context: context,
                           builder: (context) {
@@ -226,11 +229,12 @@ class _girisYapState extends State<girisYap> {
                               '/Login/MobilGiris',
                               {
                                 'Guid': Ctanim.cari!.guid,
-                                'PlasiyerGuid': '',
+                                'PlasiyerGuid': Ctanim.PlasiyerGuid,
                               },
                             );
                             
                             await SharedPrefsHelper.saveUser(Ctanim.cari!);
+                            await SharedPrefsHelper.saveStringToSharedPreferences("plasiyerGuid", Ctanim.PlasiyerGuid!);
                             if (_isChecked == true) {
                              
                               SharedPrefsHelper.saveStringToSharedPreferences(
@@ -243,12 +247,15 @@ class _girisYapState extends State<girisYap> {
                               SharedPrefsHelper.saveBoolToSharedPreferences(
                                   "beniHatirla", _isChecked);
                             }
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: ((context) => WebViewApp(url: url)),
-                              ),
-                            );
+                           Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(
+    builder: (BuildContext context) {
+      return WebViewApp(url: url,); 
+    },
+  ),
+  (Route<dynamic> route) => false, 
+);
                           } else {
                             await showDialog(
                               context: context,
@@ -282,6 +289,27 @@ class _girisYapState extends State<girisYap> {
                           );
                         }
                       }
+
+
+                      }else{
+                        await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CustomAlertDialog(
+                                title: "Hata ",
+                                message: "Aktif İnternet Bağlantısı Bulunamadı. Tekrar Deneyin.",
+                                onPres: () {
+                                  Navigator.pop(context);
+                                },
+                                buttonText: "Geri",
+                                textColor: Colors.red,
+                              );
+                            },
+                          );
+                      }
+
+                      
+
                     },
                     child: Text("Giriş",
                         style: TextStyle(

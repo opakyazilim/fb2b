@@ -1,7 +1,7 @@
 version: "Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)"
 options: "1ee76b9975702134530367ecb311fe14eb4676c8606fdeb7baa4c5a167dd7efa"
-build_start_time: [1695885434, 886544000]
-build_end_time: [1695885439, 327269000]
+build_start_time: [1696083095, 122235000]
+build_end_time: [1696083098, 641914000]
 inputs:
-  "/Users/opakmurat/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.1/darwin/Classes/PathProviderPlugin.swift": [1695629079, 9996125]
-  "/Users/opakmurat/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.1/darwin/Classes/messages.g.swift": [1695629079, 9843210]
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.1/darwin/Classes/PathProviderPlugin.swift": [1696062807, 16197378]
+  "/Users/opakmurat/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.1/darwin/Classes/messages.g.swift": [1696062807, 16007961]
