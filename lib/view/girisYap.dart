@@ -88,7 +88,7 @@ class _girisYapState extends State<girisYap> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        SiteSabit.FirmaAdi!+"'e Hoş Geldiniz",
+                        SiteSabit.FirmaAdi!+" B2B'ye Hoş Geldiniz",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,
