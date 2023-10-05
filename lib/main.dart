@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage>
           event.notification.additionalData!["ReturnUrl"] != null) {
         Ctanim.bildirimUrlVarMi =
             event.notification.additionalData!["ReturnUrl"].toString();
-        print("BİLDİRİM GELDİ");
+        
         print("gelen Lİnk "+ Ctanim.bildirimUrlVarMi);
  
         Navigator.pushReplacement(
@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage>
           SharedPrefsHelper.getUser(),
           SharedPrefsHelper.getStringFromSharedPreferences("plasiyerGuid"),
           s.getMenu(cariGuid: "", plasiyerGuid: ""),
-          test()
+       //   test()
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

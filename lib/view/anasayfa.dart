@@ -118,7 +118,7 @@ class _anasayfaState extends State<anasayfa> {
                                                   Radius.circular(20))),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset("assets/logo2.png"),
+                                        child: Image.asset("assets/logo.png"),
                                       ),
                                     )),
                                 Padding(
