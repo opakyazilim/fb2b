@@ -113,15 +113,7 @@ class _MyHomePageState extends State<MyHomePage>
           event.notification.additionalData!["ReturnUrl"] != null) {
         Ctanim.bildirimUrlVarMi =
             event.notification.additionalData!["ReturnUrl"].toString();
-<<<<<<< HEAD
-
-        print("gelen Lİnk " + Ctanim.bildirimUrlVarMi);
-
-=======
-        
-        print("gelen Lİnk "+ Ctanim.bildirimUrlVarMi);
  
->>>>>>> 3205f4d2309fcd29167ffbffded42485557c9bd7
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -155,12 +147,7 @@ class _MyHomePageState extends State<MyHomePage>
           SharedPrefsHelper.getStringFromSharedPreferences("plasiyerGuid"),
           SharedPrefsHelper.getUser(),
           s.getMenu(cariGuid: "", plasiyerGuid: ""),
-<<<<<<< HEAD
-          test(),
-          oneSignalKeyAl()
-=======
        //   test()
->>>>>>> 3205f4d2309fcd29167ffbffded42485557c9bd7
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
