@@ -49,6 +49,22 @@ class _WebViewStackState extends State<WebViewStack> {
               loadingPercentage = 100;
             });
           },
+          onUrlChange: (change) async {
+            if(change.url!.toString().toLowerCase().contains("carirehber")){
+               await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: "");
+              
+              
+
+              await Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CariRehberList(),
+                ),
+                (route) => false,
+              );
+
+            }
+          },
           onNavigationRequest: (navigation) async {
             String url = Uri.parse(navigation.url).toString();
        
@@ -83,7 +99,7 @@ class _WebViewStackState extends State<WebViewStack> {
             } else if (url.toLowerCase().contains('carirehber')) {
 print( "cari reh");
                  
-      await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!);
+      await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: "");
               
               
 

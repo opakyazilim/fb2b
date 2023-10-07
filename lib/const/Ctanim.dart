@@ -17,6 +17,7 @@ class Ctanim {
   static bool internet = true;
   static String bildirimUrlVarMi = "";
   static bool bildirimvar = false;
+  static String oneSignalKey = "";
  
 
 }

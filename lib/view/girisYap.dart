@@ -3,8 +3,10 @@ import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/servis/servis.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
 import 'package:b2b/view/alertDiyalog.dart';
-import 'package:b2b/view/webview.dart'; 
+import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class girisYap extends StatefulWidget {
   const girisYap(
@@ -61,7 +63,6 @@ class _girisYapState extends State<girisYap> {
                 children: [
                   IconButton(
                       onPressed: () {
-                       
                         Ctanim.tabController!.animateTo(1,
                             duration: Duration(milliseconds: 500));
                       },
@@ -88,7 +89,7 @@ class _girisYapState extends State<girisYap> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        SiteSabit.FirmaAdi!+" B2B'ye Hoş Geldiniz",
+                        SiteSabit.FirmaAdi! + " B2B'ye Hoş Geldiniz",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,
@@ -197,65 +198,100 @@ class _girisYapState extends State<girisYap> {
                   width: 150,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () async { 
-                      Ctanim.internet = await  Servis.internetDene();
-                      if(Ctanim.internet){
-                                               if (sifre.text == "" || kullaniciAdi.text == "") {
-                        
-                        await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return CustomAlertDialog(
-                              title: "Hata ",
-                              message: "Kullanıcı adı veya şifre boş.",
-                              onPres: () {
-                                Navigator.pop(context);
-                              },
-                              buttonText: "Geri",
-                              textColor: Colors.red,
-                            );
-                          },
-                        );
-                      } else {
-                        Servis servis = Servis();
-                     
-                        bool donusDegeri = await servis.login(
-                            kullaniciAdi: kullaniciAdi.text, sifre: sifre.text);
-                     
-                        if (donusDegeri == true) {
-                          if (Ctanim.cari!.guid != "") {
-                            var url = Uri.https(
-                              SiteSabit.Link!,
-                              '/Login/MobilGiris',
-                              {
-                                'Guid': Ctanim.cari!.guid,
-                                'PlasiyerGuid': Ctanim.PlasiyerGuid,
-                              },
-                            );
-                            
-                            await SharedPrefsHelper.saveUser(Ctanim.cari!);
-                            await SharedPrefsHelper.saveStringToSharedPreferences("plasiyerGuid", Ctanim.PlasiyerGuid!);
-                            if (_isChecked == true) {
-                             
+                    onPressed: () async {
+                      Ctanim.internet = await Servis.internetDene();
+                      if (Ctanim.internet) {
+                        if (sifre.text == "" || kullaniciAdi.text == "") {
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CustomAlertDialog(
+                                title: "Hata ",
+                                message: "Kullanıcı adı veya şifre boş.",
+                                onPres: () {
+                                  Navigator.pop(context);
+                                },
+                                buttonText: "Geri",
+                                textColor: Colors.red,
+                              );
+                            },
+                          );
+                        } else {
+                          Servis servis = Servis();
+
+                          bool donusDegeri = await servis.login(
+                              kullaniciAdi: kullaniciAdi.text,
+                              sifre: sifre.text);
+
+                          if (donusDegeri == true) {
+                            var _id;
+
+                            if (Ctanim.internet) {
+                              MethodChannel _channel = const MethodChannel(
+                                  'OneSignal#pushsubscription');
+                              _id = await _channel
+                                  .invokeMethod("OneSignal#pushSubscriptionId");
                               SharedPrefsHelper.saveStringToSharedPreferences(
-                                  "kulAdi", kullaniciAdi.text);
-                              SharedPrefsHelper.saveStringToSharedPreferences(
-                                  "sifre", sifre.text);
-                              SharedPrefsHelper.saveBoolToSharedPreferences(
-                                  "beniHatirla", _isChecked);
-                            } else {
-                              SharedPrefsHelper.saveBoolToSharedPreferences(
-                                  "beniHatirla", _isChecked);
+                                  "oneSignalID", _id);
                             }
-                           Navigator.pushAndRemoveUntil(
-  context,
-  MaterialPageRoute(
-    builder: (BuildContext context) {
-      return WebViewApp(url: url,); 
-    },
-  ),
-  (Route<dynamic> route) => false, 
-);
+                            Ctanim.oneSignalKey = _id;
+                           await servis.postCari(
+                                plasiyerGuid: Ctanim.PlasiyerGuid ?? "",
+                                cariGuid: Ctanim.cari!.guid ?? "");
+
+                            if (Ctanim.cari!.guid != "") {
+                              var url = Uri.https(
+                                SiteSabit.Link!,
+                                '/Login/MobilGiris',
+                                {
+                                  'Guid': Ctanim.cari!.guid,
+                                  'PlasiyerGuid': Ctanim.PlasiyerGuid,
+                                },
+                              );
+
+                              await SharedPrefsHelper.saveUser(Ctanim.cari!);
+                              await SharedPrefsHelper
+                                  .saveStringToSharedPreferences(
+                                      "plasiyerGuid", Ctanim.PlasiyerGuid!);
+
+                              if (_isChecked == true) {
+                                SharedPrefsHelper.saveStringToSharedPreferences(
+                                    "kulAdi", kullaniciAdi.text);
+                                SharedPrefsHelper.saveStringToSharedPreferences(
+                                    "sifre", sifre.text);
+                                SharedPrefsHelper.saveBoolToSharedPreferences(
+                                    "beniHatirla", _isChecked);
+                              } else {
+                                SharedPrefsHelper.saveBoolToSharedPreferences(
+                                    "beniHatirla", _isChecked);
+                              }
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return WebViewApp(
+                                      url: url,
+                                    );
+                                  },
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return CustomAlertDialog(
+                                    title: "Hata ",
+                                    message: "Kullanıcı adı veya şifre yanlış.",
+                                    onPres: () {
+                                      Navigator.pop(context);
+                                    },
+                                    buttonText: "Geri",
+                                    textColor: Colors.red,
+                                  );
+                                },
+                              );
+                            }
                           } else {
                             await showDialog(
                               context: context,
@@ -271,53 +307,36 @@ class _girisYapState extends State<girisYap> {
                                 );
                               },
                             );
+
+                            /*
+                            
+                            */
                           }
-                        } else {
-                          await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return CustomAlertDialog(
-                                title: "Hata ",
-                                message: "Kullanıcı adı veya şifre yanlış.",
-                                onPres: () {
-                                  Navigator.pop(context);
-                                },
-                                buttonText: "Geri",
-                                textColor: Colors.red,
-                              );
-                            },
-                          );
                         }
-                      }
-
-
-                      }else{
+                      } else {
                         await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return CustomAlertDialog(
-                                title: "Hata ",
-                                message: "Aktif İnternet Bağlantısı Bulunamadı. Tekrar Deneyin.",
-                                onPres: () {
-                                  Navigator.pop(context);
-                                },
-                                buttonText: "Geri",
-                                textColor: Colors.red,
-                              );
-                            },
-                          );
+                          context: context,
+                          builder: (context) {
+                            return CustomAlertDialog(
+                              title: "Hata ",
+                              message:
+                                  "Aktif İnternet Bağlantısı Bulunamadı. Tekrar Deneyin.",
+                              onPres: () {
+                                Navigator.pop(context);
+                              },
+                              buttonText: "Geri",
+                              textColor: Colors.red,
+                            );
+                          },
+                        );
                       }
-
-                      
-
                     },
                     child: Text("Giriş",
                         style: TextStyle(
                             color: const Color(0xFF00b8a6), fontSize: 17)),
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(8.0), 
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         primary: Colors.white),
                   ),

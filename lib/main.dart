@@ -25,9 +25,6 @@ void main() async {
     OneSignal.initialize(SiteSabit.oneSignalKey);
     OneSignal.Notifications.requestPermission(true);
   } else {
-    print("1");
-
-    print("2");
     //exit(0);
   }
 
@@ -85,21 +82,45 @@ class _MyHomePageState extends State<MyHomePage>
         (await SharedPrefsHelper.getSBoolFromSharedPreferences("beniHatirla"))!;
   }
 
+  Future<void> oneSignalKeyAl() async {
+    Servis ss = Servis();
+    String? temp =
+        await SharedPrefsHelper.getStringFromSharedPreferences("oneSignalID");
+    if (temp == null || temp == "") {
+      MethodChannel _channel =
+          const MethodChannel('OneSignal#pushsubscription');
+      var _id = await _channel.invokeMethod("OneSignal#pushSubscriptionId");
+      SharedPrefsHelper.saveStringToSharedPreferences("oneSignalID", _id);
+      Ctanim.oneSignalKey = _id;
+      if (Ctanim.cari != null) {
+        ss.postCari(
+            plasiyerGuid: Ctanim.PlasiyerGuid ?? "",
+            cariGuid: Ctanim.cari!.guid ?? "");
+      }
+    } else {
+      Ctanim.oneSignalKey = temp;
+      if (Ctanim.cari != null) {
+        ss.postCari(
+            plasiyerGuid: Ctanim.PlasiyerGuid ?? "",
+            cariGuid: Ctanim.cari!.guid ?? "");
+      }
+    }
+  }
+
   Future<void> test() async {
     OneSignal.Notifications.addClickListener((event) {
       if (event.notification.additionalData!["ReturnUrl"] != "" &&
           event.notification.additionalData!["ReturnUrl"] != null) {
         Ctanim.bildirimUrlVarMi =
             event.notification.additionalData!["ReturnUrl"].toString();
-        print("BİLDİRİM GELDİ");
-        print("gelen Lİnk "+ Ctanim.bildirimUrlVarMi);
- 
+
+        print("gelen Lİnk " + Ctanim.bildirimUrlVarMi);
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => WebViewApp(
-              url: Uri.parse(Ctanim.bildirimUrlVarMi)
-            ),
+            builder: (context) =>
+                WebViewApp(url: Uri.parse(Ctanim.bildirimUrlVarMi)),
           ),
         );
         Ctanim.bildirimvar = true;
@@ -125,10 +146,11 @@ class _MyHomePageState extends State<MyHomePage>
       home: FutureBuilder(
         future: Future.wait([
           getKulAndSifreFromShared(),
-          SharedPrefsHelper.getUser(),
           SharedPrefsHelper.getStringFromSharedPreferences("plasiyerGuid"),
+          SharedPrefsHelper.getUser(),
           s.getMenu(cariGuid: "", plasiyerGuid: ""),
-          test()
+          test(),
+          oneSignalKeyAl()
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -160,59 +182,57 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             );
           } else {
-   
-              if (Ctanim.cari != null && widget.viewDanMi == false) {
-                if (Ctanim.cari!.guid != "") {
-                  var url = Uri.https(
-                    SiteSabit.Link!,
-                    '/Login/MobilGiris',
-                    {
-                      'Guid': Ctanim.cari!.guid,
-                      'PlasiyerGuid': '',
-                    },
-                  );
-                  return WebViewApp(url: url);
-                }
-              } else {
-                bool sifemiUnuttumVarMi = false;
-                if (Ctanim.SifremiUnuttum == true) {
-                  Ctanim.menuList.map((e) {
-                    if (e.adi == "Şifremi Unuttum") {
-                      sifemiUnuttumVarMi = true;
-                    }
-                  });
-                }
-                bool misafir = false;
-                if (Ctanim.Misafir == true) {
-                  Ctanim.menuList.map((e) {
-                    if (e.adi == "Misafir Girişi") {
-                      misafir = true;
-                    }
-                  });
-                }
-                if (sifemiUnuttumVarMi == false &&
-                    Ctanim.SifremiUnuttum == true) {
-                  Ctanim.menuList.insert(
-                      0,
-                      MenuModel(
-                          id: -1,
-                          adi: "Şifremi Unuttum",
-                          url: "sifremiUnuttum"));
-                }
-                if (misafir == false && Ctanim.Misafir == true) {
-                  Ctanim.menuList.insert(
-                      1,
-                      MenuModel(
-                          id: -2, adi: "Misafir Girişi", url: "misafirGirisi"));
-                }
+            if (Ctanim.cari != null && widget.viewDanMi == false) {
+              if (Ctanim.cari!.guid != "") {
+                var url = Uri.https(
+                  SiteSabit.Link!,
+                  '/Login/MobilGiris',
+                  {
+                    'Guid': Ctanim.cari!.guid,
+                    'PlasiyerGuid': '',
+                  },
+                );
 
-                return dfTabCont(
-                    kulAdi: kulAdi, sifre: sifre, beniHatirla: beniHatirla);
+                print("urlturan" + url.toString());
+                return WebViewApp(url: url);
+              }
+            } else {
+              bool sifemiUnuttumVarMi = false;
+              if (Ctanim.SifremiUnuttum == true) {
+                Ctanim.menuList.map((e) {
+                  if (e.adi == "Şifremi Unuttum") {
+                    sifemiUnuttumVarMi = true;
+                  }
+                });
+              }
+              bool misafir = false;
+              if (Ctanim.Misafir == true) {
+                Ctanim.menuList.map((e) {
+                  if (e.adi == "Misafir Girişi") {
+                    misafir = true;
+                  }
+                });
+              }
+              if (sifemiUnuttumVarMi == false &&
+                  Ctanim.SifremiUnuttum == true) {
+                Ctanim.menuList.insert(
+                    0,
+                    MenuModel(
+                        id: -1, adi: "Şifremi Unuttum", url: "sifremiUnuttum"));
+              }
+              if (misafir == false && Ctanim.Misafir == true) {
+                Ctanim.menuList.insert(
+                    1,
+                    MenuModel(
+                        id: -2, adi: "Misafir Girişi", url: "misafirGirisi"));
               }
 
-              return Container();
+              return dfTabCont(
+                  kulAdi: kulAdi, sifre: sifre, beniHatirla: beniHatirla);
             }
-          
+
+            return Container();
+          }
         },
       ),
     );

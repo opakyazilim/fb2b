@@ -1,5 +1,8 @@
+import 'package:b2b/const/Ctanim.dart';
+import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/view/webviewStack.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
@@ -8,51 +11,40 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 class WebViewApp extends StatefulWidget {
   const WebViewApp({super.key, required this.url});
   final Uri url;
-  
 
   @override
   State<WebViewApp> createState() => _WebViewAppState();
 }
- WebViewController? controller;
+
+WebViewController? controller;
 Future<bool> _exitApp(BuildContext context) async {
   if (await controller!.canGoBack()) {
     print("onwill goback");
     controller!.goBack();
   } else {
-    
-    
     return Future.value(false);
   }
   return Future.value(false);
 }
 
-
 class _WebViewAppState extends State<WebViewApp> {
-  
-  
-
   @override
   void initState() {
-    
     super.initState();
-   
+
     controller = WebViewController()
       ..loadRequest(
         Uri.parse(widget.url.toString()),
       );
-      
   }
-   
-
 
   @override
   Widget build(BuildContext context) {
 
+
     return WillPopScope(
       onWillPop: () => _exitApp(context),
       child: Scaffold(
-        
-        
         body: WebViewStack(controller: controller!),
       ),
     );

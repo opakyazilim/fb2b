@@ -18,21 +18,6 @@ class SharedPrefsHelper {
     if (userJson != null) {
       Map<String, dynamic> userMap = jsonDecode(userJson);
       Ctanim.cari = Cari.fromJson(userMap);
-      if(Ctanim.internet){
-          await OneSignal.User.removeTag("CariId");
-  await OneSignal.User.removeTag("CariKodu");
-  await OneSignal.User.removeTag("PlasiyerGuid");
-  await OneSignal.User.removeTag("CariEmail");
-  await OneSignal.User.removeTag("CariTel");
-
-  
-   await OneSignal.User.addTagWithKey("CariEmail",Ctanim.cari!.mail.toString());
-       await   OneSignal.User.addTagWithKey("CariTel",Ctanim.cari!.tel.toString());
-       await   OneSignal.User.addTagWithKey("CariId", Ctanim.cari!.id.toString());
-        await  OneSignal.User.addTagWithKey("CariKodu", Ctanim.cari!.kod.toString());
-        await  OneSignal.User.addTagWithKey("PlasiyerGuid", Ctanim.PlasiyerGuid.toString());
-      }
-
       return Cari.fromJson(userMap);
     }
     return null;
