@@ -10,6 +10,9 @@ class Ctanim {
   static List<MenuModel> menuList = [];
   static bool? Misafir;
   static bool? SifremiUnuttum;
+  static String? Telefon;
+  static String? Mail;
+  static String? Adres;
   static WebViewController? controller;
   static List<String> sifreGondermeSecenekleri = ["Mail İle Gönder","Kullanıcı Adi İle Gönder","Telefon Numarası İle Gönder"];
   static var seciliSifreGonderme = "".obs;

@@ -67,6 +67,9 @@ class Servis {
       print("Menu jSOn: " + json.toString());
       Ctanim.SifremiUnuttum = json["SifremiUnuttum"];
       Ctanim.Misafir = json["Misafir"];
+      Ctanim.Telefon = json["Telefon"];
+      Ctanim.Mail = json["Mail"];
+      Ctanim.Adres = json["Adres"];
       Ctanim.menuList.clear();
       List<dynamic> loginMenu = json["LoginMenu"];
       Ctanim.menuList =

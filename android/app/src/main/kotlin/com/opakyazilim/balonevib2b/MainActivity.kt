@@ -1,4 +1,4 @@
-package com.opakyazilim.tekazimb2b
+package com.opakyazilim.balonevib2b
 
 import io.flutter.embedding.android.FlutterActivity
 

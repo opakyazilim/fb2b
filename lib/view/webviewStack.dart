@@ -24,7 +24,7 @@ class WebViewStack extends StatefulWidget {
 
 class _WebViewStackState extends State<WebViewStack> {
   Servis servis = Servis();
-  final Uri wp = Uri.parse("https://wa.me/${SiteSabit.whatsappTel}");
+  
 
   var loadingPercentage = 0;
 
@@ -115,9 +115,9 @@ print( "cari reh");
             } 
             
             
-            else if (url.toLowerCase().contains('whatsapp')) {
-              launchUrl(wp);
-
+            else if (url.toLowerCase().contains('wa.me')) {
+              final Uri wp = Uri.parse(url);
+              launchUrl(wp); 
               return NavigationDecision.prevent;
             } else if (url.toLowerCase().contains('exportpdf')) {
               Navigator.push(

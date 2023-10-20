@@ -493,7 +493,7 @@ class _anasayfaState extends State<anasayfa> {
                                                     ? Column(
                                                         children: [
                                                           Text(
-                                                            SiteSabit.telefon!,
+                                                            Ctanim.Telefon!,
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     "OpenSans",
@@ -507,8 +507,7 @@ class _anasayfaState extends State<anasayfa> {
                                                           TextButton(
                                                               onPressed: () {
                                                                 _copyToClipboard(
-                                                                    SiteSabit
-                                                                        .telefon!);
+                                                                    Ctanim.Telefon!);
                                                               },
                                                               child: Text(
                                                                   "Kopyala!"))
@@ -518,7 +517,7 @@ class _anasayfaState extends State<anasayfa> {
                                                 mailAcikMi == true
                                                     ? Column(
                                                         children: [
-                                                          Text(SiteSabit.mail!,
+                                                          Text(Ctanim.Mail!,
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       "OpenSans",
@@ -531,8 +530,7 @@ class _anasayfaState extends State<anasayfa> {
                                                           TextButton(
                                                               onPressed: () {
                                                                 _copyToClipboard(
-                                                                    SiteSabit
-                                                                        .mail!);
+                                                                    Ctanim.Mail!);
                                                               },
                                                               child: const Text(
                                                                   "Kopyala!"))
@@ -556,8 +554,7 @@ class _anasayfaState extends State<anasayfa> {
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,
-                                                                SiteSabit
-                                                                    .adress!,
+                                                                Ctanim.Adres!,
                                                                 style: TextStyle(
                                                                     fontFamily:
                                                                         "OpenSans",
@@ -571,8 +568,7 @@ class _anasayfaState extends State<anasayfa> {
                                                           TextButton(
                                                               onPressed: () {
                                                                 _copyToClipboard(
-                                                                    SiteSabit
-                                                                        .adress!);
+                                                                    Ctanim.Adres!);
                                                               },
                                                               child: Text(
                                                                   "Kopyala!"))
