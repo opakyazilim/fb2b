@@ -1,9 +1,9 @@
 class SiteSabit { 
-   static String? FirmaAdi = "BALONEVI";  
-  static String? Link = "bayilik.balonevi.com"; 
-  static String? Com = "com.opakyazilim.balonevib2b"; 
-  static String? Versiyon = "0.1.5"; 
+   static String? FirmaAdi = "PONICIOTOYS";  
+  static String? Link = "b2b.poniciotoys.com"; 
+  static String? Com = "com.opakyazilim.poniciotoysb2b"; 
+  static String? Versiyon = "0.0.4"; 
   static String? Platform = "IOS"; 
-  static String? ExServisId = "System.Windows.Forms.TextBox, Text: 345"; 
-  static String oneSignalKey = "4b31615f-96ba-4507-a586-469059aa6629"; 
+  static String? ExServisId = "C808B7DD-2F6C-40CC-A128-5B964C008FA3"; 
+  static String oneSignalKey = "5db19a4e-48e3-4230-b089-f925c3f11c06"; 
 }
