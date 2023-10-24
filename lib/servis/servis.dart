@@ -126,12 +126,18 @@ class Servis {
   }
 
   static Future<bool> internetDene() async {
-    try {
-      final result = await InternetAddress.lookup(SiteSabit.Link!);
-      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-    } on SocketException catch (_) {
-      return false;
-    }
+    HttpClient userAgent = new HttpClient();
+      try{
+        var url=Uri.https(SiteSabit.Link!);
+        await userAgent.getUrl(url);
+        print("internet var");
+        return true;
+      }
+      catch(e){
+        print("internet yok");
+        print(e);
+        return false;
+      }
   }
 
   Future<bool> getCariRehber(
