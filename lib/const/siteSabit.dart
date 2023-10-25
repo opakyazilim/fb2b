@@ -1,6 +1,6 @@
 class SiteSabit { 
    static String? FirmaAdi = "HYTKIRTASIYE";  
-  static String? Link = "hytkirtasiye.com.tr/"; 
+  static String? Link = "hytkirtasiye.com.tr"; 
   static String? Com = "com.opakyazilim.b2bhytkirtasiye"; 
   static String? Versiyon = "0.0.6"; 
   static String? Platform = "IOS"; 
