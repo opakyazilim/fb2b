@@ -1,4 +1,4 @@
-package com.opakyazilim.b2bakkayadagitim
+package com.opakyazilim.akkayadagitim
 
 import io.flutter.embedding.android.FlutterActivity
 
