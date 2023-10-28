@@ -1,9 +1,9 @@
 class SiteSabit { 
-   static String? FirmaAdi = "FUNBINO";  
-  static String? Link = "funbino.com.tr"; 
-  static String? Com = "com.opakyazilim.funbinob2b"; 
-  static String? Versiyon = "0.0.1"; 
+   static String? FirmaAdi = "AKKAYADAGITIM";  
+  static String? Link = "akkayadagitim.com"; 
+  static String? Com = "com.opakyazilim.b2bakkayadagitim"; 
+  static String? Versiyon = "2.0.0"; 
   static String? Platform = "IOS"; 
-  static String? ExServisId = "A9BD4C51-EA9B-4AFA-9A41-3DC09904AB58"; 
-  static String oneSignalKey = "010d6f41-d9e6-4ca9-b717-1d57b988da04"; 
+  static String? ExServisId = "da834d33-a6b0-4964-958c-26ad67a78f1d"; 
+  static String oneSignalKey = "2d09bea4-ddb3-4f8f-9465-72912a7f1ffb"; 
 }
