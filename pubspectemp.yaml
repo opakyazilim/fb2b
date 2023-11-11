@@ -49,6 +49,7 @@ dependencies:
   get: ^4.6.6
   back_button_interceptor: ^7.0.0 
   money_formatter: ^0.0.5
+  location: ^5.0.3
 
 dev_dependencies:
   change_app_package_name: 1.1.0

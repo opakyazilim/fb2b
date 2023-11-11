@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:location/location.dart' as loc;
+
 //import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart'; //IOS İÇİN
 
 import '../main.dart';
@@ -24,7 +26,36 @@ class WebViewStack extends StatefulWidget {
 
 class _WebViewStackState extends State<WebViewStack> {
   Servis servis = Servis();
-  
+    Future<void> checkLocationPermission() async {
+    loc.PermissionStatus permissionStatus;
+
+    try {
+      permissionStatus = await loc.Location().hasPermission();
+    } catch (e) {
+      permissionStatus = loc.PermissionStatus.denied;
+    }
+
+    if (permissionStatus == loc.PermissionStatus.denied) {
+      permissionStatus = await loc.Location().requestPermission();
+      if (permissionStatus != loc.PermissionStatus.granted) {
+        // Kullanıcı izin vermezse, uygun bir işlem gerçekleştirin
+        // Örneğin, bir hata mesajı gösterin veya kullanıcıyı bilgilendirin.
+      }
+    }
+  }
+
+  loc.LocationData? currentLocation;
+
+  Future<void> getCurrentLocation() async {
+    try {
+      loc.Location location = loc.Location();
+      currentLocation = await location.getLocation();
+      print("Latitude: ${currentLocation!.latitude}");
+      print("Longitude: ${currentLocation!.longitude}");
+    } catch (e) {
+      print("Konum bilgisi alınamadı: $e");
+    }
+  }
 
   var loadingPercentage = 0;
 
@@ -127,6 +158,18 @@ print( "cari reh");
                   ));
 
               return NavigationDecision.prevent;
+            }
+            else if (url.toLowerCase().contains('ziyaret')) {
+              //turan ekledi
+              await checkLocationPermission();
+              if (loc.PermissionStatus.granted ==
+                  await loc.Location().hasPermission()) {
+                await getCurrentLocation();
+                 return NavigationDecision.navigate;
+
+              }else{
+                return NavigationDecision.prevent;
+              }
             }
             //ExportPdf
             return NavigationDecision.navigate;
