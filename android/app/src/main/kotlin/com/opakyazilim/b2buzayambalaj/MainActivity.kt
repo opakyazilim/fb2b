@@ -1,4 +1,4 @@
-package com.opakyazilim.teknixgsm
+package com.opakyazilim.b2buzayambalaj
 
 import io.flutter.embedding.android.FlutterActivity
 
