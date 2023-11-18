@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="Uzay Ambalaj B2B"
+        android:label="Misyon Kırtasiye B2B"
         android:name="${applicationName}"
         android:icon="@mipmap/logo">
         <activity
