@@ -143,11 +143,21 @@ class Servis {
   Future<bool> getCariRehber(
       {required String plasiyerGuid, required String arama}) async {
     Ctanim.cariRehberList.clear();
-    var url = Uri.https(
+       var url;
+    if(arama !=""){
+     url = Uri.https(
       SiteSabit.Link!,
-      '/Plasiyer/CariRehberJs/',
+      '/Plasiyer/CariRehberJs',
       {'Arama': arama},
     );
+    }else{
+            url = Uri.https(
+      SiteSabit.Link!,
+      '/Plasiyer/CariRehberJs',
+      
+    );
+    }
+  
 
     var response =
         await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid});

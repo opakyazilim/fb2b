@@ -1,4 +1,4 @@
-package com.opakyazilim.b2bdirimmetalb2b
+package com.opakyazilim.b2bmisyonkirtasiye
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -38,20 +38,24 @@ class _WebViewStackState extends State<WebViewStack> {
     if (permissionStatus == loc.PermissionStatus.denied) {
       permissionStatus = await loc.Location().requestPermission();
       if (permissionStatus != loc.PermissionStatus.granted) {
-        // Kullanıcı izin vermezse, uygun bir işlem gerçekleştirin
-        // Örneğin, bir hata mesajı gösterin veya kullanıcıyı bilgilendirin.
+        //izin vermedi
       }
     }
   }
 
   loc.LocationData? currentLocation;
+  double? lat;
+  double? long;
+  double? acc;
 
   Future<void> getCurrentLocation() async {
     try {
       loc.Location location = loc.Location();
       currentLocation = await location.getLocation();
-      print("Latitude: ${currentLocation!.latitude}");
-      print("Longitude: ${currentLocation!.longitude}");
+      long = currentLocation?.longitude;
+      lat = currentLocation?.latitude;
+      acc = currentLocation?.accuracy;
+      
     } catch (e) {
       print("Konum bilgisi alınamadı: $e");
     }
@@ -83,9 +87,6 @@ class _WebViewStackState extends State<WebViewStack> {
           onUrlChange: (change) async {
             if(change.url!.toString().toLowerCase().contains("carirehber")){
                await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: "");
-              
-              
-
               await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -110,8 +111,9 @@ class _WebViewStackState extends State<WebViewStack> {
                   "https://" + SiteSabit.Link! + "/arama/arama?q=" + res);
               widget.controller.loadRequest(yeniUrl);
               return NavigationDecision.prevent;
-            } else if (url.toLowerCase().contains('login') &&
-                !url.toLowerCase().contains('mobilgiris')) {
+            } 
+            else if (url.toLowerCase().contains('login') && !url.toLowerCase().contains('mobilgiris')) 
+            {
                  
               await SharedPrefsHelper.clearUser();
               widget.controller.clearLocalStorage();
@@ -127,8 +129,10 @@ class _WebViewStackState extends State<WebViewStack> {
               );
 
               return NavigationDecision.prevent;
-            } else if (url.toLowerCase().contains('carirehber')) {
-print( "cari reh");
+            } 
+            else if (url.toLowerCase().contains('carirehber')) 
+            {
+
                  
       await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: "");
               
@@ -144,13 +148,13 @@ print( "cari reh");
 
               return NavigationDecision.prevent;
             } 
-            
-            
-            else if (url.toLowerCase().contains('wa.me')) {
+            else if (url.toLowerCase().contains('wa.me')) 
+            {
               final Uri wp = Uri.parse(url);
               launchUrl(wp); 
               return NavigationDecision.prevent;
-            } else if (url.toLowerCase().contains('exportpdf')) {
+            } 
+            else if (url.toLowerCase().contains('exportpdf')) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -165,10 +169,10 @@ print( "cari reh");
               if (loc.PermissionStatus.granted ==
                   await loc.Location().hasPermission()) {
                 await getCurrentLocation();
-                 return NavigationDecision.navigate;
+                var yeniUrl = Uri.parse(navigation.url+"?latitude=$lat&longitude=$long&accuracy=$acc");
+                widget.controller.loadRequest(yeniUrl);   
+                 return NavigationDecision.prevent;
 
-              }else{
-                return NavigationDecision.prevent;
               }
             }
             //ExportPdf
