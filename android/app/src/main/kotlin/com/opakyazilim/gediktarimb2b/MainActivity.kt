@@ -1,4 +1,4 @@
-package com.opakyazilim.b2bdefnedefter
+package com.opakyazilim.gediktarimb2b
 
 import io.flutter.embedding.android.FlutterActivity
 
