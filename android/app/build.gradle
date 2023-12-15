@@ -31,7 +31,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
    } 
 android {
-    namespace "com.opakyazilim.b2bdefnedefter"
+    namespace "com.opakyazilim.b2bsahinkirtasiye"
     compileSdkVersion 33 // izin için değiştirildi (flutter.compileSdkVersion)
     ndkVersion flutter.ndkVersion
 
@@ -50,7 +50,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.opakyazilim.b2bdefnedefter"
+        applicationId "com.opakyazilim.b2bsahinkirtasiye"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 20
