@@ -1,7 +1,7 @@
 class SiteSabit { 
    static String? FirmaAdi = "ERAYSAN";  
   static String? Link = "b4b.eraysan.com.tr"; 
-  static String? Com = "com.opakyazilim.eraysanb4b"; 
+  static String? Com = "com.opakyazilim.eraysanB2B"; 
   static String? Versiyon = "5.0.0"; 
   static String? Platform = "IOS"; 
   static String? ExServisId = "2dda55c3-d605-486d-9ada-da00949eec36"; 
