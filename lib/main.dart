@@ -186,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage>
                   '/Login/MobilGiris',
                   {
                     'Guid': Ctanim.cari!.guid,
-                    'PlasiyerGuid': '',
+                    'PlasiyerGuid': Ctanim.PlasiyerGuid,
                   },
                 );
 
