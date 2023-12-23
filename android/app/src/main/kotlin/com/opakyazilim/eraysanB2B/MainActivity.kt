@@ -1,4 +1,4 @@
-package com.opakyazilim.b2bdefnedefter
+package com.opakyazilim.eraysanB2B
 
 import io.flutter.embedding.android.FlutterActivity
 
