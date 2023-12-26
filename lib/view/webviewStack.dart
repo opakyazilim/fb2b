@@ -155,10 +155,11 @@ class _WebViewStackState extends State<WebViewStack> {
               return NavigationDecision.prevent;
             } 
             else if (url.toLowerCase().contains('exportpdf')) {
+             var a = await  widget.controller.runJavaScriptReturningResult("document.cookie.toString()");
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PDF(title: "PDF", url: url),
+                    builder: (context) => PDF(title: "PDF", url: url,cookie: a.toString()),
                   ));
 
               return NavigationDecision.prevent;

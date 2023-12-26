@@ -7,10 +7,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
 class PDF extends StatefulWidget {
-  PDF({Key? key, required this.title, required this.url}) : super(key: key);
+  PDF({Key? key, required this.title, required this.url, required this.cookie}) : super(key: key);
 
   final String title;
   final String url;
+  final String cookie;
 
   @override
   _PDFState createState() => _PDFState();
@@ -31,7 +32,16 @@ class _PDFState extends State<PDF> {
       fileName = name;
     }
     try {
-      var data = await http.get(Uri.parse(url));
+       var data ;
+      if(widget.cookie != ""){
+         data = await http.get(Uri.parse(url), headers: {
+          "Cookie": widget.cookie
+        });
+
+      }else{
+         data = await http.get(Uri.parse(url));
+
+      }
       var bytes = data.bodyBytes;
       var dir = await getApplicationDocumentsDirectory();
       File file = File("${dir.path}/" + fileName + ".pdf");
