@@ -1,4 +1,4 @@
-package com.opakyazilim.sudor
+package com.opakyazilim.umurb2b
 
 import io.flutter.embedding.android.FlutterActivity
 
