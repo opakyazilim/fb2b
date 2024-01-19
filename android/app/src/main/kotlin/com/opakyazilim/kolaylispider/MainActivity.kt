@@ -1,4 +1,4 @@
-package com.opakyazilim.umurb2b
+package com.opakyazilim.kolaylispider
 
 import io.flutter.embedding.android.FlutterActivity
 
