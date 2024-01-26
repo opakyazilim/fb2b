@@ -1,4 +1,4 @@
-package com.opakyazilim.kolaylispider
+package com.opakyazilim.b2bbatikirtasiye
 
 import io.flutter.embedding.android.FlutterActivity
 
