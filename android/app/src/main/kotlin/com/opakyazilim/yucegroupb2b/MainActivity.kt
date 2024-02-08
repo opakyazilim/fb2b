@@ -1,4 +1,4 @@
-package com.example.flutter_application_1
+package com.opakyazilim.yucegroupb2b
 
 import io.flutter.embedding.android.FlutterActivity
 
