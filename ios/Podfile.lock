@@ -4,6 +4,8 @@ PODS:
     - Flutter
   - flutter_pdfview (1.0.2):
     - Flutter
+  - geolocator_apple (1.2.0):
+    - Flutter
   - location (0.0.1):
     - Flutter
   - onesignal_flutter (5.1.0):
@@ -69,6 +71,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - OneSignalXCFramework (< 6.0, >= 5.0.0)
@@ -90,6 +93,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
   flutter_pdfview:
     :path: ".symlinks/plugins/flutter_pdfview/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
   onesignal_flutter:
@@ -111,6 +116,7 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
   flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
+  geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
   onesignal_flutter: 419a224915bbc03181d176a3cb507a88e64af92f
   OneSignalXCFramework: 72a6dbc5d97b7eba09a51837f7858d8957ac2629
@@ -121,6 +127,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
   webview_flutter_wkwebview: 4f3e50f7273d31e5500066ed267e3ae4309c5ae4
 
-PODFILE CHECKSUM: 45048b569e7cfc1d47b5bb15f147e2f851720c31
+PODFILE CHECKSUM: 6b79901c656afce17b1476f49d24a9bc967821c5
 
 COCOAPODS: 1.15.0

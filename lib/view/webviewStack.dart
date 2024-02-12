@@ -1,4 +1,3 @@
-
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/servis/servis.dart';
@@ -10,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:location/location.dart' as loc;
+import 'package:geolocator/geolocator.dart';
+import 'dart:io';
 
 //import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart'; //IOS İÇİN
 
@@ -26,7 +27,37 @@ class WebViewStack extends StatefulWidget {
 
 class _WebViewStackState extends State<WebViewStack> {
   Servis servis = Servis();
-    Future<void> checkLocationPermission() async {
+  Future<bool> iosLocationPerm() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+
+    if (permission == LocationPermission.deniedForever) {
+      //await Geolocator.openAppSettings(); //! Lokasyon ayarlarına yönlendirme
+      return false;
+    } else if (permission == LocationPermission.denied) {
+      return false;
+    } else if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<List<double>> getLocationIos() async {
+    final value = await iosLocationPerm();
+    if (value) {
+      final currentLocation = await Geolocator.getCurrentPosition();
+      lat = currentLocation.latitude;
+      long = currentLocation.longitude;
+      acc = currentLocation.accuracy;
+      return [lat!, long!, acc!];
+    } else {
+      print("gönderilmedi");
+      return [32, 32, 10];
+    }
+  }
+
+  Future<void> checkLocationPermission() async {
     loc.PermissionStatus permissionStatus;
 
     try {
@@ -55,7 +86,6 @@ class _WebViewStackState extends State<WebViewStack> {
       long = currentLocation?.longitude;
       lat = currentLocation?.latitude;
       acc = currentLocation?.accuracy;
-      
     } catch (e) {
       print("Konum bilgisi alınamadı: $e");
     }
@@ -85,8 +115,9 @@ class _WebViewStackState extends State<WebViewStack> {
             });
           },
           onUrlChange: (change) async {
-            if(change.url!.toString().toLowerCase().contains("carirehber")){
-               await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: "");
+            if (change.url!.toString().toLowerCase().contains("carirehber")) {
+              await servis.getCariRehber(
+                  plasiyerGuid: Ctanim.PlasiyerGuid!, arama: "");
               await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -94,12 +125,10 @@ class _WebViewStackState extends State<WebViewStack> {
                 ),
                 (route) => false,
               );
-
             }
           },
           onNavigationRequest: (navigation) async {
             String url = Uri.parse(navigation.url).toString();
-       
 
             if (url.toLowerCase().contains('mobilbarkod')) {
               var res = await Navigator.push(
@@ -111,14 +140,11 @@ class _WebViewStackState extends State<WebViewStack> {
                   "https://" + SiteSabit.Link! + "/arama/arama?q=" + res);
               widget.controller.loadRequest(yeniUrl);
               return NavigationDecision.prevent;
-            } 
-            else if (url.toLowerCase().contains('login') && !url.toLowerCase().contains('mobilgiris')) 
-            {
-                 
+            } else if ((url.toLowerCase().contains('login') ||
+                    url.toLowerCase().contains('/giris')) &&
+                !url.toLowerCase().contains('mobilgiris')) {
               await SharedPrefsHelper.clearUser();
               widget.controller.clearLocalStorage();
-              
-              
 
               await Navigator.pushAndRemoveUntil(
                 context,
@@ -129,14 +155,9 @@ class _WebViewStackState extends State<WebViewStack> {
               );
 
               return NavigationDecision.prevent;
-            } 
-            else if (url.toLowerCase().contains('carirehber')) 
-            {
-
-                 
-      await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: "");
-              
-              
+            } else if (url.toLowerCase().contains('carirehber')) {
+              await servis.getCariRehber(
+                  plasiyerGuid: Ctanim.PlasiyerGuid!, arama: "");
 
               await Navigator.pushAndRemoveUntil(
                 context,
@@ -147,35 +168,68 @@ class _WebViewStackState extends State<WebViewStack> {
               );
 
               return NavigationDecision.prevent;
-            } 
-            else if (url.toLowerCase().contains('wa.me')) 
-            {
+            } else if (url.toLowerCase().contains('wa.me')) {
               final Uri wp = Uri.parse(url);
-              launchUrl(wp); 
+              launchUrl(wp);
               return NavigationDecision.prevent;
-            } 
-            else if (url.toLowerCase().contains('exportpdf')) {
-             var a = await  widget.controller.runJavaScriptReturningResult("document.cookie.toString()");
+            } else if (url.toLowerCase().contains('exportpdf') ||
+                url.toLowerCase().contains('/yazdir?')) {
+              var a = await widget.controller
+                  .runJavaScriptReturningResult("document.cookie.toString()");
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PDF(title: "PDF", url: url,cookie: a.toString()),
-                  ));
+                    builder: (context) =>
+                        PDF(title: "PDF", url: url, cookie: a.toString()),
+                  )).then((value) =>  widget.controller.canGoBack());
+             
 
               return NavigationDecision.prevent;
-            }
-            else if (url.toLowerCase().contains('ziyaret')) {
-              //turan ekledi
-              await checkLocationPermission();
-              if (loc.PermissionStatus.granted ==
-                  await loc.Location().hasPermission()) {
-                await getCurrentLocation();
-                var yeniUrl = Uri.parse(navigation.url+"?latitude=$lat&longitude=$long&accuracy=$acc");
-                widget.controller.loadRequest(yeniUrl);   
-                 return NavigationDecision.prevent;
+            } else if (url.toLowerCase().contains('ziyaret')) {
+              if (Platform.isIOS) {
+                List<double> gelen = [];
+                var sonUrl;
 
+                getLocationIos().then((value) {
+                  gelen = value;
+                  lat = gelen[0];
+                  long = gelen[1];
+                  acc = gelen[2];
+
+                  print("LAT:" + lat.toString());
+                  print("LON:" + long.toString());
+                  print("ACC:" + acc.toString());
+
+                  var baseUri = Uri.parse(navigation.url);
+                  var yeniUrl = baseUri.replace(queryParameters: {
+                    'latitude': lat.toString(),
+                    'longitude': long.toString(),
+                    'accuracy': acc.toString(),
+                  });
+
+                  String a = yeniUrl.toString();
+                  a = a + "?";
+                  sonUrl = Uri.parse(a);
+
+                  print(a);
+                });
+                widget.controller.loadRequest(sonUrl);
+
+                return NavigationDecision.prevent;
+              } else {
+                await checkLocationPermission();
+                if (loc.PermissionStatus.granted ==
+                    await loc.Location().hasPermission()) {
+                  await getCurrentLocation();
+                  var yeniUrl = Uri.parse(navigation.url +
+                      "?latitude=$lat&longitude=$long&accuracy=$acc");
+                  widget.controller.loadRequest(yeniUrl);
+                  return NavigationDecision.prevent;
+                }
+                //turan ekledi
               }
             }
+
             //ExportPdf
             return NavigationDecision.navigate;
           },
@@ -183,9 +237,9 @@ class _WebViewStackState extends State<WebViewStack> {
       )
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
   }
- 
+
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Stack(
         children: [

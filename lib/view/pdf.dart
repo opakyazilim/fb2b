@@ -61,8 +61,22 @@ class _PDFState extends State<PDF> {
     }
   }
 
-  void sharePDF(String pdfPath) {
-    Share.shareFiles([pdfPath], text: 'Paylaşmak için PDF dosyası:');
+Future<void> sharePDF(String pdfPath) async{
+    //Share.shareFiles([pdfPath], text: 'Paylaşmak için PDF dosyası:');
+         //final box = context.findRenderObject() as RenderBox?;
+
+                    final result = await Share.shareXFiles([XFile(urlPDFPath)],
+                
+                    sharePositionOrigin: Offset.zero & Size(400,400));
+                    if (result.status == ShareResultStatus.success) {
+                      print('BAŞARILI');
+                    } else {
+                      print("NONOON");
+                      print(result.raw);
+                      //print(box.size.toString());
+                    }
+    
+
   }
 
   @override
@@ -91,8 +105,11 @@ class _PDFState extends State<PDF> {
       return Scaffold(
         appBar: AppBar(
             title: Text("Rapor"),
-            backgroundColor: Color.fromARGB(255, 30, 38, 45),
-            actions: []),
+            titleTextStyle: TextStyle(color: Colors.black),
+            backgroundColor: Colors.white,
+            actions: [
+
+            ]),
         body: PDFView(
           filePath: urlPDFPath,
           autoSpacing: true,
@@ -128,8 +145,9 @@ class _PDFState extends State<PDF> {
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * .05),
               child: IconButton(
-                  onPressed: () {
-                    sharePDF(urlPDFPath);
+                  onPressed: () async {
+                         await sharePDF(urlPDFPath);
+
                   },
                   icon: Icon(
                     Icons.share,
