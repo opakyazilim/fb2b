@@ -1,4 +1,4 @@
-package com.opakyazilim.b4bbilgikare
+package com.opakyazilim.bilgikareb2b
 
 import io.flutter.embedding.android.FlutterActivity
 
