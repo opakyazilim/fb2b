@@ -1,4 +1,4 @@
-package com.opakyazilim.bilgikareb2b
+package com.opakyazilim.b2bsenses
 
 import io.flutter.embedding.android.FlutterActivity
 
