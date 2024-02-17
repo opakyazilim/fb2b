@@ -1,4 +1,4 @@
-package com.opakyazilim.budakkirtasiyeb2b
+package com.opakyazilim.budakb2b
 
 import io.flutter.embedding.android.FlutterActivity
 
