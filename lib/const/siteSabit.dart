@@ -1,9 +1,9 @@
 class SiteSabit { 
-   static String? FirmaAdi = "AKCAYKIRTASIYE";  
-  static String? Link = "b2b.akcaykirtasiye.com"; 
-  static String? Com = "com.opakyazilim.akcaykirtasiye"; 
-  static String? Versiyon = "3.0.1"; 
+   static String? FirmaAdi = "GEDIKTARIM";  
+  static String? Link = "b2b.gediktarim.com"; 
+  static String? Com = "com.opakyazilim.b2bgediktarim"; 
+  static String? Versiyon = "2.0.1"; 
   static String? Platform = "IOS"; 
-  static String? ExServisId = "c07f4d71-ac9a-47f5-94c4-c9f0d353a7f7"; 
-  static String oneSignalKey = "d5a848b0-5dbf-4231-b758-9d9227b5054c"; 
+  static String? ExServisId = "1d760740-66ff-409d-a9ba-e8f38e0bc07a"; 
+  static String oneSignalKey = "abb8c78f-5b65-42a6-b2ed-d07d9b8a91e6"; 
 }
