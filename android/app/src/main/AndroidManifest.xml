@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="Kamil Türk"
+        android:label="Şenses Kırtasiye"
         android:name="${applicationName}"
         android:icon="@mipmap/logo">
         <activity
