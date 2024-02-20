@@ -1,4 +1,4 @@
-package com.opakyazilim.b2babaklihali
+package com.opakyazilim.b2bhaktanyayin
 
 import io.flutter.embedding.android.FlutterActivity
 
