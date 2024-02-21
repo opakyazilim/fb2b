@@ -1,4 +1,4 @@
-package com.opakyazilim.b2bsenses
+package com.opakyazilim.b2bsahinkirtasiye
 
 import io.flutter.embedding.android.FlutterActivity
 
