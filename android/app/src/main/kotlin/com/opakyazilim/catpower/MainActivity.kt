@@ -1,4 +1,4 @@
-package com.opakyazilim.b2bcatpower
+package com.opakyazilim.catpower
 
 import io.flutter.embedding.android.FlutterActivity
 

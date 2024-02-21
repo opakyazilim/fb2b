@@ -1,7 +1,7 @@
 class SiteSabit { 
    static String? FirmaAdi = "CATPOWER";  
   static String? Link = "bayi.catpower.com.tr"; 
-  static String? Com = "com.opakyazilim.b2bcatpower"; 
+  static String? Com = "com.opakyazilim.catpower"; 
   static String? Versiyon = "0.0.2"; 
   static String? Platform = "IOS"; 
   static String? ExServisId = "681b8113-ee97-40c8-9c06-c35d82bc2ea3"; 
