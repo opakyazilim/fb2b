@@ -302,9 +302,7 @@ class _anasayfaState extends State<anasayfa> {
                                     ),
                                   ),
                                 ),
-                                MediaQuery.of(context).size.height>800 ? SizedBox(
-                                  height: MediaQuery.of(context).size.height * .26
-                                ) : Container(),
+                                Spacer(),
                                 Padding(
                                   padding: EdgeInsets.only(
                                       top: bottomAcikMi == false
@@ -322,17 +320,7 @@ class _anasayfaState extends State<anasayfa> {
                                       });
                                     },
                                     child: Container(
-                                      height: bottomAcikMi == false
-                                          ? 
-                                          MediaQuery.of(context).size.height >800 ? MediaQuery.of(context).size.height *
-                                              0.1:
-                                          MediaQuery.of(context).size.height *
-                                              0.2
-                                          : 
-                                           MediaQuery.of(context).size.height >800 ? MediaQuery.of(context).size.height *
-                                              0.2:
-                                          MediaQuery.of(context).size.height *
-                                              0.3,
+                                      
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.only(
