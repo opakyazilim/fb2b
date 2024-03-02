@@ -40,8 +40,6 @@ class _WebViewAppState extends State<WebViewApp> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return WillPopScope(
       onWillPop: () => _exitApp(context),
       child: Scaffold(

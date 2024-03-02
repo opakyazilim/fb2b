@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
+import 'package:b2b/model/altKullaniciModel.dart';
+import 'package:b2b/model/kategoriModel.dart';
 import 'package:b2b/model/menuModel.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +29,7 @@ class Servis {
         var cari = json["Cari"];
         Ctanim.PlasiyerGuid = json["PlasiyerGuid"];
         Ctanim.cari = Cari.fromJson(cari);
+        Ctanim.Dil = Ctanim.cari!.dil!= "" ? Ctanim.cari!.dil : SiteSabit.Dil;
       } catch (e) {
         return false;
       }
@@ -48,15 +51,14 @@ class Servis {
       '/Genel/GetMobilAyarlar',
       {
         'ExServisId': SiteSabit.ExServisId,
-        'CariGuid': cariGuid,
-        'PlasiyerGuid': plasiyerGuid,
         'Platform': SiteSabit.Platform,
         'Versiyon': SiteSabit.Versiyon,
       },
     );
+    print(url.toString());
     var response;
     try {
-      response = await http.post(url);
+      response = await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid,'Guid': cariGuid});
     } catch (e) {
       Ctanim.internet = false;
       return false;
@@ -72,8 +74,12 @@ class Servis {
       Ctanim.Adres = json["Adres"];
       Ctanim.menuList.clear();
       List<dynamic> loginMenu = json["LoginMenu"];
-      Ctanim.menuList =
-          loginMenu.map((item) => MenuModel.fromJson(item)).toList();
+      Ctanim.menuList = loginMenu.map((item) => MenuModel.fromJson(item)).toList();
+      Ctanim.gelenPlasiyerMenuJson = json["PlasiyerMenu"];
+      Ctanim.gelenPlasiyerMenuJson.isNotEmpty ? Ctanim.plasiyerMenuGoster = true : Ctanim.plasiyerMenuGoster = false; 
+      Ctanim.gelenCariMenuJson = json["CariMenu"];
+      Ctanim.gelenCariMenuJson.isNotEmpty ? Ctanim.cariMenuGoster = true : Ctanim.cariMenuGoster = false;
+      
 
       if (Ctanim.menuList.isNotEmpty &&
           Ctanim.Misafir != null &&
@@ -114,10 +120,11 @@ class Servis {
 
   Future<void> postCari(
       {required String plasiyerGuid, required String cariGuid}) async {
-    var url = Uri.https(SiteSabit.Link!,'/Genel/MobilCihazKaydet/${Ctanim.oneSignalKey}');
+    var url = Uri.https(
+        SiteSabit.Link!, '/Genel/MobilCihazKaydet/${Ctanim.oneSignalKey}');
 
-    var response = await http.post(url,
-        headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
+    var response = await http
+        .post(url, headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
     if (response.statusCode == 200) {
       print("Cari post edildi.");
     } else {
@@ -127,37 +134,75 @@ class Servis {
 
   static Future<bool> internetDene() async {
     HttpClient userAgent = new HttpClient();
-      try{
-        var url=Uri.https(SiteSabit.Link!);
-        await userAgent.getUrl(url);
-        print("internet var");
-        return true;
-      }
-      catch(e){
-        print("internet yok");
-        print(e);
-        return false;
-      }
+    try {
+      var url = Uri.https(SiteSabit.Link!);
+      await userAgent.getUrl(url);
+      print("internet var");
+      return true;
+    } catch (e) {
+      print("internet yok");
+      print(e);
+      return false;
+    }
   }
 
+
+
+  Future<bool> getAltKullanici({required String plasiyerGuid,required String cariGuid}) async {
+
+    var url;
+ 
+      url = Uri.https(
+        SiteSabit.Link!,
+        '/Hesabim/AltKullaniciList',
+        {
+          'ExServisId': SiteSabit.ExServisId,
+        }
+        
+      );
+  
+
+    var response =
+        await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid,'Guid': cariGuid});
+    if (response.statusCode == 200) {
+      print("istek başarılı");
+      Ctanim.altKullaniciList.clear();
+
+      var json = jsonDecode(response.body);
+      try {
+        final List<dynamic> jsonList = json;
+        for (final jsonItem in jsonList) {
+          final altKullanici = AltKullaniciModel.fromJson(jsonItem);
+          Ctanim.altKullaniciList.add(altKullanici);
+        }
+        print(Ctanim.altKullaniciList.length);
+      } catch (e) {
+        print("Hata: $e");
+      }
+      return true;
+    } else {
+      print("BAŞAŞAŞAŞ");
+
+      return false;
+    }
+
+  }
   Future<bool> getCariRehber(
       {required String plasiyerGuid, required String arama}) async {
     Ctanim.cariRehberList.clear();
-       var url;
-    if(arama !=""){
-     url = Uri.https(
-      SiteSabit.Link!,
-      '/Plasiyer/CariRehberJs',
-      {'Arama': arama},
-    );
-    }else{
-            url = Uri.https(
-      SiteSabit.Link!,
-      '/Plasiyer/CariRehberJs',
-      
-    );
+    var url;
+    if (arama != "") {
+      url = Uri.https(
+        SiteSabit.Link!,
+        '/Plasiyer/CariRehberJs',
+        {'Arama': arama},
+      );
+    } else {
+      url = Uri.https(
+        SiteSabit.Link!,
+        '/Plasiyer/CariRehberJs',
+      );
     }
-  
 
     var response =
         await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid});
@@ -187,6 +232,39 @@ class Servis {
       print("BAŞAŞAŞAŞ");
 
       return false;
+    }
+  }
+
+ Future<void> getYanMenu( {required String plasiyerGuid, required String cariGuid}) async {
+    var url;
+    url = Uri.https(
+      SiteSabit.Link!,
+      '/Kategori/_KategoriMbl',
+     {'ExServisId': SiteSabit.ExServisId, 'UstMenu': 'false'},
+    );
+    print(url.toString());
+    var response = await http.post(url,headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
+    if (response.statusCode == 200) {
+      print("istek başarılı");
+
+      var json = jsonDecode(response.body);
+      Ctanim.gelenKategoriJson = json;
+      //var json = jsonDecode(temp);
+      //var json = jsonDecode(serverData);
+      print(json.length);
+
+      try {
+        final List<dynamic> jsonList = json;
+        for (final jsonItem in jsonList) {
+          final kategori = KategoriModel.fromJson(jsonItem);
+          //Ctanim.listKategori.add(kategori);
+        }
+        print("lkfdsjsşld");
+      } catch (e) {
+        print("Hata: $e");
+      }
+    } else {
+      print("BAŞAŞAŞAŞ");
     }
   }
 }

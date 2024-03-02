@@ -54,16 +54,18 @@ class _anasayfaState extends State<anasayfa> {
     });
   }
 
+
   void _copyToClipboard(String kopyalanacakMetin) {
     Clipboard.setData(ClipboardData(text: kopyalanacakMetin));
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Metin kopyalandı!'),
     ));
   }
+  Servis servis = Servis();
 
   @override
-  @override
   Widget build(BuildContext context) {
+    print("EKRAN "+ MediaQuery.of(context).size.height.toString());
     return Scaffold(
       body: SingleChildScrollView(
         child: GestureDetector(
@@ -81,9 +83,11 @@ class _anasayfaState extends State<anasayfa> {
                   setState(() {});
                 },
                 child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage("assets/wer.jpg"),
+                          image: AssetImage("assets/b1.jpeg"),
                           fit: BoxFit.fitHeight),
                     ),
                     child: Row(
@@ -127,8 +131,7 @@ class _anasayfaState extends State<anasayfa> {
                                   child: SizedBox(
                                       width: 11600,
                                       child: Text(
-                                        SiteSabit.FirmaAdi! +
-                                            " B2B'ye Hoş Geldiniz",
+                                       Ctanim.translate(SiteSabit.FirmaAdi! + " B2B'ye Hoş Geldiniz"),
                                         style: TextStyle(
                                             color: genelColor,
                                             fontSize: 17,
@@ -142,7 +145,7 @@ class _anasayfaState extends State<anasayfa> {
                                   child: Text(
                                     Ctanim.cari != null
                                         ? Ctanim.cari!.kullaniciAdi!
-                                        : "İyi çalışmalar",
+                                        : Ctanim.translate("İyi Çalışmalar"),
                                     style: TextStyle(
                                         color: genelColor,
                                         fontSize: 22,
@@ -183,7 +186,7 @@ class _anasayfaState extends State<anasayfa> {
                                           }
                                         },
                                         child: Text(
-                                          "Giriş",
+                                         Ctanim.translate("Giriş"),
                                           style: TextStyle(
                                               color: const Color(0xFF00b8a6),
                                               fontSize: 17),
@@ -267,11 +270,11 @@ class _anasayfaState extends State<anasayfa> {
                                                     return CustomAlertDialog(
                                                       title: "Hata ",
                                                       message:
-                                                          "Misafir Girişi Engellendi",
+                                                          Ctanim.translate("Misafir Girişi Engellendi"),
                                                       onPres: () {
                                                         Navigator.pop(context);
                                                       },
-                                                      buttonText: "Geri",
+                                                      buttonText: Ctanim.translate("Geri"),
                                                       textColor: Colors.red,
                                                     );
                                                   },
@@ -289,7 +292,7 @@ class _anasayfaState extends State<anasayfa> {
                                             }
                                           },
                                           child: Text(
-                                            Ctanim.menuList[index].adi!,
+                                            Ctanim.translate(Ctanim.menuList[index].adi!),
                                             style: TextStyle(
                                                 color: genelColor,
                                                 fontSize: 16),
@@ -299,13 +302,16 @@ class _anasayfaState extends State<anasayfa> {
                                     ),
                                   ),
                                 ),
+                                MediaQuery.of(context).size.height>800 ? SizedBox(
+                                  height: MediaQuery.of(context).size.height * .26
+                                ) : Container(),
                                 Padding(
                                   padding: EdgeInsets.only(
                                       top: bottomAcikMi == false
                                           ? MediaQuery.of(context).size.height *
-                                              .2
+                                              .124
                                           : MediaQuery.of(context).size.height *
-                                              .25),
+                                              .151),
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
@@ -317,9 +323,15 @@ class _anasayfaState extends State<anasayfa> {
                                     },
                                     child: Container(
                                       height: bottomAcikMi == false
-                                          ? MediaQuery.of(context).size.height *
-                                              0.3
-                                          : MediaQuery.of(context).size.height *
+                                          ? 
+                                          MediaQuery.of(context).size.height >800 ? MediaQuery.of(context).size.height *
+                                              0.1:
+                                          MediaQuery.of(context).size.height *
+                                              0.2
+                                          : 
+                                           MediaQuery.of(context).size.height >800 ? MediaQuery.of(context).size.height *
+                                              0.2:
+                                          MediaQuery.of(context).size.height *
                                               0.3,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -436,7 +448,7 @@ class _anasayfaState extends State<anasayfa> {
                                                       .33,
                                                   child: Center(
                                                     child: Text(
-                                                      "Bize Ulaşın",
+                                                      Ctanim.translate("Bize Ulaşın"),
                                                       style: TextStyle(
                                                           fontFamily:
                                                               "OpenSans",
@@ -452,7 +464,7 @@ class _anasayfaState extends State<anasayfa> {
                                                       .33,
                                                   child: Center(
                                                     child: Text(
-                                                        "Mail Adresimiz",
+                                                       Ctanim.translate("Mail Adresimiz"),
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 "OpenSans",
@@ -467,7 +479,7 @@ class _anasayfaState extends State<anasayfa> {
                                                           .width *
                                                       .33,
                                                   child: Center(
-                                                    child: Text("Firma Adresi",
+                                                    child: Text(Ctanim.translate("Firma Adresi"),
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 "OpenSans",
@@ -502,7 +514,11 @@ class _anasayfaState extends State<anasayfa> {
                                                                         .bold),
                                                           ),
                                                           SizedBox(
-                                                            width: 40,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                .27,
                                                           ),
                                                           TextButton(
                                                               onPressed: () {
@@ -510,7 +526,7 @@ class _anasayfaState extends State<anasayfa> {
                                                                     Ctanim.Telefon!);
                                                               },
                                                               child: Text(
-                                                                  "Kopyala!"))
+                                                                  Ctanim.translate("Kopyala!"),))
                                                         ],
                                                       )
                                                     : Container(),
@@ -532,8 +548,8 @@ class _anasayfaState extends State<anasayfa> {
                                                                 _copyToClipboard(
                                                                     Ctanim.Mail!);
                                                               },
-                                                              child: const Text(
-                                                                  "Kopyala!"))
+                                                              child:  Text(
+                                                                 Ctanim.translate("Kopyala!")))
                                                         ],
                                                       )
                                                     : Container(),
@@ -571,7 +587,7 @@ class _anasayfaState extends State<anasayfa> {
                                                                     Ctanim.Adres!);
                                                               },
                                                               child: Text(
-                                                                  "Kopyala!"))
+                                                                 Ctanim.translate("Kopyala!")))
                                                         ],
                                                       )
                                                     : Container(),
@@ -613,7 +629,7 @@ class _anasayfaState extends State<anasayfa> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             image: DecorationImage(
-                image: AssetImage("assets/back1.png"), fit: BoxFit.cover),
+                image: AssetImage("assets/s7.jpg"), fit: BoxFit.cover),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -658,13 +674,13 @@ class _anasayfaState extends State<anasayfa> {
                                       : Icon(Icons.abc),
                       hintText:
                           Ctanim.seciliSifreGonderme.value == "Mail İle Gönder"
-                              ? 'Mail Adresinizi Giriniz'
+                              ? Ctanim.translate("Mail Adresinizi Giriniz")
                               : Ctanim.seciliSifreGonderme.value ==
                                       "Telefon Numarası İle Gönder"
-                                  ? "Telefonunuzu Giriniz"
+                                  ?Ctanim.translate("Telefon Numaranızı Giriniz")
                                   : Ctanim.seciliSifreGonderme.value ==
                                           "Kullanıcı Adi İle Gönder"
-                                      ? "Kullanıcı adınızı Giriniz"
+                                      ? Ctanim.translate("Kullanıcı Adınızı Giriniz")
                                       : "",
                       hintStyle:
                           TextStyle(color: Color.fromARGB(255, 80, 79, 79)),
@@ -687,10 +703,11 @@ class _anasayfaState extends State<anasayfa> {
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: Text(
-                  "Not: Gireceğiniz mail adresine tarafımızca şifreniz gönderilecekir.",
+                  Ctanim.translate("Not: Gireceğiniz mail adresine tarafımızca şifreniz gönderilecekir."),
                   style: TextStyle(fontFamily: "OpenSans"),
                 ),
               ),
+              
               Padding(
                 padding: EdgeInsets.only(
                     top: 20,
@@ -705,12 +722,12 @@ class _anasayfaState extends State<anasayfa> {
                         context: context,
                         builder: (context) {
                           return CustomAlertDialog(
-                            title: "Hata ",
-                            message: "Şifre Gönderilecek Alan Adı Boş.",
+                            title: Ctanim.translate("Hata"),
+                            message: Ctanim.translate("Şifre Gönderilecek Alan Adı Boş."),
                             onPres: () {
                               Navigator.pop(context);
                             },
-                            buttonText: "Geri",
+                            buttonText: Ctanim.translate("Geri"),
                             textColor: Colors.red,
                           );
                         },
@@ -742,12 +759,12 @@ class _anasayfaState extends State<anasayfa> {
                           context: context,
                           builder: (context) {
                             return CustomAlertDialog(
-                              title: "Hata ",
-                              message: "Böyle Bir Kullanıcı Yok",
+                              title: Ctanim.translate("Hata"),
+                              message:Ctanim.translate("Böyle Bir Kullanıcı Yok") ,
                               onPres: () {
                                 Navigator.pop(context);
                               },
-                              buttonText: "Geri",
+                              buttonText: Ctanim.translate("Geri"),
                               textColor: Colors.red,
                             );
                           },
@@ -762,7 +779,7 @@ class _anasayfaState extends State<anasayfa> {
                                         Radius.circular(32.0))),
                                 insetPadding: EdgeInsets.zero,
                                 title: Text(
-                                  donen[0] == true ? "Hata" : "Başarılı",
+                                  donen[0] == true ? Ctanim.translate("Hata") : Ctanim.translate("Başarılı"),
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 content: SizedBox(
@@ -792,7 +809,7 @@ class _anasayfaState extends State<anasayfa> {
                                                   EdgeInsets.only(right: 4),
                                               child: ElevatedButton(
                                                   child: Text(
-                                                    "Tamam",
+                                                    Ctanim.translate("Tamam"),
                                                     style:
                                                         TextStyle(fontSize: 15),
                                                   ),
@@ -848,12 +865,12 @@ class _anasayfaState extends State<anasayfa> {
                             context: context,
                             builder: (context) {
                               return CustomAlertDialog(
-                                title: "Hata ",
-                                message: "Aktif İnternet Bağlantısı Bulunamadı. Tekrar Deneyin.",
+                                title: Ctanim.translate("Hata"),
+                                message: Ctanim.translate("Aktif İnternet Bağlantısı Bulunamadı. Tekrar Deneyin."),
                                 onPres: () {
                                   Navigator.pop(context);
                                 },
-                                buttonText: "Geri",
+                                buttonText: Ctanim.translate("Geri"),
                                 textColor: Colors.red,
                               );
                             },
@@ -862,7 +879,7 @@ class _anasayfaState extends State<anasayfa> {
             
                   },
                   child: Text(
-                    "Şifremi Gönder",
+                   Ctanim.translate( "Şifremi Gönder"),
                     style: TextStyle(color: Colors.blue, fontSize: 17),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -912,7 +929,7 @@ class _dropDownState extends State<dropDown> {
                   value: asd,
                   items: Ctanim.sifreGondermeSecenekleri
                       .map((e) =>
-                          DropdownMenuItem<String>(value: e, child: Text(e)))
+                          DropdownMenuItem<String>(value: e, child: Text(Ctanim.translate(e))))
                       .toList(),
                   onChanged: (value1) {
                     setState(() {

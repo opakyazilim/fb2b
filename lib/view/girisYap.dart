@@ -89,7 +89,7 @@ class _girisYapState extends State<girisYap> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        SiteSabit.FirmaAdi! + " B2B'ye Hoş Geldiniz",
+                        Ctanim.translate(SiteSabit.FirmaAdi! + " B2B'ye Hoş Geldiniz"),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,
@@ -98,7 +98,7 @@ class _girisYapState extends State<girisYap> {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Lütfen Giriş Yapın",
+                        Ctanim.translate("Lütfen Giriş Yapın"),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,
@@ -121,7 +121,7 @@ class _girisYapState extends State<girisYap> {
                     filled: true,
                     fillColor: Colors.grey.withOpacity(0.7),
                     prefixIcon: Icon(Icons.person),
-                    hintText: 'Kullanıcı Adı',
+                    hintText: Ctanim.translate('Kullanıcı Adı'),
                     hintStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -150,7 +150,7 @@ class _girisYapState extends State<girisYap> {
                     filled: true,
                     fillColor: Colors.grey.withOpacity(0.7),
                     prefixIcon: Icon(Icons.key),
-                    hintText: 'Parola',
+                    hintText: Ctanim.translate('Parola'),
                     hintStyle: TextStyle(
                       color: Colors.white,
                     ),
@@ -175,7 +175,7 @@ class _girisYapState extends State<girisYap> {
                   width: MediaQuery.of(context).size.width * .5,
                   child: CheckboxListTile(
                     title: Text(
-                      'Beni Hatırla',
+                      Ctanim.translate('Beni Hatırla'),
                       style: TextStyle(
                           color: Colors.white, fontFamily: "OpenSans"),
                     ),
@@ -265,6 +265,7 @@ class _girisYapState extends State<girisYap> {
                                 SharedPrefsHelper.saveBoolToSharedPreferences(
                                     "beniHatirla", _isChecked);
                               }
+                              await servis.getMenu(cariGuid: Ctanim.cari!.guid!, plasiyerGuid: Ctanim.PlasiyerGuid!);
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -331,7 +332,7 @@ class _girisYapState extends State<girisYap> {
                         );
                       }
                     },
-                    child: Text("Giriş",
+                    child: Text(Ctanim.translate('Giriş'),
                         style: TextStyle(
                             color: const Color(0xFF00b8a6), fontSize: 17)),
                     style: ElevatedButton.styleFrom(

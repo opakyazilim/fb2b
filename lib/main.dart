@@ -128,6 +128,7 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -147,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage>
           SharedPrefsHelper.getStringFromSharedPreferences("plasiyerGuid"),
           SharedPrefsHelper.getUser(),
           s.getMenu(cariGuid: "", plasiyerGuid: ""),
+        
           //   test()
         ]),
         builder: (context, snapshot) {
@@ -160,18 +162,19 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             );
           } else if (snapshot.hasError || Ctanim.internet == false) {
+            print("Bitti");
             return Scaffold(
               body: AlertDialog(
-                title: Text("İnternet Bağlantısı Yok"),
+                title: Text(Ctanim.translate("İnternet Bağlantısı Yok")),
                 content: Text(
-                    "Aktif internet bağlantısı bulunamadı.İnternete bağlı olduğunuzdan emin olun."),
+                    Ctanim.translate("Aktif internet bağlantısı bulunamadı.İnternete bağlı olduğunuzdan emin olun.")),
                 actions: [
                   TextButton(
                     onPressed: () {
                       exit(0);
                     },
                     child: Text(
-                      "Uygulamayı Kapat",
+                     Ctanim.translate("Uygulamayı Kapat") ,
                       style: TextStyle(color: Colors.red),
                     ),
                   )
@@ -180,6 +183,7 @@ class _MyHomePageState extends State<MyHomePage>
             );
           } else {
             if (Ctanim.cari != null && widget.viewDanMi == false) {
+               s.getMenu(cariGuid: Ctanim.cari!.guid!, plasiyerGuid: Ctanim.PlasiyerGuid == null || Ctanim.PlasiyerGuid == "" ? "" : Ctanim.PlasiyerGuid!);
               if (Ctanim.cari!.guid != "") {
                 var url = Uri.https(
                   SiteSabit.Link!,
@@ -189,8 +193,10 @@ class _MyHomePageState extends State<MyHomePage>
                     'PlasiyerGuid': Ctanim.PlasiyerGuid,
                   },
                 );
+                
 
-                print("urlturan" + url.toString());
+
+             
                 return WebViewApp(url: url);
               }
             } else {

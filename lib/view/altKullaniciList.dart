@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
+import 'package:b2b/model/altKullaniciModel.dart';
 import 'package:b2b/model/cariModel.dart';
 import 'package:b2b/servis/servis.dart';
 import 'package:b2b/view/webview.dart';
@@ -10,16 +11,16 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-class CariRehberList extends StatefulWidget {
-  const CariRehberList({super.key});
+class AltKullaniciList extends StatefulWidget {
+  const AltKullaniciList({super.key});
 
   @override
-  State<CariRehberList> createState() => _CariRehberListState();
+  State<AltKullaniciList> createState() => _AltKullaniciListState();
 }
 
-class _CariRehberListState extends State<CariRehberList> {
+class _AltKullaniciListState extends State<AltKullaniciList> {
   final _formKey = GlobalKey<FormState>();
-  List<Cari> tempList = [];
+  List<AltKullaniciModel> tempList = [];
   bool veriYok = false;
   TextEditingController aranacak = TextEditingController();
   Servis servis = Servis();
@@ -27,18 +28,43 @@ class _CariRehberListState extends State<CariRehberList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    tempList.addAll(Ctanim.cariRehberList);
+    tempList.add(AltKullaniciModel(
+        aKod: Ctanim.cari!.kod,
+        adi: Ctanim.cari!.adi!+"(Ana Kullanıcı)",
+        guid: Ctanim.cari!.guid,
+        mail: Ctanim.cari!.mail,
+        tel: Ctanim.cari!.tel
+    ));
+    tempList.addAll(Ctanim.altKullaniciList);
   }
 
-  void searchB() {
+  void searchB(String aranan) {
     tempList.clear();
-    if (Ctanim.cariRehberList.isEmpty) {
-     veriYok = true;
+    if(aranan == ""){
+    if (Ctanim.altKullaniciList.isEmpty) {
+      veriYok = true;
     } else {
       veriYok = false;
-     
-      tempList.addAll(Ctanim.cariRehberList);
+         tempList.add(AltKullaniciModel(
+        aKod: Ctanim.cari!.kod,
+        adi: Ctanim.cari!.adi!+"(Ana Kullanıcı)",
+        guid: Ctanim.cari!.guid,
+        mail: Ctanim.cari!.mail,
+        tel: Ctanim.cari!.tel
+    ));
+
+      tempList.addAll(Ctanim.altKullaniciList);
     }
+    }else{
+      var result = Ctanim.altKullaniciList.where((element) => element.adi!.toLowerCase().contains(aranan.toLowerCase()) || element.aKod!.toLowerCase().contains(aranan.toLowerCase())).toList();
+      if(result.isEmpty){
+        veriYok = true;
+      }else{
+        veriYok = false;
+        tempList.addAll(result);
+      }
+    }
+
   }
 
   @override
@@ -75,7 +101,7 @@ class _CariRehberListState extends State<CariRehberList> {
         ],
         backgroundColor: Colors.white,
         title: Text(
-          Ctanim.translate("Cari Rehber"),
+          "Alt Kullanıcılar",
           style: TextStyle(color: Colors.black, fontFamily: "OpenSans"),
         ),
         elevation: 0,
@@ -90,11 +116,8 @@ class _CariRehberListState extends State<CariRehberList> {
                   top: 20, left: 20, right: 20, bottom: 10),
               child: TextFormField(
                 textInputAction: TextInputAction.search,
-                
                 onFieldSubmitted: (newValue) async {
-                 
-                     await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: aranacak.text);
-                  searchB();
+                  searchB(newValue);
                   setState(() {});
                 
                    
@@ -108,8 +131,7 @@ class _CariRehberListState extends State<CariRehberList> {
                   filled: true,
                   fillColor: Colors.grey.withOpacity(0.7),
                   suffixIcon: IconButton(icon:Icon(Icons.search),onPressed: () async {
-                      await servis.getCariRehber(plasiyerGuid: Ctanim.PlasiyerGuid!,arama: aranacak.text);
-                  searchB();
+                  searchB(aranacak.text);
                   setState(() {});
                     
                   },),
@@ -135,21 +157,18 @@ class _CariRehberListState extends State<CariRehberList> {
             child: ListView.builder(
               itemCount: tempList.length,
               itemBuilder: (context, index) {
-                Cari cari = tempList[index];
-                MoneyFormatter fmf = MoneyFormatter(
-    amount: cari.bakiye ?? 0.0,
-    settings: MoneyFormatterSettings(
-      thousandSeparator: ".",
-      decimalSeparator: ","
-    )
-);
-
+                AltKullaniciModel altKullanici = tempList[index];
                 return Column(
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Ctanim.cari = cari;
-                        Ctanim.Dil=cari.dil == "" ? SiteSabit.Dil:cari.dil;
+                        if(index>0){
+                          Ctanim.anaKullaniciID = Ctanim.cari!.guid!;
+                        }else{
+                         altKullanici.guid= Ctanim.anaKullaniciID == "" ? Ctanim.cari!.guid! : Ctanim.anaKullaniciID;
+                        }
+
+                        Ctanim.cari!.guid = altKullanici.guid;
                         if (Ctanim.internet) {
                        servis.postCari(
                       plasiyerGuid: Ctanim.PlasiyerGuid ?? "",
@@ -159,7 +178,7 @@ class _CariRehberListState extends State<CariRehberList> {
                           SiteSabit.Link!,
                           '/Login/MobilGiris',
                           {
-                            'Guid': cari.guid,
+                            'Guid': Ctanim.cari!.guid,
                             'PlasiyerGuid': Ctanim.PlasiyerGuid,
                           },
                         );
@@ -180,13 +199,13 @@ class _CariRehberListState extends State<CariRehberList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              cari.kod!,
+                              altKullanici.aKod!,
                               style: TextStyle(
                                   fontSize: 14, fontFamily: "OpenSans",fontWeight: FontWeight.bold),
                             ),
                             
                             Text(
-                              cari.adi!,
+                              altKullanici.adi!,
                               style: TextStyle(fontFamily: "OpenSans",fontSize: 14,fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -199,20 +218,13 @@ class _CariRehberListState extends State<CariRehberList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Tel: "+cari.tel!,
+                              "Tel: "+altKullanici.tel!,
                               style: TextStyle(fontFamily: "OpenSans"),
                             ),
                             Text(
-                            cari.il != "" && cari.ilce != ""?  cari.il!+" / "+cari.ilce! :cari.il!+cari.ilce!  ,
+                            altKullanici.mail!,
                               style: TextStyle(fontFamily: "OpenSans"),
                             ),
-                            
-                            Text(
-                              "Güncel Bakiye: " + fmf.output.nonSymbol,
-                              style: TextStyle(fontFamily: "OpenSans"),
-                            ),
-                            
-                         
                           ],
                         ),
                       ),

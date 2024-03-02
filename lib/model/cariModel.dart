@@ -11,6 +11,7 @@ class Cari {
   double? bakiye;
   String? il ;
   String? ilce;
+  String? dil;
 
 
   Cari(
@@ -25,8 +26,8 @@ class Cari {
       this.plasiyerKodu,
       this.il,
       this.ilce,
-      
       this.bakiye,
+      this.dil
       });
 
   Cari.fromJson(Map<String, dynamic> json) {
@@ -41,6 +42,7 @@ class Cari {
     il = json["Il"];
     ilce = json ["Ilce"];
     plasiyerKodu = json['PlasiyerKodu'];
+    dil = json["Dil"];
     
     bakiye =double.parse(json['Bakiye'].toString())  ;
     
@@ -57,6 +59,7 @@ class Cari {
     data['Mail'] = this.mail;
     data['Tel'] = this.tel;
     data['PlasiyerKodu'] = this.plasiyerKodu;
+    data['Dil'] = this.dil;
    
     data['Bakiye'] = this.bakiye;
     
