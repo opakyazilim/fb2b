@@ -1,10 +1,10 @@
 class SiteSabit { 
-   static String? FirmaAdi = "DOGUSKOZMETIK";  
-  static String? Link = "bayi.doguskozmetik.com"; 
-  static String? Com = "com.opakyazilim.doguskozmetikb2b"; 
-  static String? Versiyon = "1.0.0"; 
+   static String? FirmaAdi = "AKCAYKIRTASIYE";  
+  static String? Link = "b2b.akcaykirtasiye.com"; 
+  static String? Com = "com.opakyazilim.akcaykirtasiye"; 
+  static String? Versiyon = "3.0.2"; 
   static String? Platform = "IOS"; 
-  static String? ExServisId = "6ba653a7-3b7a-4035-a3a1-b9320731e4b2"; 
-  static String oneSignalKey = "0c683d9e-3868-414e-a198-7c199f499a6d"; 
+  static String? ExServisId = "c07f4d71-ac9a-47f5-94c4-c9f0d353a7f7"; 
+  static String oneSignalKey = "d5a848b0-5dbf-4231-b758-9d9227b5054c"; 
   static String? Dil = "TR"; 
 }

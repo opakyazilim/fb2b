@@ -1,4 +1,4 @@
-package com.opakyazilim.doguskozmetikb2b
+package com.opakyazilim.akcaykirtasiye
 
 import io.flutter.embedding.android.FlutterActivity
 
