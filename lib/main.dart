@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage>
               body: AlertDialog(
                 title: Text(Ctanim.translate("İnternet Bağlantısı Yok")),
                 content: Text(
-                    Ctanim.translate("Aktif internet bağlantısı bulunamadı.İnternete bağlı olduğunuzdan emin olun.")),
+                    Ctanim.translate("Aktif internet bağlantısı bulunamadı.İnternete bağlı olduğunuzdan emin olun."+Ctanim.sil)),
                 actions: [
                   TextButton(
                     onPressed: () {

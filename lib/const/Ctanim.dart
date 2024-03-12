@@ -37,6 +37,7 @@ class Ctanim {
   static bool plasiyerMenuGoster = false;
   static int secilKategoriID = -1;
   static String currentUrl = "";
+  static String sil = "";
 
   static void yanMenu(context){
     drawerWidth = MediaQuery.of(context).size.width * 0.7;    

@@ -56,6 +56,7 @@ class Servis {
       },
     );
     print(url.toString());
+    Ctanim.sil=url.toString();
     var response;
     try {
       response = await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid,'Guid': cariGuid});
