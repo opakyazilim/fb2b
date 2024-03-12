@@ -55,12 +55,13 @@ class _WebViewStackState extends State<WebViewStack> {
       return false;
     }
   }
- Future<void> _handleRefresh() {
+
+  Future<void> _handleRefresh() {
     final Completer<void> completer = Completer<void>();
     Timer(const Duration(milliseconds: 100), () {
       completer.complete();
     });
-   
+
     return completer.future.then<void>((_) {
       widget.controller.loadRequest(Uri.https(SiteSabit.Link!));
     });
@@ -121,7 +122,6 @@ class _WebViewStackState extends State<WebViewStack> {
             ? ""
             : Ctanim.PlasiyerGuid!);
   }
-  
 
   var loadingPercentage = 0;
 
@@ -163,7 +163,6 @@ class _WebViewStackState extends State<WebViewStack> {
           onNavigationRequest: (navigation) async {
             String url = Uri.parse(navigation.url).toString();
             Ctanim.currentUrl = url;
-        
 
             if (url.toLowerCase().contains('mobilbarkod')) {
               var res = await Navigator.push(
@@ -206,21 +205,20 @@ class _WebViewStackState extends State<WebViewStack> {
               final Uri wp = Uri.parse(url);
               launchUrl(wp);
               return NavigationDecision.prevent;
-            }else if (url.toLowerCase().contains('hesabim/altkullanici')) {
+            } else if (url.toLowerCase().contains('hesabim/altkullanici')) {
               await servis.getAltKullanici(
                   plasiyerGuid: Ctanim.PlasiyerGuid!,
                   cariGuid: Ctanim.cari!.guid!);
-        await Navigator.pushAndRemoveUntil(
+              await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (context) => AltKullaniciList(),
                 ),
                 (route) => false,
               );
-          
+
               return NavigationDecision.prevent;
-            } 
-            else if (url.toLowerCase().contains('exportpdf') ||
+            } else if (url.toLowerCase().contains('exportpdf') ||
                 url.toLowerCase().contains('/yazdir?')) {
               var a = await widget.controller
                   .runJavaScriptReturningResult("document.cookie.toString()");
@@ -232,11 +230,30 @@ class _WebViewStackState extends State<WebViewStack> {
                   )).then((value) => widget.controller.canGoBack());
 
               return NavigationDecision.prevent;
-            } else if (url.toLowerCase().contains('ziyaret')) {
+            } else if (url.toLowerCase().contains('ziyaret') &&
+                !url.toLowerCase().contains("latitude") &&
+                !url.toLowerCase().contains("longitude") &&
+                !url.toLowerCase().contains("accuracy")) {
               if (Platform.isIOS) {
                 List<double> gelen = [];
                 var sonUrl;
+                gelen = await getLocationIos();
+                lat = gelen[0];
+                long = gelen[1];
+                acc = gelen[2];
+                var baseUri = Uri.parse(navigation.url);
+                var yeniUrl = baseUri.replace(queryParameters: {
+                  'latitude': lat.toString(),
+                  'longitude': long.toString(),
+                  'accuracy': acc.toString(),
+                });
 
+                String a = yeniUrl.toString();
+                a = a + "?";
+                sonUrl = Uri.parse(a);
+
+                print(a);
+/*
                 getLocationIos().then((value) {
                   gelen = value;
                   lat = gelen[0];
@@ -255,6 +272,7 @@ class _WebViewStackState extends State<WebViewStack> {
 
                   print(a);
                 });
+                */
                 widget.controller.loadRequest(sonUrl);
 
                 return NavigationDecision.prevent;
@@ -279,6 +297,7 @@ class _WebViewStackState extends State<WebViewStack> {
       )
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
   }
+
   List<Color> bottomColorList = [
     Colors.grey,
     Colors.amber,
@@ -288,74 +307,105 @@ class _WebViewStackState extends State<WebViewStack> {
     Colors.grey,
     Colors.grey,
     Colors.grey
-
   ];
 // number that changes when refreshed
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      
+      bottom: false,
       child: Scaffold(
         bottomNavigationBar: StylishBottomBar(
           option: AnimatedBarOptions(
-            //iconSize: 22,
-
+          
             barAnimation: BarAnimation.blink,
-            //iconStyle: IconStyle.animated,
-
-            // opacity: 0.3,
           ),
+          
           items: [
             BottomBarItem(
                 icon: const Icon(
                   Icons.arrow_back_ios_new,
                 ),
                 backgroundColor: bottomColorList[0],
-                title: const Text('')),
+                title: Text(
+                  'Geri',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * .02),
+                )),
             BottomBarItem(
               icon: const Icon(
                 Icons.house_outlined,
               ),
               backgroundColor: bottomColorList[1],
-              title: const Text(''),
+              title: Text(
+                'Anasayfa',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * .02),
+              ),
             ),
             BottomBarItem(
               icon: const Icon(Icons.category),
               backgroundColor: bottomColorList[2],
-              title: const Text(''),
+              title: Text(
+                'Kategoriler',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * .02),
+              ),
             ),
             BottomBarItem(
-              icon:  Icon(Icons.access_time_filled_outlined,size: 5,),
+              icon: Icon(
+                Icons.access_time_filled_outlined,
+                size: 5,
+              ),
               backgroundColor: bottomColorList[3],
-              title: const Text(''),
+              title: Text(
+                '',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * .02),
+              ),
             ),
             BottomBarItem(
-              icon:  Icon(Icons.access_time_filled_outlined,size: 5,),
+              icon: Icon(
+                Icons.access_time_filled_outlined,
+                size: 5,
+              ),
               backgroundColor: bottomColorList[4],
-              
-              title: const Text(''),
+              title: Text(
+                '',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * .02),
+              ),
             ),
-            
             BottomBarItem(
-             
                 icon: const Icon(
                   Icons.shopping_cart,
                 ),
-                backgroundColor:bottomColorList[5],
-                title: const Text('')),
+                backgroundColor: bottomColorList[5],
+                title: Text(
+                  'Sepetim',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * .02),
+                )),
             BottomBarItem(
                 icon: const Icon(
                   Icons.person,
                 ),
                 backgroundColor: bottomColorList[6],
-                title: const Text('')),
+                title: Text(
+                  'Bilgilerim',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * .02),
+                )),
             BottomBarItem(
                 icon: const Icon(
                   Icons.arrow_forward_ios,
                 ),
                 backgroundColor: bottomColorList[7],
-                title: const Text('')),
+                title: Text(
+                  'İleri',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * .02),
+                )),
           ],
           hasNotch: false,
           fabLocation: StylishBarFabLocation.center,
@@ -367,43 +417,32 @@ class _WebViewStackState extends State<WebViewStack> {
             });
             if (selected == 0) {
               widget.controller.goBack();
-            }
-          else  if (selected == 1) {
+            } else if (selected == 1) {
               renkDegistir();
-              widget.controller
-                  .loadRequest(Uri.https(SiteSabit.Link!));
-            }
-          else  if (selected == 2) {
-               renkDegistir();
+              widget.controller.loadRequest(Uri.https(SiteSabit.Link!));
+            } else if (selected == 2) {
+              renkDegistir();
               Ctanim.yanMenu(context);
               scaffoldKey.currentState!.openDrawer();
-               
-             
-                       
-            }
-         else   if (selected == 5) {
-               renkDegistir();
-               String link = "https://" +SiteSabit.Link!+"\/Sepet\/Sepet";
-              widget.controller.loadRequest(
-                  Uri.parse(link));
-            }
-
-           else if (selected == 6) {
-               renkDegistir();
-               String link = "https://" +SiteSabit.Link!+"/Hesabim/Bilgilerim";
-              widget.controller.loadRequest(
-                  Uri.parse(link));
-            }
-          else  if (selected == 7) {
+            } else if (selected == 5) {
+              renkDegistir();
+              String link = "https://" + SiteSabit.Link! + "\/Sepet\/Sepet";
+              widget.controller.loadRequest(Uri.parse(link));
+            } else if (selected == 6) {
+              renkDegistir();
+              String link =
+                  "https://" + SiteSabit.Link! + "/Hesabim/Bilgilerim";
+              widget.controller.loadRequest(Uri.parse(link));
+            } else if (selected == 7) {
               widget.controller.goForward();
+            } else {
+              print("abu");
             }
-          else{
-            print("abu");
-          }
           },
         ),
         floatingActionButton: Padding(
-          padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.05),
+          padding:
+              EdgeInsets.only(left: MediaQuery.of(context).size.width * .05),
           child: FloatingActionButton(
             onPressed: () async {
               await showDialog(
@@ -411,15 +450,17 @@ class _WebViewStackState extends State<WebViewStack> {
                 builder: (context) {
                   return Stack(
                     children: [
-                      SearchAlertDialog(controller: widget.controller,),
-                     
+                      SearchAlertDialog(
+                        controller: widget.controller,
+                      ),
                     ],
                   );
                 },
               );
             },
-        
-            backgroundColor: Colors.transparent, // Arka plan rengini şeffaf yapın
+
+            backgroundColor:
+                Colors.transparent, // Arka plan rengini şeffaf yapın
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -441,8 +482,7 @@ class _WebViewStackState extends State<WebViewStack> {
           controller: widget.controller,
         ),
         key: scaffoldKey,
-        body: 
-        Stack(
+        body: Stack(
           children: [
             WebViewWidget(
               controller: widget.controller,
@@ -500,19 +540,15 @@ class _WebViewStackState extends State<WebViewStack> {
   }
 
   void renkDegistir() {
-    for(int i = 0; i<bottomColorList.length;i++){
-      if(i==selected){
+    for (int i = 0; i < bottomColorList.length; i++) {
+      if (i == selected) {
         bottomColorList[i] = Colors.amber;
-      }
-      else if (i == 3 || i == 4) {
+      } else if (i == 3 || i == 4) {
         bottomColorList[i] = Colors.transparent;
-      }
-      else{
+      } else {
         bottomColorList[i] = Colors.grey;
       }
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 }

@@ -96,7 +96,7 @@ class _FTreeNodeForPlasiyerCariMenuState
   initState() {
     super.initState();
 
-    _isExpaned = true;
+    _isExpaned = false;
 
     _rotationController = AnimationController(
       duration: const Duration(milliseconds: 300),
