@@ -1,11 +1,13 @@
-
-
+import 'dart:io';
 
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/main.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
 import 'package:b2b/view/webviewStack.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart'; 
+import 'package:location/location.dart' as loc;
+
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'FTreeNodeForPlasiyerCariMenu.dart';
@@ -69,6 +71,68 @@ class _FTreeViewForPlasiyerCariMenuState
     extends State<FTreeViewForPlasiyerCariMenu> {
   late CariVePlasiyerMenuModel _root;
   List<CariVePlasiyerMenuModel> _renderList = [];
+    Future<bool> iosLocationPerm() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+
+    if (permission == LocationPermission.deniedForever) {
+      //await Geolocator.openAppSettings(); //! Lokasyon ayarlarına yönlendirme
+      return false;
+    } else if (permission == LocationPermission.denied) {
+      return false;
+    } else if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+    Future<List<double>> getLocationIos() async {
+    final value = await iosLocationPerm();
+    if (value) {
+      final currentLocation = await Geolocator.getCurrentPosition();
+      lat = currentLocation.latitude;
+      long = currentLocation.longitude;
+      acc = currentLocation.accuracy;
+      return [lat!, long!, acc!];
+    } else {
+      print("gönderilmedi");
+      return [32, 32, 10];
+    }
+  }
+
+  Future<void> checkLocationPermission() async {
+    loc.PermissionStatus permissionStatus;
+
+    try {
+      permissionStatus = await loc.Location().hasPermission();
+    } catch (e) {
+      permissionStatus = loc.PermissionStatus.denied;
+    }
+
+    if (permissionStatus == loc.PermissionStatus.denied) {
+      permissionStatus = await loc.Location().requestPermission();
+      if (permissionStatus != loc.PermissionStatus.granted) {
+        //izin vermedi
+      }
+    }
+  }
+
+  loc.LocationData? currentLocation;
+  double? lat;
+  double? long;
+  double? acc;
+
+  Future<void> getCurrentLocation() async {
+    try {
+      loc.Location location = loc.Location();
+      currentLocation = await location.getLocation();
+      long = currentLocation?.longitude;
+      lat = currentLocation?.latitude;
+      acc = currentLocation?.accuracy;
+    } catch (e) {
+      print("Konum bilgisi alınamadı: $e");
+    }
+  }
 
   List<CariVePlasiyerMenuModel> _filter(
       String val, List<CariVePlasiyerMenuModel> list) {
@@ -194,7 +258,71 @@ class _FTreeViewForPlasiyerCariMenuState
               );
 
          
-            }else{
+            }
+            else if (url.toLowerCase().contains('ziyaret') &&
+                !url.toLowerCase().contains("latitude") &&
+                !url.toLowerCase().contains("longitude") &&
+                !url.toLowerCase().contains("accuracy")) {
+              if (Platform.isIOS) {
+                List<double> gelen = [];
+                var sonUrl;
+                gelen = await getLocationIos();
+                lat = gelen[0];
+                long = gelen[1];
+                acc = gelen[2];
+                var baseUri = Uri.parse(url);
+                var yeniUrl = baseUri.replace(queryParameters: {
+                  'latitude': lat.toString(),
+                  'longitude': long.toString(),
+                  'accuracy': acc.toString(),
+                });
+
+                String a = yeniUrl.toString();
+                a = a + "?";
+                sonUrl = Uri.parse(a);
+
+                print(a);
+/*
+                getLocationIos().then((value) {
+                  gelen = value;
+                  lat = gelen[0];
+                  long = gelen[1];
+                  acc = gelen[2];
+                  var baseUri = Uri.parse(navigation.url);
+                  var yeniUrl = baseUri.replace(queryParameters: {
+                    'latitude': lat.toString(),
+                    'longitude': long.toString(),
+                    'accuracy': acc.toString(),
+                  });
+
+                  String a = yeniUrl.toString();
+                  a = a + "?";
+                  sonUrl = Uri.parse(a);
+
+                  print(a);
+                });
+                */
+                widget.controller.loadRequest(sonUrl);
+
+                return NavigationDecision.prevent;
+              } else {
+                await checkLocationPermission();
+                if (loc.PermissionStatus.granted ==
+                    await loc.Location().hasPermission()) {
+                  await getCurrentLocation();
+                  var yeniUrl = Uri.parse(url +
+                      "?latitude=$lat&longitude=$long&accuracy=$acc");
+                  widget.controller.loadRequest(yeniUrl);
+                  return NavigationDecision.prevent;
+                }
+                //turan ekledi
+              }
+            }
+            
+            
+            
+            
+            else{
                    widget.controller.loadRequest(Uri.parse(url));
             }
         

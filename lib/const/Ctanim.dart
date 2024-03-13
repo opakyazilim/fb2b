@@ -36,8 +36,7 @@ class Ctanim {
   static bool cariMenuGoster = false;
   static bool plasiyerMenuGoster = false;
   static int secilKategoriID = -1;
-  static String currentUrl = "";
-  static String sil = "";
+  static String currentUrl = ""; 
 
   static void yanMenu(context){
     drawerWidth = MediaQuery.of(context).size.width * 0.7;    
@@ -83,6 +82,10 @@ class Ctanim {
     "Bayilik Başvurusu":"Acquire a Franchise",
     "Kullanıcı Adı":"Username",
     "Parola":"Password",
+    "Anasayfa":"HomePage",
+    "Sepetim":"Cart",
+    "Bilgilerim":"Information",
+    "İleri":"forward",
   };
  
   if (translations.containsKey(input) && Ctanim.Dil == "EN") {

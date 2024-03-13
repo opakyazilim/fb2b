@@ -55,8 +55,7 @@ class Servis {
         'Versiyon': SiteSabit.Versiyon,
       },
     );
-    print(url.toString());
-    Ctanim.sil=url.toString();
+    print(url.toString()); 
     var response;
     try {
       response = await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid,'Guid': cariGuid});

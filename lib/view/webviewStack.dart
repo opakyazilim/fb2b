@@ -328,7 +328,7 @@ class _WebViewStackState extends State<WebViewStack> {
                 ),
                 backgroundColor: bottomColorList[0],
                 title: Text(
-                  'Geri',
+                  Ctanim.translate('Geri'),
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * .02),
                 )),
@@ -338,7 +338,7 @@ class _WebViewStackState extends State<WebViewStack> {
               ),
               backgroundColor: bottomColorList[1],
               title: Text(
-                'Anasayfa',
+                Ctanim.translate('Anasayfa'),
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * .02),
               ),
@@ -347,7 +347,7 @@ class _WebViewStackState extends State<WebViewStack> {
               icon: const Icon(Icons.category),
               backgroundColor: bottomColorList[2],
               title: Text(
-                'Kategoriler',
+                Ctanim.translate('Kategoriler'),
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * .02),
               ),
@@ -382,7 +382,7 @@ class _WebViewStackState extends State<WebViewStack> {
                 ),
                 backgroundColor: bottomColorList[5],
                 title: Text(
-                  'Sepetim',
+                  Ctanim.translate('Sepetim'),
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * .02),
                 )),
@@ -392,7 +392,7 @@ class _WebViewStackState extends State<WebViewStack> {
                 ),
                 backgroundColor: bottomColorList[6],
                 title: Text(
-                  'Bilgilerim',
+                  Ctanim.translate('Bilgilerim'),
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * .02),
                 )),
@@ -402,7 +402,7 @@ class _WebViewStackState extends State<WebViewStack> {
                 ),
                 backgroundColor: bottomColorList[7],
                 title: Text(
-                  'İleri',
+                  Ctanim.translate('İleri'),
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * .02),
                 )),
