@@ -144,7 +144,8 @@ class _FTreeNodeForPlasiyerCariMenuState
                       iconSize: 16,
                       icon: widget.data.AltMenuler.isEmpty
                           ? Container(
-                                height: MediaQuery.of(context).size.height*0.025,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.025,
                               child: VerticalDivider(
                                 thickness: 3,
                                 color: Ctanim.secilKategoriID != widget.data.id
@@ -198,22 +199,71 @@ class _FTreeNodeForPlasiyerCariMenuState
                       height: 12.0,
                       child: CircularProgressIndicator(strokeWidth: 1.0),
                     ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                      child: Text(
-                        widget.data.adi!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          color: Ctanim.secilKategoriID == widget.data.id
-                              ? Colors.blue
-                              : Colors.black,
+                  widget.data.url != ""
+                      ? Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 6.0),
+                            child: Text(
+                              widget.data.adi!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                color: Ctanim.secilKategoriID == widget.data.id
+                                    ? Colors.blue
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            print("BURADA");
+                            if (widget.lazy && widget.data.AltMenuler.isEmpty) {
+                              setState(() {
+                                _showLoading = true;
+                              });
+                              widget.load(widget.data).then((value) {
+                                if (value) {
+                                  _isExpaned = true;
+                                  _rotationController.forward();
+                                  widget.onLoad(widget.data);
+                                }
+                                _showLoading = false;
+                                setState(() {});
+                              });
+                            } else {
+                              _isExpaned = !_isExpaned;
+                              if (_isExpaned) {
+                                _rotationController.forward();
+                              } else {
+                                _rotationController.reverse();
+                              }
+                              setState(() {});
+                            }
+                          },
+                          child: Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 6.0),
+                              child: Text(
+                                widget.data.adi!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                  color:
+                                      Ctanim.secilKategoriID == widget.data.id
+                                          ? Colors.blue
+                                          : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                   if (widget.showActions)
                     TextButton(
                       onPressed: () {

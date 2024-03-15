@@ -29,7 +29,7 @@ class Servis {
         var cari = json["Cari"];
         Ctanim.PlasiyerGuid = json["PlasiyerGuid"];
         Ctanim.cari = Cari.fromJson(cari);
-        Ctanim.Dil = Ctanim.cari!.dil!= "" ? Ctanim.cari!.dil : SiteSabit.Dil;
+        Ctanim.Dil = Ctanim.cari!.dil != "" ? Ctanim.cari!.dil : SiteSabit.Dil;
       } catch (e) {
         return false;
       }
@@ -55,10 +55,12 @@ class Servis {
         'Versiyon': SiteSabit.Versiyon,
       },
     );
-    print(url.toString()); 
+    print(url.toString());
+    Ctanim.sil = url.toString();
     var response;
     try {
-      response = await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid,'Guid': cariGuid});
+      response = await http
+          .post(url, headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
     } catch (e) {
       Ctanim.internet = false;
       return false;
@@ -74,12 +76,16 @@ class Servis {
       Ctanim.Adres = json["Adres"];
       Ctanim.menuList.clear();
       List<dynamic> loginMenu = json["LoginMenu"];
-      Ctanim.menuList = loginMenu.map((item) => MenuModel.fromJson(item)).toList();
+      Ctanim.menuList =
+          loginMenu.map((item) => MenuModel.fromJson(item)).toList();
       Ctanim.gelenPlasiyerMenuJson = json["PlasiyerMenu"];
-      Ctanim.gelenPlasiyerMenuJson.isNotEmpty ? Ctanim.plasiyerMenuGoster = true : Ctanim.plasiyerMenuGoster = false; 
+      Ctanim.gelenPlasiyerMenuJson.isNotEmpty
+          ? Ctanim.plasiyerMenuGoster = true
+          : Ctanim.plasiyerMenuGoster = false;
       Ctanim.gelenCariMenuJson = json["CariMenu"];
-      Ctanim.gelenCariMenuJson.isNotEmpty ? Ctanim.cariMenuGoster = true : Ctanim.cariMenuGoster = false;
-      
+      Ctanim.gelenCariMenuJson.isNotEmpty
+          ? Ctanim.cariMenuGoster = true
+          : Ctanim.cariMenuGoster = false;
 
       if (Ctanim.menuList.isNotEmpty &&
           Ctanim.Misafir != null &&
@@ -146,24 +152,16 @@ class Servis {
     }
   }
 
-
-
-  Future<bool> getAltKullanici({required String plasiyerGuid,required String cariGuid}) async {
-
+  Future<bool> getAltKullanici(
+      {required String plasiyerGuid, required String cariGuid}) async {
     var url;
- 
-      url = Uri.https(
-        SiteSabit.Link!,
-        '/Hesabim/AltKullaniciList',
-        {
-          'ExServisId': SiteSabit.ExServisId,
-        }
-        
-      );
-  
 
-    var response =
-        await http.post(url, headers: {'PlasiyerGuid': plasiyerGuid,'Guid': cariGuid});
+    url = Uri.https(SiteSabit.Link!, '/Hesabim/AltKullaniciList', {
+      'ExServisId': SiteSabit.ExServisId,
+    });
+
+    var response = await http
+        .post(url, headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
     if (response.statusCode == 200) {
       print("istek başarılı");
       Ctanim.altKullaniciList.clear();
@@ -185,8 +183,8 @@ class Servis {
 
       return false;
     }
-
   }
+
   Future<bool> getCariRehber(
       {required String plasiyerGuid, required String arama}) async {
     Ctanim.cariRehberList.clear();
@@ -235,15 +233,17 @@ class Servis {
     }
   }
 
- Future<void> getYanMenu( {required String plasiyerGuid, required String cariGuid}) async {
+  Future<void> getYanMenu(
+      {required String plasiyerGuid, required String cariGuid}) async {
     var url;
     url = Uri.https(
       SiteSabit.Link!,
       '/Kategori/_KategoriMbl',
-     {'ExServisId': SiteSabit.ExServisId, 'UstMenu': 'false'},
+      {'ExServisId': SiteSabit.ExServisId, 'UstMenu': 'false'},
     );
     print(url.toString());
-    var response = await http.post(url,headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
+    var response = await http
+        .post(url, headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
     if (response.statusCode == 200) {
       print("istek başarılı");
 
@@ -265,6 +265,34 @@ class Servis {
       }
     } else {
       print("BAŞAŞAŞAŞ");
+    }
+  }
+
+  Future<bool> getSepetAdet(
+      {required String plasiyerGuid, required String cariGuid}) async {
+    var url;
+
+    url = Uri.https(SiteSabit.Link!, '/Sepet/MiniSepet', {
+      'ExServisId': SiteSabit.ExServisId,
+    });
+
+    var response = await http
+        .post(url, headers: {'PlasiyerGuid': plasiyerGuid, 'Guid': cariGuid});
+    if (response.statusCode == 200) {
+      print("istek başarılı");
+
+      var json = jsonDecode(response.body);
+      try {
+        Ctanim.sepetAdet = json;
+        Ctanim.sepetGozuksunMu = Ctanim.sepetAdet > 0 ? true : false;
+      } catch (e) {
+        print("Hata: $e");
+      }
+      return true;
+    } else {
+      print("BAŞAŞAŞAŞ");
+
+      return false;
     }
   }
 }

@@ -150,7 +150,7 @@ class _CariRehberListState extends State<CariRehberList> {
                       onTap: () {
                         Ctanim.cari = cari;
                         Ctanim.Dil=cari.dil == "" ? SiteSabit.Dil:cari.dil;
-                        if (Ctanim.internet) {
+                      if (Ctanim.internet) {
                        servis.postCari(
                       plasiyerGuid: Ctanim.PlasiyerGuid ?? "",
                       cariGuid: Ctanim.cari!.guid ?? "");

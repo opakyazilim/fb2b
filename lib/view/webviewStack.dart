@@ -10,7 +10,9 @@ import 'package:b2b/view/cariRehberList.dart';
 import 'package:b2b/view/drawer.dart';
 import 'package:b2b/view/pdf.dart';
 import 'package:b2b/view/searchAlertDiyalog.dart';
+import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,6 +20,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:location/location.dart' as loc;
 import 'package:geolocator/geolocator.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'dart:io';
 
 //import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart'; //IOS İÇİN
@@ -130,6 +133,45 @@ class _WebViewStackState extends State<WebViewStack> {
     super.initState();
     yanMenuGetir();
     widget.controller
+      ..addJavaScriptChannel(
+        "MobilMesaj",
+        onMessageReceived: (p0) async {
+          if (p0.message == "MiniSepetGetir") {
+            await servis.getSepetAdet(
+                plasiyerGuid: Ctanim.PlasiyerGuid!,
+                cariGuid: Ctanim.cari!.guid!);
+            setState(() {});
+          } else if (p0.message.contains("CariSec")) {
+            String cariGuid = p0.message.split(":")[1];
+            Ctanim.cari!.guid = cariGuid;
+
+            servis.postCari(
+                plasiyerGuid: Ctanim.PlasiyerGuid ?? "",
+                cariGuid: Ctanim.cari!.guid ?? "");
+
+            var url = Uri.https(
+              SiteSabit.Link!,
+              '/Login/MobilGiris',
+              {
+                'Guid': Ctanim.cari!.guid,
+                'PlasiyerGuid': Ctanim.PlasiyerGuid,
+              },
+            );
+            await SharedPrefsHelper.saveUser(Ctanim.cari!);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return WebViewApp(
+                    url: url,
+                  );
+                },
+              ),
+              (Route<dynamic> route) => false,
+            );
+          }
+        },
+      )
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (url) {
@@ -146,6 +188,7 @@ class _WebViewStackState extends State<WebViewStack> {
             setState(() {
               loadingPercentage = 100;
             });
+            renkDegistir(url);
           },
           onUrlChange: (change) async {
             if (change.url!.toString().toLowerCase().contains("carirehber")) {
@@ -163,7 +206,6 @@ class _WebViewStackState extends State<WebViewStack> {
           onNavigationRequest: (navigation) async {
             String url = Uri.parse(navigation.url).toString();
             Ctanim.currentUrl = url;
-
             if (url.toLowerCase().contains('mobilbarkod')) {
               var res = await Navigator.push(
                   context,
@@ -305,32 +347,50 @@ class _WebViewStackState extends State<WebViewStack> {
     Colors.transparent,
     Colors.transparent,
     Colors.grey,
-    Colors.grey,
+    const Color.fromARGB(255, 199, 166, 166),
     Colors.grey
   ];
 // number that changes when refreshed
-
+  bool geri = false;
+  bool ileri = false;
   @override
   Widget build(BuildContext context) {
+    widget.controller.canGoBack().then((value) {
+      if (value != geri) {
+        geri = value;
+        setState(() {});
+      }
+    });
+    widget.controller.canGoForward().then((value) {
+      if (value != ileri) {
+        ileri = value;
+        setState(() {});
+      }
+    });
+
     return SafeArea(
       bottom: false,
       child: Scaffold(
         bottomNavigationBar: StylishBottomBar(
           option: AnimatedBarOptions(
-          
             barAnimation: BarAnimation.blink,
           ),
-          
           items: [
             BottomBarItem(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new,
+                icon: Opacity(
+                  opacity: geri == true ? 1 : 0.3,
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                  ),
                 ),
                 backgroundColor: bottomColorList[0],
-                title: Text(
-                  Ctanim.translate('Geri'),
-                  style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * .02),
+                title: Opacity(
+                  opacity: geri == true ? 1 : 0.3,
+                  child: Text(
+                    Ctanim.translate('Geri'),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * .02),
+                  ),
                 )),
             BottomBarItem(
               icon: const Icon(
@@ -338,7 +398,7 @@ class _WebViewStackState extends State<WebViewStack> {
               ),
               backgroundColor: bottomColorList[1],
               title: Text(
-                Ctanim.translate('Anasayfa'),
+                'Anasayfa',
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * .02),
               ),
@@ -347,7 +407,7 @@ class _WebViewStackState extends State<WebViewStack> {
               icon: const Icon(Icons.category),
               backgroundColor: bottomColorList[2],
               title: Text(
-                Ctanim.translate('Kategoriler'),
+                'Kategoriler',
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * .02),
               ),
@@ -381,8 +441,10 @@ class _WebViewStackState extends State<WebViewStack> {
                   Icons.shopping_cart,
                 ),
                 backgroundColor: bottomColorList[5],
+                showBadge: Ctanim.sepetGozuksunMu,
+                badge: Text(Ctanim.sepetAdet.toString()),
                 title: Text(
-                  Ctanim.translate('Sepetim'),
+                  'Sepetim',
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * .02),
                 )),
@@ -392,51 +454,52 @@ class _WebViewStackState extends State<WebViewStack> {
                 ),
                 backgroundColor: bottomColorList[6],
                 title: Text(
-                  Ctanim.translate('Bilgilerim'),
+                  'Bilgilerim',
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * .02),
                 )),
             BottomBarItem(
-                icon: const Icon(
-                  Icons.arrow_forward_ios,
+                icon: Opacity(
+                  opacity: ileri == true ? 1 : 0.3,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                  ),
                 ),
                 backgroundColor: bottomColorList[7],
-                title: Text(
-                  Ctanim.translate('İleri'),
-                  style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * .02),
+                title: Opacity(
+                  opacity: ileri == true ? 1 : 0.3,
+                  child: Text(
+                    'İleri',
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * .02),
+                  ),
                 )),
           ],
           hasNotch: false,
           fabLocation: StylishBarFabLocation.center,
           currentIndex: selected,
-          onTap: (index) {
+          onTap: (index) async {
             //controller.jumpToPage(index);
             setState(() {
               selected = index;
             });
+
             if (selected == 0) {
-              widget.controller.goBack();
+              await widget.controller.goBack();
             } else if (selected == 1) {
-              renkDegistir();
               widget.controller.loadRequest(Uri.https(SiteSabit.Link!));
             } else if (selected == 2) {
-              renkDegistir();
               Ctanim.yanMenu(context);
               scaffoldKey.currentState!.openDrawer();
             } else if (selected == 5) {
-              renkDegistir();
               String link = "https://" + SiteSabit.Link! + "\/Sepet\/Sepet";
               widget.controller.loadRequest(Uri.parse(link));
             } else if (selected == 6) {
-              renkDegistir();
               String link =
                   "https://" + SiteSabit.Link! + "/Hesabim/Bilgilerim";
               widget.controller.loadRequest(Uri.parse(link));
             } else if (selected == 7) {
-              widget.controller.goForward();
-            } else {
-              print("abu");
+              await widget.controller.goForward();
             }
           },
         ),
@@ -488,9 +551,12 @@ class _WebViewStackState extends State<WebViewStack> {
               controller: widget.controller,
             ),
             if (loadingPercentage < 100)
+              Center(child: CircularProgressIndicator())
+            /*
               LinearProgressIndicator(
                 value: loadingPercentage / 100.0,
               ),
+              */
           ],
         ),
         /*RefreshIndicator(
@@ -539,15 +605,17 @@ class _WebViewStackState extends State<WebViewStack> {
     );
   }
 
-  void renkDegistir() {
-    for (int i = 0; i < bottomColorList.length; i++) {
-      if (i == selected) {
-        bottomColorList[i] = Colors.amber;
-      } else if (i == 3 || i == 4) {
-        bottomColorList[i] = Colors.transparent;
-      } else {
-        bottomColorList[i] = Colors.grey;
-      }
+  Future<void> renkDegistir(String url) async {
+    bottomColorList[1] = Colors.grey; //Anasayfa
+    bottomColorList[2] = Colors.grey; //Kategori
+    bottomColorList[5] = Colors.grey; //Sepet
+    bottomColorList[6] = Colors.grey; //Bilgilerim
+    if (url!.toLowerCase().contains("sepet")) {
+      bottomColorList[5] = Colors.amber; //Sepet
+    } else if (url!.toLowerCase().contains("hesabim")) {
+      bottomColorList[6] = Colors.amber; //Sepet
+    } else {
+      bottomColorList[1] = Colors.amber; //Sepet
     }
     setState(() {});
   }
