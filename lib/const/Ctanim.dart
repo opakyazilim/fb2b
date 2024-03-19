@@ -56,8 +56,8 @@ class Ctanim {
       "Giriş": "Login",
       "Kayıt ol": "Sign up",
       "Çıkış yap": "Log out",
-      SiteSabit.FirmaAdi! + " B2B'ye Hoş Geldiniz":
-          "Welcome to ${SiteSabit.FirmaAdi!} B2B",
+      SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "") + " B2B'ye Hoş Geldiniz":
+          "Welcome to ${SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "")} B2B",
       "İyi Çalışmalar": "Enjoy your work",
       "Bize Ulaşın": "Contact us",
       "Mail Adresimiz": "Our mail address",

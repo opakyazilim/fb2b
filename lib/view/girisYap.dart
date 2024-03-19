@@ -89,7 +89,7 @@ class _girisYapState extends State<girisYap> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        Ctanim.translate(SiteSabit.FirmaAdi! + " B2B'ye Hoş Geldiniz"),
+                        Ctanim.translate(SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "") + " B2B'ye Hoş Geldiniz"),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,

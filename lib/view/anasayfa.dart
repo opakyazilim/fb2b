@@ -131,7 +131,7 @@ class _anasayfaState extends State<anasayfa> {
                                   child: SizedBox(
                                       width: 11600,
                                       child: Text(
-                                       Ctanim.translate(SiteSabit.FirmaAdi! + " B2B'ye Hoş Geldiniz"),
+                                       Ctanim.translate(SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "") + " B2B'ye Hoş Geldiniz"),
                                         style: TextStyle(
                                             color: genelColor,
                                             fontSize: 17,
