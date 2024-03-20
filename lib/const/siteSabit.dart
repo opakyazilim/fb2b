@@ -1,10 +1,10 @@
 class SiteSabit { 
-   static String? FirmaAdi = "Yasir B2B";  
-  static String? Link = "yasir.com.tr"; 
-  static String? Com = "com.opakyazilim.yasirb2b"; 
-  static String? Versiyon = "2.1.2"; 
+   static String? FirmaAdi = "KD Elektrik B2B";  
+  static String? Link = "b2b.kdelektrik.com.tr"; 
+  static String? Com = "com.opakyazilim.kdb2b"; 
+  static String? Versiyon = "0.0.3"; 
   static String? Platform = "IOS"; 
-  static String? ExServisId = "e5d26671-9cb7-43b9-bf0e-3edc68ffe326"; 
-  static String oneSignalKey = "e5d26671-9cb7-43b9-bf0e-3edc68ffe326"; 
+  static String? ExServisId = "49579ba0-6d14-42c2-9de5-6104767cfc84"; 
+  static String oneSignalKey = "49579ba0-6d14-42c2-9de5-6104767cfc84"; 
   static String? Dil = "TR"; 
 }
