@@ -1,4 +1,4 @@
-package com.opakyazilim.balonevib2b
+package com.opakyazilim.provitab2b
 
 import io.flutter.embedding.android.FlutterActivity
 
