@@ -7,6 +7,7 @@ import 'package:b2b/servis/sharedPrefsHelper.dart';
 import 'package:b2b/view/anasayfa.dart';
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
+import 'package:b2b/view/smsDogrulama.dart';
 import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,13 +74,16 @@ class _MyHomePageState extends State<MyHomePage>
   String kulAdi = "";
   String sifre = "";
   bool beniHatirla = false;
+  bool smsVarMi = false;
 
-  Future<void> getKulAndSifreFromShared() async {
+  Future<void> getKulAndSifreAndSmsFromShared() async {
     kulAdi =
         (await SharedPrefsHelper.getStringFromSharedPreferences("kulAdi"))!;
     sifre = (await SharedPrefsHelper.getStringFromSharedPreferences("sifre"))!;
     beniHatirla =
         (await SharedPrefsHelper.getSBoolFromSharedPreferences("beniHatirla"))!;
+    smsVarMi = (await SharedPrefsHelper.getSBoolFromSharedPreferences("sms"))!;    
+
   }
 
   Future<void> oneSignalKeyAl() async {
@@ -144,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage>
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
         future: Future.wait([
-          getKulAndSifreFromShared(),
+          getKulAndSifreAndSmsFromShared(),
           SharedPrefsHelper.getStringFromSharedPreferences("plasiyerGuid"),
           SharedPrefsHelper.getUser(),
           s.getMenu(cariGuid: "", plasiyerGuid: ""),
@@ -182,9 +186,11 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             );
           } else {
-            if (Ctanim.cari != null && widget.viewDanMi == false) {
+            if (Ctanim.cari != null && widget.viewDanMi == false&& smsVarMi == false) {
                s.getMenu(cariGuid: Ctanim.cari!.guid!, plasiyerGuid: Ctanim.PlasiyerGuid == null || Ctanim.PlasiyerGuid == "" ? "" : Ctanim.PlasiyerGuid!);
-              if (Ctanim.cari!.guid != "") {
+              print(smsVarMi);
+            
+              if (Ctanim.cari!.guid != "" ) {
                 var url = Uri.https(
                   SiteSabit.Link!,
                   '/Login/MobilGiris',
@@ -193,10 +199,6 @@ class _MyHomePageState extends State<MyHomePage>
                     'PlasiyerGuid': Ctanim.PlasiyerGuid,
                   },
                 );
-                
-
-
-             
                 return WebViewApp(url: url);
               }
             } else {

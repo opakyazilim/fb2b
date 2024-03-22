@@ -28,51 +28,37 @@ class SharedPrefsHelper {
     await prefs.remove("kullanici");
   }
 
+  static Future<void> saveStringToSharedPreferences(
+      String key, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, value);
+  }
 
-
-
-
- static Future<void> saveStringToSharedPreferences(String key, String value) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setString(key, value);
-}
-
-
-static Future<String?> getStringFromSharedPreferences(String key) async {
-  final prefs = await SharedPreferences.getInstance();
-  if(prefs.getString(key)==null || prefs.getString(key) == ""){
-    return "";
-
-  }else{
-    if(key == "plasiyerGuid"){
-      Ctanim.PlasiyerGuid = prefs.getString(key);
+  static Future<String?> getStringFromSharedPreferences(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(key) == null || prefs.getString(key) == "") {
+      return "";
+    } else {
+      if (key == "plasiyerGuid") {
+        Ctanim.PlasiyerGuid = prefs.getString(key);
+      }
+      return prefs.getString(key);
     }
-return prefs.getString(key);
+  }
+
+  static Future<void> saveBoolToSharedPreferences(
+      String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
+  }
+
+  static Future<bool?> getSBoolFromSharedPreferences(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(key) == null) {
+      return false;
+    } else {
+      return prefs.getBool(key);
+    }
   }
   
-
-}
-
- static Future<void> saveBoolToSharedPreferences(String key, bool value) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool(key, value);
-}
-
-
-static Future<bool?> getSBoolFromSharedPreferences(String key) async {
-  final prefs = await SharedPreferences.getInstance();
-  if(prefs.getBool(key)==null){
-    return false;
-  }else{
-return prefs.getBool(key);
-  }
-  
-
-}
-
-
-
-
-
-
 }

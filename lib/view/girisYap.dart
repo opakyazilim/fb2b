@@ -3,6 +3,7 @@ import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/servis/servis.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
 import 'package:b2b/view/alertDiyalog.dart';
+import 'package:b2b/view/smsDogrulama.dart';
 import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,7 +90,12 @@ class _girisYapState extends State<girisYap> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        Ctanim.translate(SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "") + " B2B'ye Hoş Geldiniz"),
+                        Ctanim.translate(SiteSabit.FirmaAdi!
+                                .replaceAll("B2B", "")
+                                .replaceAll("b2b", "")
+                                .replaceAll("B4B", "")
+                                .replaceAll("b4b", "") +
+                            " B2B'ye Hoş Geldiniz"),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,
@@ -235,7 +241,7 @@ class _girisYapState extends State<girisYap> {
                                   "oneSignalID", _id);
                             }
                             Ctanim.oneSignalKey = _id;
-                           await servis.postCari(
+                            await servis.postCari(
                                 plasiyerGuid: Ctanim.PlasiyerGuid ?? "",
                                 cariGuid: Ctanim.cari!.guid ?? "");
 
@@ -265,18 +271,30 @@ class _girisYapState extends State<girisYap> {
                                 SharedPrefsHelper.saveBoolToSharedPreferences(
                                     "beniHatirla", _isChecked);
                               }
-                              await servis.getMenu(cariGuid: Ctanim.cari!.guid!, plasiyerGuid: Ctanim.PlasiyerGuid!);
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return WebViewApp(
-                                      url: url,
-                                    );
-                                  },
-                                ),
-                                (Route<dynamic> route) => false,
-                              );
+                              await servis.getMenu(
+                                  cariGuid: Ctanim.cari!.guid!,
+                                  plasiyerGuid: Ctanim.PlasiyerGuid!);
+                              if (Ctanim.SmsKodu == "") {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return WebViewApp(
+                                        url: url,
+                                      );
+                                    },
+                                  ),
+                                  (Route<dynamic> route) => false,
+                                );
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SmsDogrulama(
+                                              phoneNumber: Ctanim.cari!.tel!,
+                                              url: url,
+                                            )));
+                              }
                             } else {
                               await showDialog(
                                 context: context,

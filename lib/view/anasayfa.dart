@@ -4,6 +4,7 @@ import 'package:b2b/model/cariModel.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
 import 'package:b2b/view/alertDiyalog.dart';
 import 'package:b2b/servis/servis.dart';
+import 'package:b2b/view/smsDogrulama.dart';
 import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -161,11 +162,12 @@ class _anasayfaState extends State<anasayfa> {
                                       height: 50,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          if (Ctanim.cari == null) {
+                                          bool? smsVarMi = await SharedPrefsHelper.getSBoolFromSharedPreferences("sms");
+                                          if (Ctanim.cari == null || smsVarMi == true) {
                                             Ctanim.tabController!.animateTo(0,
                                                 duration: Duration(
                                                     milliseconds: 500));
-                                          } else {
+                                          } else{
                                             if (Ctanim.cari!.guid != "") {
                                               var url = Uri.https(
                                                 SiteSabit.Link!,
@@ -184,6 +186,7 @@ class _anasayfaState extends State<anasayfa> {
                                               );
                                             }
                                           }
+                                        
                                         },
                                         child: Text(
                                          Ctanim.translate("Giriş"),

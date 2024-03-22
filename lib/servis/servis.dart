@@ -27,7 +27,10 @@ class Servis {
       var json = jsonDecode(response.body);
       try {
         var cari = json["Cari"];
-        Ctanim.PlasiyerGuid = json["PlasiyerGuid"];
+        Ctanim.
+        PlasiyerGuid = json["PlasiyerGuid"];
+        Ctanim.SmsKodu = json["SmsKodu"];
+        Ctanim.SmsUzunluk = Ctanim.SmsKodu!.length;
         Ctanim.cari = Cari.fromJson(cari);
         Ctanim.Dil = Ctanim.cari!.dil != "" ? Ctanim.cari!.dil : SiteSabit.Dil;
       } catch (e) {

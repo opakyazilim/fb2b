@@ -13,6 +13,8 @@ class Ctanim {
   static Cari? cari;
   static String? Dil = SiteSabit.Dil;
   static String? PlasiyerGuid;
+  static String SmsKodu = "";
+  static int? SmsUzunluk = 0;
   static List<MenuModel> menuList = [];
   static bool? Misafir;
   static bool? SifremiUnuttum;
