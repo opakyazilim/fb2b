@@ -1,4 +1,4 @@
-package com.opakyazilim.kdb2b
+package com.opakyazilim.promarka
 
 import io.flutter.embedding.android.FlutterActivity
 
