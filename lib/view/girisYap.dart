@@ -237,8 +237,11 @@ class _girisYapState extends State<girisYap> {
                                   'OneSignal#pushsubscription');
                               _id = await _channel
                                   .invokeMethod("OneSignal#pushSubscriptionId");
-                              SharedPrefsHelper.saveStringToSharedPreferences(
+                                  if(_id != null){ 
+                                   SharedPrefsHelper.saveStringToSharedPreferences(
                                   "oneSignalID", _id);
+                                  }
+                             
                             }
                             Ctanim.oneSignalKey = _id;
                             await servis.postCari(
