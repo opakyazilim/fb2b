@@ -1,4 +1,4 @@
-package com.opakyazilim.balonevien
+package com.opakyazilim.ustundagb2b
 
 import io.flutter.embedding.android.FlutterActivity
 
