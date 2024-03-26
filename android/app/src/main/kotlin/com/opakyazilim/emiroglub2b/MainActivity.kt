@@ -1,4 +1,4 @@
-package com.opakyazilim.ustundagb2b
+package com.opakyazilim.emiroglub2b
 
 import io.flutter.embedding.android.FlutterActivity
 
