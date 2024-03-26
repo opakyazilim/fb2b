@@ -210,7 +210,11 @@ class _FTreeNodeForPlasiyerCariMenuState
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize:
-                                    MediaQuery.of(context).size.width * 0.03,
+                                    MediaQuery.of(context).orientation ==
+                                            Orientation.portrait
+                                        ? MediaQuery.of(context).size.width * 0.03
+                                        : MediaQuery.of(context).size.height * 0.03,
+                                
                                 color: Ctanim.secilKategoriID == widget.data.id
                                     ? Colors.blue
                                     : Colors.black,
@@ -254,7 +258,13 @@ class _FTreeNodeForPlasiyerCariMenuState
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.03,
+                                      MediaQuery.of(context).orientation ==
+                                              Orientation.portrait
+                                          ? MediaQuery.of(context).size.width *
+                                              0.03
+                                          : MediaQuery.of(context).size.height *
+                                              0.03,
+                                    
                                   color:
                                       Ctanim.secilKategoriID == widget.data.id
                                           ? Colors.blue

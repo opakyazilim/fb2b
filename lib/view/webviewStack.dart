@@ -389,7 +389,8 @@ class _WebViewStackState extends State<WebViewStack> {
                   child: Text(
                     Ctanim.translate('Geri'),
                     style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * .02),
+                        fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
+                    MediaQuery.of(context).size.width * .02),
                   ),
                 )),
             BottomBarItem(
@@ -400,7 +401,8 @@ class _WebViewStackState extends State<WebViewStack> {
               title: Text(
                 'Anasayfa',
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * .02),
+                    fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
+                    MediaQuery.of(context).size.width * .02),
               ),
             ),
             BottomBarItem(
@@ -409,7 +411,8 @@ class _WebViewStackState extends State<WebViewStack> {
               title: Text(
                 'Kategoriler',
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * .02),
+                    fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
+                    MediaQuery.of(context).size.width * .02),
               ),
             ),
             BottomBarItem(
@@ -433,7 +436,9 @@ class _WebViewStackState extends State<WebViewStack> {
               title: Text(
                 '',
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * .02),
+                    fontSize: 
+                    
+                    MediaQuery.of(context).size.width * .02),
               ),
             ),
             BottomBarItem(
@@ -446,7 +451,8 @@ class _WebViewStackState extends State<WebViewStack> {
                 title: Text(
                   'Sepetim',
                   style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * .02),
+                      fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
+                    MediaQuery.of(context).size.width * .02),
                 )),
             BottomBarItem(
                 icon: const Icon(
@@ -456,7 +462,8 @@ class _WebViewStackState extends State<WebViewStack> {
                 title: Text(
                   'Bilgilerim',
                   style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * .02),
+                      fontSize:     MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
+                    MediaQuery.of(context).size.width * .02),
                 )),
             BottomBarItem(
                 icon: Opacity(
@@ -471,7 +478,8 @@ class _WebViewStackState extends State<WebViewStack> {
                   child: Text(
                     'İleri',
                     style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * .02),
+                        fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
+                    MediaQuery.of(context).size.width * .02),
                   ),
                 )),
           ],

@@ -68,535 +68,533 @@ class _anasayfaState extends State<anasayfa> {
   Widget build(BuildContext context) {
     print("EKRAN "+ MediaQuery.of(context).size.height.toString());
     return Scaffold(
-      body: SingleChildScrollView(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  bottomAcikMi = false;
-                  telAcikMi = false;
-                  mailAcikMi = false;
-                  adresAcikMi = false;
-                  setState(() {});
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/b1.jpeg"),
-                          fit: BoxFit.fitHeight),
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: bottomAcikMi == false
-                                            ? MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                .23
-                                            : MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                .1,
-                                        left: 0),
-                                    child: Container(
-                                      height: 80,
-                                      width: MediaQuery.of(context).size.width *
-                                          .55,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              bottomRight:
-                                                  Radius.circular(20))),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset("assets/logo.png"),
-                                      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                bottomAcikMi = false;
+                telAcikMi = false;
+                mailAcikMi = false;
+                adresAcikMi = false;
+                setState(() {});
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+              
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/b1.jpeg"),
+                        fit: BoxFit.cover),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: bottomAcikMi == false
+                                          ? MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              .23
+                                          : MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              .1,
+                                      left: 0),
+                                  child: Container(
+                                    height: 80,
+                                    width: MediaQuery.of(context).size.width *
+                                        .55,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(20),
+                                            bottomRight:
+                                                Radius.circular(20))),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset("assets/logo.png"),
+                                    ),
+                                  )),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 30, top: 40),
+                                child: SizedBox(
+                                    width: 11600,
+                                    child: Text(
+                                     Ctanim.translate(SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "") + " B2B'ye Hoş Geldiniz"),
+                                      style: TextStyle(
+                                          color: genelColor,
+                                          fontSize: 17,
+                                          fontFamily: "OpenSans",
+                                          fontWeight: FontWeight.bold),
                                     )),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 30, top: 40),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 30, top: 20),
+                                child: Text(
+                                  Ctanim.cari != null
+                                      ? Ctanim.cari!.kullaniciAdi!
+                                      : Ctanim.translate("İyi Çalışmalar"),
+                                  style: TextStyle(
+                                      color: genelColor,
+                                      fontSize: 22,
+                                      fontFamily: "OpenSans",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 30, top: 30),
                                   child: SizedBox(
-                                      width: 11600,
+                                    width: 150,
+                                    height: 50,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        bool? smsVarMi = await SharedPrefsHelper.getSBoolFromSharedPreferences("sms");
+                                        if (Ctanim.cari == null || smsVarMi == true) {
+                                          Ctanim.tabController!.animateTo(0,
+                                              duration: Duration(
+                                                  milliseconds: 500));
+                                        } else{
+                                          if (Ctanim.cari!.guid != "") {
+                                            var url = Uri.https(
+                                              SiteSabit.Link!,
+                                              '/Login/MobilGiris',
+                                              {
+                                                'Guid': Ctanim.cari!.guid,
+                                                'PlasiyerGuid': '',
+                                              },
+                                            );
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    WebViewApp(url: url)),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      
+                                      },
                                       child: Text(
-                                       Ctanim.translate(SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "") + " B2B'ye Hoş Geldiniz"),
+                                       Ctanim.translate("Giriş"),
                                         style: TextStyle(
-                                            color: genelColor,
-                                            fontSize: 17,
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 30, top: 20),
-                                  child: Text(
-                                    Ctanim.cari != null
-                                        ? Ctanim.cari!.kullaniciAdi!
-                                        : Ctanim.translate("İyi Çalışmalar"),
-                                    style: TextStyle(
-                                        color: genelColor,
-                                        fontSize: 22,
-                                        fontFamily: "OpenSans",
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 30, top: 30),
-                                    child: SizedBox(
-                                      width: 150,
-                                      height: 50,
-                                      child: ElevatedButton(
+                                            color: const Color(0xFF00b8a6),
+                                            fontSize: 17),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          primary: Colors.white),
+                                    ),
+                                  )),
+                              Padding(
+                                padding: EdgeInsets.only(left: 30, top: 40),
+                                child: Container(
+                                  height: 35,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: Ctanim.menuList.length,
+                                    separatorBuilder: (context, index) {
+                                      return VerticalDivider(
+                                        thickness: 1,
+                                        color: Colors.white,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return TextButton(
                                         onPressed: () async {
-                                          bool? smsVarMi = await SharedPrefsHelper.getSBoolFromSharedPreferences("sms");
-                                          if (Ctanim.cari == null || smsVarMi == true) {
-                                            Ctanim.tabController!.animateTo(0,
-                                                duration: Duration(
-                                                    milliseconds: 500));
-                                          } else{
-                                            if (Ctanim.cari!.guid != "") {
+                                          var yeniUrl = Uri.parse("https://" +
+                                              SiteSabit.Link! +
+                                              "/" +
+                                              Ctanim.menuList[index].url!);
+
+                                          if (yeniUrl
+                                              .toString()
+                                              .toLowerCase()
+                                              .contains("sifremiunuttum")) {
+                                            print("abc");
+                                            Servis servis = Servis();
+
+                                            await sifremiUnuttumWidget(
+                                                context, servis);
+                                          } else if (yeniUrl
+                                              .toString()
+                                              .toLowerCase()
+                                              .contains("misafirgirisi")) {
+                                            Servis servis = Servis();
+                                            bool donusDegeri =
+                                                await servis.login(
+                                                    kullaniciAdi:
+                                                        "MobilMisafirGirisi",
+                                                    sifre: "311574007");
+                                            if (donusDegeri == true) {
                                               var url = Uri.https(
                                                 SiteSabit.Link!,
                                                 '/Login/MobilGiris',
                                                 {
                                                   'Guid': Ctanim.cari!.guid,
-                                                  'PlasiyerGuid': '',
+                                                  'PlasiyerGuid':
+                                                      Ctanim.PlasiyerGuid,
                                                 },
                                               );
-                                              Navigator.push(
+                                              Navigator.pushAndRemoveUntil(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: ((context) =>
-                                                      WebViewApp(url: url)),
-                                                ),
-                                              );
-                                            }
-                                          }
-                                        
-                                        },
-                                        child: Text(
-                                         Ctanim.translate("Giriş"),
-                                          style: TextStyle(
-                                              color: const Color(0xFF00b8a6),
-                                              fontSize: 17),
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            primary: Colors.white),
-                                      ),
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 30, top: 40),
-                                  child: Container(
-                                    height: 35,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: ListView.separated(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: Ctanim.menuList.length,
-                                      separatorBuilder: (context, index) {
-                                        return VerticalDivider(
-                                          thickness: 1,
-                                          color: Colors.white,
-                                        );
-                                      },
-                                      itemBuilder: (context, index) {
-                                        return TextButton(
-                                          onPressed: () async {
-                                            var yeniUrl = Uri.parse("https://" +
-                                                SiteSabit.Link! +
-                                                "/" +
-                                                Ctanim.menuList[index].url!);
-
-                                            if (yeniUrl
-                                                .toString()
-                                                .toLowerCase()
-                                                .contains("sifremiunuttum")) {
-                                              print("abc");
-                                              Servis servis = Servis();
-
-                                              await sifremiUnuttumWidget(
-                                                  context, servis);
-                                            } else if (yeniUrl
-                                                .toString()
-                                                .toLowerCase()
-                                                .contains("misafirgirisi")) {
-                                              Servis servis = Servis();
-                                              bool donusDegeri =
-                                                  await servis.login(
-                                                      kullaniciAdi:
-                                                          "MobilMisafirGirisi",
-                                                      sifre: "311574007");
-                                              if (donusDegeri == true) {
-                                                var url = Uri.https(
-                                                  SiteSabit.Link!,
-                                                  '/Login/MobilGiris',
-                                                  {
-                                                    'Guid': Ctanim.cari!.guid,
-                                                    'PlasiyerGuid':
-                                                        Ctanim.PlasiyerGuid,
-                                                  },
-                                                );
-                                                Navigator.pushAndRemoveUntil(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return WebViewApp(
-                                                        url: url,
-                                                      );
-                                                    },
-                                                  ),
-                                                  (Route<dynamic> route) =>
-                                                      false,
-                                                );
-                                              } else {
-                                                await showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return CustomAlertDialog(
-                                                      title: "Hata ",
-                                                      message:
-                                                          Ctanim.translate("Misafir Girişi Engellendi"),
-                                                      onPres: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      buttonText: Ctanim.translate("Geri"),
-                                                      textColor: Colors.red,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return WebViewApp(
+                                                      url: url,
                                                     );
                                                   },
-                                                );
-                                              }
+                                                ),
+                                                (Route<dynamic> route) =>
+                                                    false,
+                                              );
                                             } else {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        WebViewApp(
-                                                      url: yeniUrl,
-                                                    ),
-                                                  ));
+                                              await showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return CustomAlertDialog(
+                                                    title: "Hata ",
+                                                    message:
+                                                        Ctanim.translate("Misafir Girişi Engellendi"),
+                                                    onPres: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    buttonText: Ctanim.translate("Geri"),
+                                                    textColor: Colors.red,
+                                                  );
+                                                },
+                                              );
                                             }
-                                          },
-                                          child: Text(
-                                            Ctanim.translate(Ctanim.menuList[index].adi!),
-                                            style: TextStyle(
-                                                color: genelColor,
-                                                fontSize: 16),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                          } else {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      WebViewApp(
+                                                    url: yeniUrl,
+                                                  ),
+                                                ));
+                                          }
+                                        },
+                                        child: Text(
+                                          Ctanim.translate(Ctanim.menuList[index].adi!),
+                                          style: TextStyle(
+                                              color: genelColor,
+                                              fontSize: 16),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
-                                Spacer(),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: bottomAcikMi == false
-                                          ? MediaQuery.of(context).size.height *
-                                              .124
-                                          : MediaQuery.of(context).size.height *
-                                              .151),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        bottomAcikMi = false;
-                                        telAcikMi = false;
-                                        mailAcikMi = false;
-                                        adresAcikMi = false;
-                                      });
-                                    },
-                                    child: Container(
-                                      
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20))),
-                                      child: Column(
-                                        children: [
-                                          Divider(
-                                            thickness: 4,
-                                            color: Color.fromARGB(
-                                                255, 177, 177, 177),
-                                            endIndent: 180,
-                                            indent: 180,
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: bottomAcikMi == false
+                                        ? MediaQuery.of(context).size.height *
+                                            .124
+                                        : MediaQuery.of(context).size.height *
+                                            .151),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      bottomAcikMi = false;
+                                      telAcikMi = false;
+                                      mailAcikMi = false;
+                                      adresAcikMi = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20))),
+                                    child: Column(
+                                      children: [
+                                        Divider(
+                                          thickness: 4,
+                                          color: Color.fromARGB(
+                                              255, 177, 177, 177),
+                                          endIndent: 180,
+                                          indent: 180,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 15,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 15,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .33,
-                                                  child: CircleAvatar(
-                                                    radius: 25,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    child: IconButton(
-                                                      icon: Icon(Icons.phone,
-                                                          size: 25,
-                                                          color: Color(
-                                                              0xFF00b8a6)),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          bottomAcikMi = true;
-                                                          mailAcikMi = false;
-                                                          adresAcikMi = false;
-                                                          telAcikMi = true;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .33,
-                                                  child: CircleAvatar(
-                                                    radius: 25,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    child: IconButton(
-                                                      icon: Icon(
-                                                        Icons.mail,
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .33,
+                                                child: CircleAvatar(
+                                                  radius: 25,
+                                                  backgroundColor:
+                                                      Colors.white,
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.phone,
                                                         size: 25,
-                                                        color:
-                                                            Color(0xFF00b8a6),
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          bottomAcikMi = true;
-                                                          telAcikMi = false;
-                                                          adresAcikMi = false;
-                                                          mailAcikMi = true;
-                                                        });
-                                                      },
-                                                    ),
+                                                        color: Color(
+                                                            0xFF00b8a6)),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        bottomAcikMi = true;
+                                                        mailAcikMi = false;
+                                                        adresAcikMi = false;
+                                                        telAcikMi = true;
+                                                      });
+                                                    },
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .33,
-                                                  child: CircleAvatar(
-                                                    radius: 25,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    child: IconButton(
-                                                      icon: Icon(
-                                                        Icons.home_work_rounded,
-                                                        size: 25,
-                                                        color:
-                                                            Color(0xFF00b8a6),
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          bottomAcikMi = true;
-                                                          telAcikMi = false;
-                                                          mailAcikMi = false;
-                                                          adresAcikMi = true;
-                                                        });
-                                                      },
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .33,
+                                                child: CircleAvatar(
+                                                  radius: 25,
+                                                  backgroundColor:
+                                                      Colors.white,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      Icons.mail,
+                                                      size: 25,
+                                                      color:
+                                                          Color(0xFF00b8a6),
                                                     ),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        bottomAcikMi = true;
+                                                        telAcikMi = false;
+                                                        adresAcikMi = false;
+                                                        mailAcikMi = true;
+                                                      });
+                                                    },
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .33,
+                                                child: CircleAvatar(
+                                                  radius: 25,
+                                                  backgroundColor:
+                                                      Colors.white,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      Icons.home_work_rounded,
+                                                      size: 25,
+                                                      color:
+                                                          Color(0xFF00b8a6),
+                                                    ),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        bottomAcikMi = true;
+                                                        telAcikMi = false;
+                                                        mailAcikMi = false;
+                                                        adresAcikMi = true;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              top: 2,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .33,
-                                                  child: Center(
-                                                    child: Text(
-                                                      Ctanim.translate("Bize Ulaşın"),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 2,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .33,
+                                                child: Center(
+                                                  child: Text(
+                                                    Ctanim.translate("Bize Ulaşın"),
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            "OpenSans",
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .33,
+                                                child: Center(
+                                                  child: Text(
+                                                     Ctanim.translate("Mail Adresimiz"),
                                                       style: TextStyle(
                                                           fontFamily:
                                                               "OpenSans",
                                                           fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
+                                                              FontWeight
+                                                                  .bold)),
                                                 ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .33,
-                                                  child: Center(
-                                                    child: Text(
-                                                       Ctanim.translate("Mail Adresimiz"),
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                "OpenSans",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .33,
+                                                child: Center(
+                                                  child: Text(Ctanim.translate("Firma Adresi"),
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              "OpenSans",
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .bold)),
                                                 ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .33,
-                                                  child: Center(
-                                                    child: Text(Ctanim.translate("Firma Adresi"),
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                "OpenSans",
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 15, right: 20, left: 20),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                telAcikMi == true
-                                                    ? Column(
-                                                        children: [
-                                                          Text(
-                                                            Ctanim.Telefon!,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 15, right: 20, left: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              telAcikMi == true
+                                                  ? Column(
+                                                      children: [
+                                                        Text(
+                                                          Ctanim.Telefon!,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  "OpenSans",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              .27,
+                                                        ),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              _copyToClipboard(
+                                                                  Ctanim.Telefon!);
+                                                            },
+                                                            child: Text(
+                                                                Ctanim.translate("Kopyala!"),))
+                                                      ],
+                                                    )
+                                                  : Container(),
+                                              mailAcikMi == true
+                                                  ? Column(
+                                                      children: [
+                                                        Text(Ctanim.Mail!,
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     "OpenSans",
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                .27,
-                                                          ),
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                _copyToClipboard(
-                                                                    Ctanim.Telefon!);
-                                                              },
-                                                              child: Text(
-                                                                  Ctanim.translate("Kopyala!"),))
-                                                        ],
-                                                      )
-                                                    : Container(),
-                                                mailAcikMi == true
-                                                    ? Column(
-                                                        children: [
-                                                          Text(Ctanim.Mail!,
+                                                                        .bold)),
+                                                        SizedBox(
+                                                          width: 40,
+                                                        ),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              _copyToClipboard(
+                                                                  Ctanim.Mail!);
+                                                            },
+                                                            child:  Text(
+                                                               Ctanim.translate("Kopyala!")))
+                                                      ],
+                                                    )
+                                                  : Container(),
+                                              adresAcikMi == true
+                                                  ? Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              .8,
+                                                          child: Text(
+                                                              maxLines: 3,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              Ctanim.Adres!,
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       "OpenSans",
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold)),
-                                                          SizedBox(
-                                                            width: 40,
-                                                          ),
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                _copyToClipboard(
-                                                                    Ctanim.Mail!);
-                                                              },
-                                                              child:  Text(
-                                                                 Ctanim.translate("Kopyala!")))
-                                                        ],
-                                                      )
-                                                    : Container(),
-                                                adresAcikMi == true
-                                                    ? Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                .8,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 40,
+                                                        ),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              _copyToClipboard(
+                                                                  Ctanim.Adres!);
+                                                            },
                                                             child: Text(
-                                                                maxLines: 3,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .right,
-                                                                Ctanim.Adres!,
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        "OpenSans",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 40,
-                                                          ),
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                _copyToClipboard(
-                                                                    Ctanim.Adres!);
-                                                              },
-                                                              child: Text(
-                                                                 Ctanim.translate("Kopyala!")))
-                                                        ],
-                                                      )
-                                                    : Container(),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                                               Ctanim.translate("Kopyala!")))
+                                                      ],
+                                                    )
+                                                  : Container(),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                )
-                              ],
-                            )),
-                      ],
-                    )),
-              ),
-            ],
-          ),
+                                ),
+                              )
+                            ],
+                          )),
+                    ],
+                  )),
+            ),
+          ],
         ),
       ),
     );

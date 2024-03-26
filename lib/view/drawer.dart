@@ -230,7 +230,7 @@ class _denemeState extends State<deneme> {
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.05),
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.13,
                       width: Ctanim.drawerWidth / 1.5,
                       child: Image.asset("assets/logo.png"),
                     ),
@@ -419,13 +419,18 @@ class yanBaslik extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(
+        size:  MediaQuery.of(context).orientation == Orientation.portrait
+            ? MediaQuery.of(context).size.width * 0.035
+            : MediaQuery.of(context).size.height * 0.035,
         icon,
         color: color,
       ),
       title: Text(
         title,
         style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width * .035,
+             fontSize: MediaQuery.of(context).orientation == Orientation.portrait
+            ? MediaQuery.of(context).size.width * 0.035
+            : MediaQuery.of(context).size.height * 0.035,
             fontWeight: FontWeight.bold,
             fontFamily: 'OpenSans'),
       ),

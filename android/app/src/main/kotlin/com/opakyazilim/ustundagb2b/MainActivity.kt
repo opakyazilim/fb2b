@@ -1,4 +1,4 @@
-package com.opakyazilim.provitab2b
+package com.opakyazilim.ustundagb2b
 
 import io.flutter.embedding.android.FlutterActivity
 
