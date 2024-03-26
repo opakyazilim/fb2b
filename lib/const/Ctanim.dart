@@ -61,7 +61,14 @@ class Ctanim {
       SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "") + " B2B'ye Hoş Geldiniz":
           "Welcome to ${SiteSabit.FirmaAdi!.replaceAll("B2B", "").replaceAll("b2b", "").replaceAll("B4B", "").replaceAll("b4b", "")} B2B",
       "İyi Çalışmalar": "Enjoy your work",
+      "ŞİMDİ ARA" : "SEARCH NOW",
+      "Ürün, kategori veya marka arayın" : "Search for product, category or brand",
+      "ARA" : "SEARCH",
+      "Dilersenin aşağıdaki arama alanını kullanarak ürün, kategori veya marka arayabilirsiniz. Ya da yandaki simge yardımı ile barkod okutabilirsiniz." : "You can search for products, categories or brands using the search field below. Or you can scan the barcode using the icon on the side.",
+      "Anasayfa": "Home",
       "Bize Ulaşın": "Contact us",
+      "Bilgilerim": "My Information",
+      "Sepetim": "My Cart",
       "Mail Adresimiz": "Our mail address",
       "Firma Adresi": "Company address",
       "Kopyala!": "Copy!",
@@ -83,6 +90,7 @@ class Ctanim {
       "Böyle Bir Kullanıcı Yok": "There is no such user",
       "Başarılı": "Successful",
       "Tamam": "Okay",
+      "İleri": "Next",
       "Aktif İnternet Bağlantısı Bulunamadı. Tekrar Deneyin.":
           "Active internet connection not found. Try again.",
       "Şifremi Gönder": "Send my password",
@@ -98,9 +106,22 @@ class Ctanim {
       "Bayilik Başvurusu": "Acquire a Franchise",
       "Kullanıcı Adı": "Username",
       "Parola": "Password",
+       'Lütfen doğrulama kodunu girin': 'Please enter the verification code',
+       " numarasına gönderilen 4 haneli kodu girin": " enter the 4-digit code sent to the number",
+       'Kodu Kopyala!' : 'Copy the code!',
+       'Kopyalanmış metni yapıştırmak ister misiniz: ' : 'Do you want to paste the copied text: ',
+       'Yapıştır' : 'Paste',
+       'İptal' : 'Cancel',
+       "* Kod yanlış": "* Code is wrong",
+       "Kodu almadınız mı?" : "Didn't you get the code?",
+       "Tekrar Giriş Yapın" : "Log in again",
+
+
+
     };
 
     if (translations.containsKey(input) && Ctanim.Dil == "EN") {
+      Ctanim.cari!;
       return translations[input]!;
     } else {
       return input;

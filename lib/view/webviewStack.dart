@@ -399,7 +399,7 @@ class _WebViewStackState extends State<WebViewStack> {
               ),
               backgroundColor: bottomColorList[1],
               title: Text(
-                'Anasayfa',
+                Ctanim.translate('Anasayfa'),
                 style: TextStyle(
                     fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
                     MediaQuery.of(context).size.width * .02),
@@ -409,7 +409,7 @@ class _WebViewStackState extends State<WebViewStack> {
               icon: const Icon(Icons.category),
               backgroundColor: bottomColorList[2],
               title: Text(
-                'Kategoriler',
+                Ctanim.translate("Kategoriler"),
                 style: TextStyle(
                     fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
                     MediaQuery.of(context).size.width * .02),
@@ -449,7 +449,7 @@ class _WebViewStackState extends State<WebViewStack> {
                 showBadge: Ctanim.sepetGozuksunMu,
                 badge: Text(Ctanim.sepetAdet.toString()),
                 title: Text(
-                  'Sepetim',
+                 Ctanim.translate('Sepetim'),
                   style: TextStyle(
                       fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
                     MediaQuery.of(context).size.width * .02),
@@ -460,7 +460,7 @@ class _WebViewStackState extends State<WebViewStack> {
                 ),
                 backgroundColor: bottomColorList[6],
                 title: Text(
-                  'Bilgilerim',
+                 Ctanim.translate( 'Bilgilerim'),
                   style: TextStyle(
                       fontSize:     MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
                     MediaQuery.of(context).size.width * .02),
@@ -476,7 +476,7 @@ class _WebViewStackState extends State<WebViewStack> {
                 title: Opacity(
                   opacity: ileri == true ? 1 : 0.3,
                   child: Text(
-                    'İleri',
+                    Ctanim.translate('İleri'),
                     style: TextStyle(
                         fontSize:    MediaQuery.of(context).size.width >800? MediaQuery.of(context).size.width * .01:
                     MediaQuery.of(context).size.width * .02),

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/servis/sharedPrefsHelper.dart';
+import 'package:b2b/view/anasayfa.dart';
 import 'package:b2b/view/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -56,6 +57,45 @@ class _SmsDogrulamaState extends State<SmsDogrulama> {
       ),
     );
   }
+    String cleanPhoneNumber(String phoneNumber) {
+  phoneNumber = phoneNumber.replaceAll(' ', '').replaceAll('-', '');
+  phoneNumber = phoneNumber.replaceAll('+', '');
+  
+  if (phoneNumber.length < 10) {
+    return maskPhoneNumber('+90' + phoneNumber);
+  }
+  else if (phoneNumber.startsWith('+90') && phoneNumber.length == 12) {
+    return maskPhoneNumber(phoneNumber);
+  }
+ else  if (phoneNumber.startsWith('0')) {
+    phoneNumber = "+9" + phoneNumber;
+    return maskPhoneNumber(phoneNumber);
+  }
+else   if (phoneNumber.length == 10) {
+    return maskPhoneNumber('+90' + phoneNumber);
+  }
+
+  return maskPhoneNumber(phoneNumber);
+}
+String maskPhoneNumber(String phoneNumber) {
+  // Telefon numarasının uzunluğunu kontrol et
+  if (phoneNumber.length != 13) {
+    // Geçersiz bir numara olduğunda orijinal numarayı geri döndür
+    return phoneNumber;
+  }
+
+  // Telefon numarasının ilk iki hanesi ve son iki hanesini al
+  String countryCode = phoneNumber.substring(0, 3);
+  String lastTwoDigits = phoneNumber.substring(11);
+
+  // Yıldız karakteriyle aynı uzunlukta bir dize oluştur
+  String stars = '*' * 9;
+
+  // Son iki hane ile birleştir ve maskeleme yap
+  String maskedPhoneNumber = '$countryCode$stars$lastTwoDigits';
+
+  return maskedPhoneNumber;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +125,11 @@ class _SmsDogrulamaState extends State<SmsDogrulama> {
                   child: Lottie.asset("assets/den1.json"),
                 ),
               ),
-              const SizedBox(height: 8),
-              const Padding(
+               SizedBox(height: 8),
+               Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  'Lütfen doğrulama kodunu girin',
+                 Ctanim.translate('Lütfen doğrulama kodunu girin'),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   textAlign: TextAlign.center,
                 ),
@@ -99,20 +139,23 @@ class _SmsDogrulamaState extends State<SmsDogrulama> {
                     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: RichText(
                   text: TextSpan(
-                    text: "Cep telefonunun numarasına gönderilen 4 haneli kodu girin",
+                    text: cleanPhoneNumber(widget.phoneNumber!),
+                    spellOut: true,
                     children: [
-                      TextSpan(
-                        text: "${widget.phoneNumber}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                       TextSpan(
+                        text: Ctanim.translate(' numarasına gönderilen 4 haneli kodu girin'),
+                        style: TextStyle(
+                          color: Colors.black54,
                           fontSize: 15,
                         ),
                       ),
+                    
                     ],
+                   
                     style: const TextStyle(
                       color: Colors.black54,
                       fontSize: 15,
+                      fontWeight: FontWeight.w600
                     ),
                   ),
                   textAlign: TextAlign.center,
@@ -131,10 +174,10 @@ class _SmsDogrulamaState extends State<SmsDogrulama> {
                   child: PinCodeTextField(
                     autoFocus: true,
                     dialogConfig: DialogConfig(
-                      dialogTitle: 'Kodu Kopyala!',
-                      dialogContent: 'Kopyalanmış metni yapıştırmak ister misiniz: ',
-                      affirmativeText: 'Yapıştır',
-                      negativeText: 'İptal',
+                      dialogTitle: Ctanim.translate('Kodu Kopyala!'),
+                      dialogContent: Ctanim.translate('Kopyalanmış metni yapıştırmak ister misiniz: '),
+                      affirmativeText: Ctanim.translate('Yapıştır'),
+                      negativeText: Ctanim.translate('İptal'),
                     ),
                     
                     
@@ -238,7 +281,7 @@ class _SmsDogrulamaState extends State<SmsDogrulama> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
-                  hasError ? "*Kod yanlış" : "",
+                  hasError ?  Ctanim.translate("* Kod yanlış"): "",
                   style: const TextStyle(
                     color: Colors.amber,
                     fontSize: 12,
@@ -252,14 +295,24 @@ class _SmsDogrulamaState extends State<SmsDogrulama> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Kodu almadınız mı?",
+                   Text(
+                    Ctanim.translate("Kodu almadınız mı?"),
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                   ),
                   TextButton(
-                    onPressed: () => snackBar("Kod tekrar gönderildi!"),
-                    child: const Text(
-                      "Tekrar Gönder",
+                    onPressed: () {
+                         Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return anasayfa();
+                    },
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+                    },
+                    child:  Text(
+                     Ctanim.translate("Tekrar Giriş Yapın") ,
                       style: TextStyle(
                         color: Color(0xFF91D3B3),
                         fontWeight: FontWeight.bold,

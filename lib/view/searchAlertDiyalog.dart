@@ -1,5 +1,7 @@
+import 'package:b2b/const/Ctanim.dart';
 import 'package:b2b/const/siteSabit.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -31,10 +33,6 @@ class _SearchAlertDialogState extends State<SearchAlertDialog> {
                    width: orientation == Orientation.portrait
                   ? MediaQuery.of(context).size.width * 0.8
                   : MediaQuery.of(context).size.height,
-
-
-
-
             child: Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -61,7 +59,7 @@ class _SearchAlertDialogState extends State<SearchAlertDialog> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "ŞİMDİ ARAYIN",
+                        Ctanim.translate("ŞİMDİ ARA"),
                         style: TextStyle(
                           fontSize: orientation == Orientation.portrait
                               ? MediaQuery.of(context).size.width * .04
@@ -72,8 +70,7 @@ class _SearchAlertDialogState extends State<SearchAlertDialog> {
                     ),
                     SizedBox(height: orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.01 : MediaQuery.of(context).size.width * 0.01),
                     Text(
-                      
-                      "Dilersenin aşağıdaki arama alanını kullanarak ürün, kategori veya marka arayabilirsiniz. Ya da yandaki simge yardımı ile barkod okutabilirsiniz.",
+                      Ctanim.translate("Dilersenin aşağıdaki arama alanını kullanarak ürün, kategori veya marka arayabilirsiniz. Ya da yandaki simge yardımı ile barkod okutabilirsiniz."),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: orientation == Orientation.portrait
@@ -101,7 +98,7 @@ class _SearchAlertDialogState extends State<SearchAlertDialog> {
                                     width: 1.0,
                                   ),
                                 ),
-                                hintText: "Ürün, kategori veya marka arayın",
+                                hintText: Ctanim.translate("Ürün, kategori veya marka arayın"),
                                 hintStyle: TextStyle(
                                   fontSize: orientation == Orientation.portrait
                                       ? MediaQuery.of(context).size.width * .025
@@ -118,19 +115,25 @@ class _SearchAlertDialogState extends State<SearchAlertDialog> {
                             ),
                           ),
                         ),
-                        SizedBox(width: orientation == Orientation.portrait ? MediaQuery.of(context).size.width * 0.02 : MediaQuery.of(context).size.height * 0.02),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                          ),
-                          onPressed: () {
-                            var yeniUrl = Uri.parse("https://" + SiteSabit.Link! + "/arama/arama?q=" + _textController.text);
-                            widget.controller.loadRequest(yeniUrl);
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "ARA",
-                            style: TextStyle(fontSize: 12),
+                        Container(
+                           height: orientation == Orientation.portrait
+                                ? MediaQuery.of(context).size.height * 0.065
+                                : MediaQuery.of(context).size.width * 0.065,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.green,
+                            ),
+                            onPressed: () {
+                              var yeniUrl = Uri.parse("https://" + SiteSabit.Link! + "/arama/arama?q=" + _textController.text);
+                              widget.controller.loadRequest(yeniUrl);
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              Ctanim.translate("ARA"),
+                              style: TextStyle(fontSize: orientation == Orientation.portrait
+                                  ? MediaQuery.of(context).size.width * .03
+                                  : MediaQuery.of(context).size.height * .03,)
+                            ),
                           ),
                         ),
                       ],
