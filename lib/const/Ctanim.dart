@@ -1,6 +1,5 @@
 import 'package:b2b/const/siteSabit.dart';
 import 'package:b2b/model/altKullaniciModel.dart';
-import 'package:b2b/model/kategoriModel.dart';
 import 'package:b2b/model/kategoriModelDeneme.dart';
 import 'package:b2b/model/menuModel.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +120,6 @@ class Ctanim {
     };
 
     if (translations.containsKey(input) && Ctanim.Dil == "EN") {
-      Ctanim.cari!;
       return translations[input]!;
     } else {
       return input;
